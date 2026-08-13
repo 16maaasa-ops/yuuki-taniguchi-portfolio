@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      「クレームに気づいたのが、翌朝だった」をなくす｜ Yuuki Taniguchi
+    </title>
+
+    <style>
+      :root {
+        --bg: #f7f6f3;
+        --surface: #ffffff;
+        --surface-2: #ecebe6;
+        --ink: #23282e;
+        --ink-soft: #5d6672;
+        --ink-faint: #939ba6;
+        --rule: #dedcd5;
+        --accent: #3d5a73;
+        --accent-ink: #2c4459;
+        --accent-soft: #e2e9ef;
+        --danger: #c0392b;
+        --danger-soft: #fbe7e4;
+        --danger-ink: #96291d;
+        --bezel: #1a1d21;
+
+        --font-display:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-body:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-mono:
+          ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+        --shadow-card:
+          0 1px 2px rgba(28, 32, 38, 0.06),
+          0 8px 20px -12px rgba(28, 32, 38, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(18, 22, 28, 0.4),
+          0 4px 12px -4px rgba(18, 22, 28, 0.28);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12151a;
+          --surface: #1a1e24;
+          --surface-2: #232830;
+          --ink: #e6e9ed;
+          --ink-soft: #a0a8b4;
+          --ink-faint: #6f7885;
+          --rule: #2e343d;
+          --accent: #7fa8c9;
+          --accent-ink: #a8c8e0;
+          --accent-soft: #24333f;
+          --danger: #e06c5c;
+          --danger-soft: #3a221e;
+          --danger-ink: #f0a397;
+          --bezel: #0a0c0f;
+          --shadow-card:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+          --shadow-window:
+            0 24px 48px -20px rgba(0, 0, 0, 0.7),
+            0 4px 12px -4px rgba(0, 0, 0, 0.5);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #12151a;
+        --surface: #1a1e24;
+        --surface-2: #232830;
+        --ink: #e6e9ed;
+        --ink-soft: #a0a8b4;
+        --ink-faint: #6f7885;
+        --rule: #2e343d;
+        --accent: #7fa8c9;
+        --accent-ink: #a8c8e0;
+        --accent-soft: #24333f;
+        --danger: #e06c5c;
+        --danger-soft: #3a221e;
+        --danger-ink: #f0a397;
+        --bezel: #0a0c0f;
+        --shadow-card:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+        --shadow-window:
+          0 24px 48px -20px rgba(0, 0, 0, 0.7),
+          0 4px 12px -4px rgba(0, 0, 0, 0.5);
+      }
+      :root[data-theme="light"] {
+        --bg: #f7f6f3;
+        --surface: #ffffff;
+        --surface-2: #ecebe6;
+        --ink: #23282e;
+        --ink-soft: #5d6672;
+        --ink-faint: #939ba6;
+        --rule: #dedcd5;
+        --accent: #3d5a73;
+        --accent-ink: #2c4459;
+        --accent-soft: #e2e9ef;
+        --danger: #c0392b;
+        --danger-soft: #fbe7e4;
+        --danger-ink: #96291d;
+        --bezel: #1a1d21;
+        --shadow-card:
+          0 1px 2px rgba(28, 32, 38, 0.06),
+          0 8px 20px -12px rgba(28, 32, 38, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(18, 22, 28, 0.4),
+          0 4px 12px -4px rgba(18, 22, 28, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+
+      a {
+        color: var(--accent-ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Header / Hero ---------- */
+      .hero {
+        padding: 56px 0 8px;
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--accent-ink);
+        background: var(--accent-soft);
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      h1.headline {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.7rem, 5.6vw, 2.5rem);
+        line-height: 1.5;
+        margin: 0 0 18px;
+        text-wrap: balance;
+        letter-spacing: 0.01em;
+      }
+      .headline em {
+        font-style: normal;
+        color: var(--accent-ink);
+      }
+      .sub {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+        max-width: 34em;
+        margin: 0 0 40px;
+      }
+
+      /* ---------- Section scaffolding ---------- */
+      section {
+        margin: 72px 0;
+      }
+      section:first-of-type {
+        margin-top: 0;
+      }
+      .section-head {
+        margin-bottom: 28px;
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+        margin: 0 0 8px;
+      }
+      h2.section-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin: 0;
+        text-wrap: balance;
+      }
+      p {
+        margin: 0 0 1em;
+      }
+      .lede {
+        color: var(--ink-soft);
+      }
+
+      hr.rule {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 72px 0;
+      }
+
+      /* ---------- Stat strip ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 28px 0;
+      }
+      .stat {
+        background: var(--surface);
+        padding: 20px 10px;
+        text-align: center;
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 1.3rem;
+        color: var(--accent-ink);
+        display: block;
+      }
+      .stat .label {
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ---------- Step layout ---------- */
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 40px 0;
+      }
+      .step-text {
+        width: 100%;
+      }
+      .step-tag {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .step-text h3 {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0 0 8px;
+      }
+      .step-text p {
+        color: var(--ink-soft);
+        margin: 0;
+        font-size: 0.96rem;
+      }
+
+      /* ---------- Browser window mockup ---------- */
+      .browser {
+        width: 300px;
+        flex-shrink: 0;
+        background: var(--bezel);
+        border-radius: 14px;
+        padding: 7px 7px 0;
+        box-shadow: var(--shadow-window);
+      }
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 8px;
+      }
+      .browser-bar .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .browser-bar .dot.r {
+        background: #ff5f57;
+      }
+      .browser-bar .dot.y {
+        background: #febc2e;
+      }
+      .browser-bar .dot.g {
+        background: #28c840;
+      }
+      .browser-url {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-left: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .browser-screen {
+        background: #fff;
+        border-radius: 0 0 9px 9px;
+        overflow: hidden;
+        min-height: 250px;
+      }
+
+      /* -- Slack mockup -- */
+      .slack-titlebar {
+        background: #3f0e40;
+        color: #fff;
+        padding: 9px 10px;
+        font-size: 0.66rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .slack-body {
+        padding: 12px 10px;
+        background: #fff;
+        min-height: 215px;
+      }
+      .slack-msg {
+        display: flex;
+        gap: 7px;
+      }
+      .slack-avatar {
+        width: 22px;
+        height: 22px;
+        border-radius: 5px;
+        background: var(--accent);
+        flex-shrink: 0;
+      }
+      .slack-content {
+        flex: 1;
+        min-width: 0;
+      }
+      .slack-meta {
+        font-size: 0.58rem;
+        color: #616061;
+        margin-bottom: 4px;
+      }
+      .slack-meta b {
+        color: #1d1c1d;
+        font-size: 0.62rem;
+      }
+      .slack-card {
+        border-left: 3px solid #c0392b;
+        padding-left: 8px;
+      }
+      .slack-card.normal {
+        border-left-color: #3d5a73;
+      }
+      .slack-card .hd {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #1d1c1d;
+        margin-bottom: 3px;
+      }
+      .slack-card .status {
+        font-size: 0.56rem;
+        color: #616061;
+        margin-bottom: 6px;
+      }
+      .slack-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px 10px;
+        margin-bottom: 6px;
+      }
+      .slack-fields .f {
+        font-size: 0.55rem;
+        line-height: 1.5;
+      }
+      .slack-fields .f span {
+        color: #616061;
+        display: block;
+        font-weight: 700;
+      }
+      .slack-fields .f em {
+        font-style: normal;
+        color: #1d1c1d;
+      }
+      .slack-card .bodytext {
+        font-size: 0.6rem;
+        color: #1d1c1d;
+        line-height: 1.6;
+        margin-bottom: 7px;
+      }
+      .slack-btns {
+        display: flex;
+        gap: 5px;
+      }
+      .slack-btn {
+        font-size: 0.55rem;
+        padding: 3px 8px;
+        border-radius: 4px;
+        border: 1px solid #bbb;
+        background: #fff;
+        color: #1d1c1d;
+        font-weight: 600;
+      }
+      .slack-btn.primary {
+        background: #007a5a;
+        border-color: #007a5a;
+        color: #fff;
+      }
+
+      /* -- Phone / LINE mockup -- */
+      .phone {
+        width: 232px;
+        flex-shrink: 0;
+        background: var(--bezel);
+        border-radius: 26px;
+        padding: 9px;
+        box-shadow: var(--shadow-window);
+      }
+      .phone-screen {
+        background: linear-gradient(165deg, #2f3d4d 0%, #1f2a36 100%);
+        border-radius: 19px;
+        overflow: hidden;
+        padding: 20px 10px 26px;
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+      }
+      .lock-time {
+        text-align: center;
+        color: #fff;
+        font-weight: 200;
+        font-size: 2.4rem;
+        line-height: 1.1;
+        letter-spacing: 0.02em;
+      }
+      .lock-date {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.6rem;
+        margin-bottom: 18px;
+      }
+      .notif {
+        background: rgba(245, 245, 247, 0.93);
+        border-radius: 13px;
+        padding: 8px 9px;
+        backdrop-filter: blur(8px);
+      }
+      .notif-hd {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 3px;
+      }
+      .notif-icon {
+        width: 13px;
+        height: 13px;
+        border-radius: 3px;
+        background: #06c755;
+        flex-shrink: 0;
+      }
+      .notif-app {
+        font-size: 0.53rem;
+        color: #6a6a6e;
+        letter-spacing: 0.02em;
+        flex: 1;
+      }
+      .notif-time {
+        font-size: 0.53rem;
+        color: #6a6a6e;
+      }
+      .notif-title {
+        font-size: 0.63rem;
+        font-weight: 700;
+        color: #111;
+        line-height: 1.45;
+      }
+      .notif-text {
+        font-size: 0.6rem;
+        color: #2c2c2e;
+        line-height: 1.5;
+        margin-top: 1px;
+      }
+      .phone-caption {
+        margin-top: auto;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.45);
+        font-size: 0.5rem;
+        font-family: var(--font-mono);
+        padding-top: 16px;
+      }
+
+      /* -- Demo screen mockup -- */
+      .demo-head {
+        /* デモ画面モックの中身は「常にライトのアプリ画面」なので、
+       ページのテーマ変数(--accent)ではなく固定色にする（Slackモックと同じ方針）。 */
+        background: #3d5a73;
+        color: #fff;
+        padding: 9px 10px;
+        font-size: 0.66rem;
+        font-weight: 700;
+      }
+      .demo-body {
+        padding: 11px 10px;
+        background: #fbfbfa;
+        min-height: 215px;
+      }
+      .demo-label {
+        font-size: 0.55rem;
+        color: #5d6672;
+        margin-bottom: 4px;
+        font-weight: 700;
+      }
+      .demo-input {
+        background: #fff;
+        border: 1px solid #dedcd5;
+        border-radius: 7px;
+        padding: 7px 8px;
+        font-size: 0.6rem;
+        color: #23282e;
+        line-height: 1.6;
+        margin-bottom: 9px;
+      }
+      .demo-result {
+        background: #fff;
+        border: 1px solid #dedcd5;
+        border-radius: 7px;
+        padding: 9px;
+      }
+      .demo-badges {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 7px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        font-size: 0.55rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      .badge.cat {
+        background: #fbe7e4;
+        color: #96291d;
+      }
+      .badge.urgent {
+        background: #c0392b;
+        color: #fff;
+      }
+      .demo-reason {
+        font-size: 0.57rem;
+        color: #5d6672;
+        line-height: 1.6;
+      }
+      .demo-reason b {
+        color: #23282e;
+        display: block;
+        font-size: 0.54rem;
+        margin-bottom: 2px;
+      }
+
+      /* ---------- Feature cards ---------- */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .feature-card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .feature-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.06rem;
+        font-weight: 500;
+        margin: 0 0 6px;
+      }
+      .feature-card p {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        margin: 0;
+      }
+
+      /* ---------- Flow diagram ---------- */
+      .flow {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .flow-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 11px 0;
+      }
+      .flow-row + .flow-row {
+        border-top: 1px dashed var(--rule);
+      }
+      .flow-num {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        color: #fff;
+        background: var(--accent);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 3px;
+      }
+      .flow-row.alert .flow-num {
+        background: var(--danger);
+      }
+      .flow-body h4 {
+        margin: 0 0 2px;
+        font-size: 0.96rem;
+        font-weight: 600;
+        font-family: var(--font-display);
+      }
+      .flow-body p {
+        margin: 0;
+        font-size: 0.88rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Tech strip ---------- */
+      .tech-list {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--rule);
+      }
+      .tech-item {
+        display: grid;
+        grid-template-columns: 9.5em 1fr;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--rule);
+        align-items: baseline;
+      }
+      .tech-item .name {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent-ink);
+      }
+      .tech-item .desc {
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Scope note ---------- */
+      .scope {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 20px 22px;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+      .scope strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .scope ul {
+        margin: 8px 0 0;
+        padding-left: 1.2em;
+      }
+      .scope li {
+        margin-bottom: 4px;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 96px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule);
+        font-size: 0.82rem;
+        color: var(--ink-faint);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 620px) {
+        .hero {
+          padding-top: 72px;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        .step-text {
+          padding-top: 34px;
+        }
+      }
+
+      /* ---------- Print ---------- */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          background: #fff;
+        }
+        .wrap {
+          max-width: none;
+          padding: 0 8px 20px;
+        }
+        .hero {
+          padding-top: 12px;
+        }
+        section {
+          margin: 36px 0;
+        }
+        .step,
+        .browser,
+        .phone,
+        .feature-card,
+        .flow,
+        .flow-row,
+        .stats,
+        .stat,
+        .tech-item,
+        .scope,
+        p,
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          orphans: 3;
+          widows: 3;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        h1.headline,
+        h2.section-title,
+        h3,
+        .section-head {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+        hr.rule {
+          break-before: avoid;
+          page-break-before: avoid;
+        }
+        .browser,
+        .phone {
+          box-shadow: none;
+          border: 1px solid #cfd2c8;
+        }
+        .feature-card,
+        .flow,
+        .tech-item {
+          box-shadow: none;
+        }
+        footer {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p style="margin: 0 0 20px; font-size: 0.92rem">
+        <a
+          href="../index.html#works"
+          style="
+            color: var(--ink);
+            opacity: 0.7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+          "
+          >← 制作事例一覧に戻る</a
+        >
+      </p>
+
+      <header class="hero">
+        <span class="eyebrow"
+          >導入レポート — 問い合わせ集約 + AI分類システム</span
+        >
+        <h1 class="headline">
+          「クレームに気づいたのが、翌朝だった」を<em>なくす。</em>
+        </h1>
+        <p class="sub">
+          LINEに届く問い合わせをAIが自動で振り分け、クレームだと判断したものだけ、営業部長へ直接届く。
+          担当者が張り付いていなくても、大事な一件を取りこぼさない仕組みを作りました。
+        </p>
+      </header>
+
+      <section aria-label="クレーム通知の例">
+        <div class="step">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="lock-time">21:24</div>
+              <div class="lock-date">7月20日 月曜日</div>
+              <div class="notif">
+                <div class="notif-hd">
+                  <span class="notif-icon"></span>
+                  <span class="notif-app">LINE</span>
+                  <span class="notif-time">今</span>
+                </div>
+                <div class="notif-title">
+                  🚨クレーム検知：佐藤様（LINE経由）
+                </div>
+                <div class="notif-text">
+                  「先週から水漏れが直っていません。何度連絡しても折り返しがなく…」
+                </div>
+              </div>
+              <div class="phone-caption">受信から約14秒後</div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="lede" style="margin-top: 0">
+              お客様からクレームが届くと、営業部長のLINEに直接通知が飛びます。
+              ロック画面に出るのは最初の1〜2行だけなので、「誰から・どの経路で」が一目でわかるよう
+              1行目に凝縮しました。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">BACKGROUND</p>
+          <h2 class="section-title">きっかけは、初動が遅れたクレーム</h2>
+        </div>
+        <p>
+          問い合わせがメールやLINEなど複数の経路に分散していて、担当者が全部を見張っていないと取りこぼす。
+          特に困るのがクレームでした。気づくのが半日遅れただけで、対応できたはずの話がこじれてしまう。
+          そこで<strong>まずはLINEを対象に</strong>、「クレームだけは絶対に見逃さない」を最優先に仕組みを考えました
+          （メールへの対応は下記「対象外にしたもの」を参照）。
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <span class="num">5分以内</span>
+            <span class="label">クレーム通知の目標時間</span>
+          </div>
+          <div class="stat">
+            <span class="num">約14秒</span>
+            <span class="label">実際に測った所要時間</span>
+          </div>
+          <div class="stat">
+            <span class="num">22/22件</span>
+            <span class="label">テストでの分類正答数</span>
+          </div>
+        </div>
+        <p class="lede">
+          問い合わせを1か所に集めたうえで、AIが5つに仕分けし、クレームだけは別ルートで即座に届ける。
+          そういう作りにしました。
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">HOW IT WORKS</p>
+          <h2 class="section-title">届いてから通知が飛ぶまで</h2>
+        </div>
+
+        <div class="flow">
+          <div class="flow-row">
+            <span class="flow-num">1</span>
+            <div class="flow-body">
+              <h4>問い合わせが届く</h4>
+              <p>
+                LINEに届いた問い合わせを受け取り、いったん順番待ちのリストに保管します。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">2</span>
+            <div class="flow-body">
+              <h4>AIが5つに仕分ける</h4>
+              <p>
+                「賃貸・売買・内見・クレーム・その他」のどれにあたるかをAIが判断します。
+                なぜそう判断したかの理由も一緒に残します。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">3</span>
+            <div class="flow-body">
+              <h4>担当チャネルへ振り分ける</h4>
+              <p>
+                仕分けた結果に応じて、Slackの対応チャネルへ自動で投稿します。
+                担当者はいつものSlackを見るだけで済みます。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row alert">
+            <span class="flow-num">4</span>
+            <div class="flow-body">
+              <h4>クレームなら、部長へ直接</h4>
+              <p>
+                クレームと判定された場合だけ、Slackへの投稿に加えて営業部長の個人LINEにも通知します。
+                気づくのが遅れて手遅れになる事態を防ぐためです。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step" style="margin-top: 44px">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">app.slack.com</span>
+            </div>
+            <div class="browser-screen">
+              <div class="slack-titlebar"># 問い合わせ-クレーム</div>
+              <div class="slack-body">
+                <div class="slack-msg">
+                  <div class="slack-avatar"></div>
+                  <div class="slack-content">
+                    <div class="slack-meta"><b>問い合わせ集約Bot</b> 21:24</div>
+                    <div class="slack-card">
+                      <div class="hd">🚨 クレーム発生</div>
+                      <div class="status">🔴 未対応</div>
+                      <div class="slack-fields">
+                        <div class="f"><span>経路</span><em>LINE</em></div>
+                        <div class="f"><span>送信者</span><em>佐藤様</em></div>
+                      </div>
+                      <div class="bodytext">
+                        先週から水漏れが直っていません。何度連絡しても折り返しがなく、対応が遅すぎます。
+                      </div>
+                      <div class="slack-btns">
+                        <span class="slack-btn primary">担当になる</span>
+                        <span class="slack-btn">対応済にする</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">担当者から見ると</p>
+            <h3>いつものSlackに、対応ボタン付きで届く</h3>
+            <p>
+              誰から・どの経路で・いつ届いたかが一目でわかります。「担当になる」を押せば自分の対応中に、
+              終わったら「対応済にする」。Slackから離れずに状況を管理できます。
+              クレームは赤い線と見出しで、他と区別しています。
+            </p>
+          </div>
+        </div>
+
+        <div class="step reverse">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">project5-three-weld.vercel.app</span>
+            </div>
+            <div class="browser-screen">
+              <div class="demo-head">問い合わせ分類デモ</div>
+              <div class="demo-body">
+                <div class="demo-label">問い合わせ文</div>
+                <div class="demo-input">
+                  先週から水漏れが直っていません。何度連絡しても折り返しがなく、対応が遅すぎます。責任者から至急連絡をください。
+                </div>
+                <div class="demo-label">分類結果</div>
+                <div class="demo-result">
+                  <div class="demo-badges">
+                    <span class="badge cat">クレーム</span>
+                    <span class="badge urgent">緊急</span>
+                  </div>
+                  <div class="demo-reason">
+                    <b>判断の理由</b>
+                    水漏れの未対応と対応の遅さへの苦情であり、責任者から至急連絡を求めているため緊急のクレームと判断。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">導入前に試せる</p>
+            <h3>AIがどう判断するかを、その場で確認できる</h3>
+            <p>
+              実際の問い合わせ文を入れると、その場で分類結果と判断理由が表示されます。
+              データベースにも通知先にも一切書き込まないので、気軽に試せます。
+              AIに任せる前に「ちゃんと分かっているか」を自分の目で確かめられる画面です。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">FEATURES</p>
+          <h2 class="section-title">安心して任せるための工夫</h2>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>同じ通知が二度届かない</h3>
+            <p>
+              通信が失敗すると、LINEもSlackも自動でもう一度送ってくる仕組みになっています。
+              そのままだと同じ問い合わせが二重に投稿されてしまうため、「どこまで終わったか」を
+              1件ずつ記録し、終わった工程は飛ばすようにしました。やり直しても通知が重複しません。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>なりすましの問い合わせを受け付けない</h3>
+            <p>
+              受信用の窓口は、URLさえ知っていれば誰でも叩けてしまいます。そのため、
+              本当にLINEから送られてきたものかを毎回照合し、一致しないものは受け付けません。
+              偽の問い合わせでSlackを荒らされたり、不正に通知を発火させられたりするのを防いでいます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>判断の理由が必ず残る</h3>
+            <p>
+              AIは分類結果だけでなく、「なぜそう判断したか」を必ず言葉で残します。
+              後から見返したときに、仕分けが妥当だったかを人が確認できます。
+              納得できない判定があれば、その理由を手がかりに調整できます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>失敗しても、あきらめず再挑戦する</h3>
+            <p>
+              通信の一時的な不調などで処理に失敗した問い合わせは、自動的に順番待ちへ戻して再挑戦します。
+              何度やっても解決しない場合だけ、管理用のチャネルに知らせが届きます。
+              放置されたまま消えてしまう問い合わせが出ない作りです。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">RUNNING COST</p>
+          <h2 class="section-title">運用にかかるお金</h2>
+        </div>
+        <p>
+          毎月かかる固定費はほぼゼロです。使った分だけ支払うのはAIの利用料のみで、
+          それも上限額をあらかじめ設定してあるため、想定を超えて請求されることはありません。
+        </p>
+        <p class="lede">
+          なお、1分ごとの自動チェックについては、当初予定していたサービスの無料プランが
+          1日1回までしか対応しておらず、有料プラン（月約3,000円）が必要になることが分かりました。
+          「クレームは5分以内」という要件と費用を両立させるため、別の無料サービスを組み合わせる形に変更し、
+          追加費用なしで1分間隔を維持しています。
+        </p>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">UNDER THE HOOD</p>
+          <h2 class="section-title">裏側で動いているもの（簡単に）</h2>
+        </div>
+        <p class="lede" style="margin-bottom: 20px">
+          専門的な話は抜きにして、それぞれ何をしているかだけご紹介します。
+        </p>
+        <div class="tech-list">
+          <div class="tech-item">
+            <span class="name">アプリ本体</span>
+            <span class="desc"
+              >問い合わせの受け取りから通知までの流れをまとめて動かしているサーバー部分です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Claude（AI）</span>
+            <span class="desc"
+              >届いた問い合わせの内容を読んで、5つのどれにあたるかと、その理由を判断します。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">データベース</span>
+            <span class="desc"
+              >問い合わせの内容と、どこまで処理が終わったかを記録しておく場所です。二重通知を防ぐ要でもあります。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">定期チェック</span>
+            <span class="desc"
+              >1分ごとに「新しい問い合わせが来ていないか」を確認しに行く見張り役です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Slack / LINE</span>
+            <span class="desc"
+              >担当者が普段使っているツールへ、仕分け結果と緊急通知を届けます。</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">SCOPE</p>
+          <h2 class="section-title">できないこと（あえて対象外にしたもの）</h2>
+        </div>
+        <div class="scope">
+          <p style="margin-bottom: 0">
+            <strong
+              >今回はまず「LINEからの受信・AIによる仕分け・Slackへの振り分け・クレームの緊急通知」に絞って導入しました。</strong
+            >
+            以下は意図的に対象外としています。
+          </p>
+          <ul>
+            <li>
+              メール（Gmail）からの受信 —
+              仕組みは作ってありますが、認証の更新に手間がかかる割に効果が限られるため、今回は接続していません
+            </li>
+            <li>電話の自動応答・文字起こし</li>
+            <li>問い合わせ件数や対応時間の分析レポート</li>
+            <li>顧客管理システムとの連携</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <span
+          >不動産会社向け 問い合わせ集約 +
+          AI分類システム（案件5・模擬案件）</span
+        >
+        <span>2026年7月 導入</span>
+      </footer>
+
+      <div style="margin: 48px 0 0; text-align: center">
+        <p style="margin: 0 0 16px">
+          <a
+            href="../index.html#contact"
+            style="
+              display: inline-block;
+              padding: 14px 32px;
+              border-radius: 8px;
+              background: var(--accent);
+              color: #fff;
+              font-weight: 700;
+              text-decoration: none;
+            "
+            >この仕組みを自社向けに相談する →</a
+          >
+        </p>
+        <p style="margin: 0; font-size: 0.92rem">
+          <a
+            href="../index.html#works"
+            style="
+              color: var(--ink);
+              opacity: 0.7;
+              text-decoration: underline;
+              text-underline-offset: 3px;
+            "
+            >← 他の制作事例を見る</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

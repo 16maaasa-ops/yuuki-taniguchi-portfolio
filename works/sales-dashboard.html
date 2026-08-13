@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      「本当にExcelと一致してますか？」に、胸を張って答える｜ Yuuki Taniguchi
+    </title>
+
+    <style>
+      :root {
+        --bg: #f7f6f3;
+        --surface: #ffffff;
+        --surface-2: #ecebe6;
+        --ink: #23282e;
+        --ink-soft: #5d6672;
+        --ink-faint: #939ba6;
+        --rule: #dedcd5;
+        --accent: #3d5a73;
+        --accent-ink: #2c4459;
+        --accent-soft: #e2e9ef;
+        --danger: #c0392b;
+        --danger-soft: #fbe7e4;
+        --danger-ink: #96291d;
+        --bezel: #1a1d21;
+
+        --font-display:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-body:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-mono:
+          ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+        --shadow-card:
+          0 1px 2px rgba(28, 32, 38, 0.06),
+          0 8px 20px -12px rgba(28, 32, 38, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(18, 22, 28, 0.4),
+          0 4px 12px -4px rgba(18, 22, 28, 0.28);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12151a;
+          --surface: #1a1e24;
+          --surface-2: #232830;
+          --ink: #e6e9ed;
+          --ink-soft: #a0a8b4;
+          --ink-faint: #6f7885;
+          --rule: #2e343d;
+          --accent: #7fa8c9;
+          --accent-ink: #a8c8e0;
+          --accent-soft: #24333f;
+          --danger: #e06c5c;
+          --danger-soft: #3a221e;
+          --danger-ink: #f0a397;
+          --bezel: #0a0c0f;
+          --shadow-card:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+          --shadow-window:
+            0 24px 48px -20px rgba(0, 0, 0, 0.7),
+            0 4px 12px -4px rgba(0, 0, 0, 0.5);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #12151a;
+        --surface: #1a1e24;
+        --surface-2: #232830;
+        --ink: #e6e9ed;
+        --ink-soft: #a0a8b4;
+        --ink-faint: #6f7885;
+        --rule: #2e343d;
+        --accent: #7fa8c9;
+        --accent-ink: #a8c8e0;
+        --accent-soft: #24333f;
+        --danger: #e06c5c;
+        --danger-soft: #3a221e;
+        --danger-ink: #f0a397;
+        --bezel: #0a0c0f;
+        --shadow-card:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+        --shadow-window:
+          0 24px 48px -20px rgba(0, 0, 0, 0.7),
+          0 4px 12px -4px rgba(0, 0, 0, 0.5);
+      }
+      :root[data-theme="light"] {
+        --bg: #f7f6f3;
+        --surface: #ffffff;
+        --surface-2: #ecebe6;
+        --ink: #23282e;
+        --ink-soft: #5d6672;
+        --ink-faint: #939ba6;
+        --rule: #dedcd5;
+        --accent: #3d5a73;
+        --accent-ink: #2c4459;
+        --accent-soft: #e2e9ef;
+        --danger: #c0392b;
+        --danger-soft: #fbe7e4;
+        --danger-ink: #96291d;
+        --bezel: #1a1d21;
+        --shadow-card:
+          0 1px 2px rgba(28, 32, 38, 0.06),
+          0 8px 20px -12px rgba(28, 32, 38, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(18, 22, 28, 0.4),
+          0 4px 12px -4px rgba(18, 22, 28, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+
+      a {
+        color: var(--accent-ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Header / Hero ---------- */
+      .hero {
+        padding: 56px 0 8px;
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--accent-ink);
+        background: var(--accent-soft);
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      h1.headline {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.7rem, 5.6vw, 2.5rem);
+        line-height: 1.5;
+        margin: 0 0 18px;
+        text-wrap: balance;
+        letter-spacing: 0.01em;
+      }
+      .headline em {
+        font-style: normal;
+        color: var(--accent-ink);
+      }
+      .sub {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+        max-width: 34em;
+        margin: 0 0 40px;
+      }
+
+      /* ---------- Section scaffolding ---------- */
+      section {
+        margin: 72px 0;
+      }
+      section:first-of-type {
+        margin-top: 0;
+      }
+      .section-head {
+        margin-bottom: 28px;
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+        margin: 0 0 8px;
+      }
+      h2.section-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin: 0;
+        text-wrap: balance;
+      }
+      p {
+        margin: 0 0 1em;
+      }
+      .lede {
+        color: var(--ink-soft);
+      }
+
+      hr.rule {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 72px 0;
+      }
+
+      /* ---------- Stat strip ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 28px 0;
+      }
+      .stat {
+        background: var(--surface);
+        padding: 20px 10px;
+        text-align: center;
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 1.3rem;
+        color: var(--accent-ink);
+        display: block;
+      }
+      .stat .label {
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ---------- Step layout ---------- */
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 40px 0;
+      }
+      .step-text {
+        width: 100%;
+      }
+      .step-tag {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .step-text h3 {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0 0 8px;
+      }
+      .step-text p {
+        color: var(--ink-soft);
+        margin: 0;
+        font-size: 0.96rem;
+      }
+
+      /* ---------- Browser window mockup ---------- */
+      .browser {
+        width: 300px;
+        max-width: 100%;
+        flex-shrink: 0;
+        background: var(--bezel);
+        border-radius: 14px;
+        padding: 7px 7px 0;
+        box-shadow: var(--shadow-window);
+      }
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 8px;
+      }
+      .browser-bar .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .browser-bar .dot.r {
+        background: #ff5f57;
+      }
+      .browser-bar .dot.y {
+        background: #febc2e;
+      }
+      .browser-bar .dot.g {
+        background: #28c840;
+      }
+      .browser-url {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-left: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .browser-screen {
+        background: #fff;
+        border-radius: 0 0 9px 9px;
+        overflow: hidden;
+        min-height: 250px;
+      }
+
+      /* -- Demo screen mockup（LUMINAダッシュボードの実際の色を使う） -- */
+      .demo-head {
+        background: #1a2e5c;
+        color: #fff;
+        padding: 9px 10px;
+        font-size: 0.66rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .demo-head .dept {
+        font-size: 0.56rem;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.16);
+        padding: 2px 7px;
+        border-radius: 999px;
+      }
+      .demo-body {
+        padding: 11px 10px;
+        background: #fbfbfa;
+        min-height: 215px;
+      }
+      .demo-label {
+        font-size: 0.55rem;
+        color: #5d6672;
+        margin-bottom: 4px;
+        font-weight: 700;
+      }
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: #dedcd5;
+        border: 1px solid #dedcd5;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+      .kpi-cell {
+        background: #fff;
+        padding: 7px 6px;
+      }
+      .kpi-cell .l {
+        font-size: 0.5rem;
+        color: #5d6672;
+      }
+      .kpi-cell .v {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #1a2e5c;
+        font-variant-numeric: tabular-nums;
+      }
+      .kpi-cell .m {
+        font-size: 0.5rem;
+        color: #96291d;
+      }
+      .kpi-cell .m.up {
+        color: #2c6b3f;
+      }
+      .demo-result {
+        background: #fff;
+        border: 1px solid #dedcd5;
+        border-radius: 7px;
+        padding: 9px;
+      }
+      .demo-badges {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 7px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        font-size: 0.55rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      .badge.meta {
+        background: #ecebe6;
+        color: #5d6672;
+        font-weight: 600;
+      }
+      .badge.priority {
+        background: #1a2e5c;
+        color: #fff;
+      }
+      .demo-reason {
+        font-size: 0.57rem;
+        color: #5d6672;
+        line-height: 1.6;
+      }
+      .demo-reason b {
+        color: #23282e;
+        display: block;
+        font-size: 0.54rem;
+        margin-bottom: 2px;
+      }
+      .ai-summary {
+        background: #1a2e5c;
+        color: rgba(255, 255, 255, 0.92);
+        border-radius: 7px;
+        padding: 8px 9px;
+        font-size: 0.6rem;
+        line-height: 1.7;
+        margin-bottom: 9px;
+      }
+
+      /* ---------- Feature cards ---------- */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .feature-card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .feature-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.06rem;
+        font-weight: 500;
+        margin: 0 0 6px;
+      }
+      .feature-card p {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        margin: 0;
+      }
+
+      /* ---------- Flow diagram ---------- */
+      .flow {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .flow-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 11px 0;
+      }
+      .flow-row + .flow-row {
+        border-top: 1px dashed var(--rule);
+      }
+      .flow-num {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        color: #fff;
+        background: var(--accent);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 3px;
+      }
+      .flow-row.alert .flow-num {
+        background: var(--danger);
+      }
+      .flow-body h3 {
+        margin: 0 0 2px;
+        font-size: 0.96rem;
+        font-weight: 600;
+        font-family: var(--font-display);
+      }
+      .flow-body p {
+        margin: 0;
+        font-size: 0.88rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Tech strip ---------- */
+      .tech-list {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--rule);
+      }
+      .tech-item {
+        display: grid;
+        grid-template-columns: 9.5em 1fr;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--rule);
+        align-items: baseline;
+      }
+      .tech-item .name {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent-ink);
+      }
+      .tech-item .desc {
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Scope note ---------- */
+      .scope {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 20px 22px;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+      .scope strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .scope ul {
+        margin: 8px 0 0;
+        padding-left: 1.2em;
+      }
+      .scope li {
+        margin-bottom: 4px;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 96px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule);
+        font-size: 0.82rem;
+        color: var(--ink-faint);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 620px) {
+        .hero {
+          padding-top: 72px;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        .step-text {
+          padding-top: 34px;
+        }
+      }
+
+      /* ---------- Print ---------- */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          background: #fff;
+        }
+        .wrap {
+          max-width: none;
+          padding: 0 8px 20px;
+        }
+        .hero {
+          padding-top: 12px;
+        }
+        section {
+          margin: 36px 0;
+        }
+        .step,
+        .browser,
+        .feature-card,
+        .flow,
+        .flow-row,
+        .stats,
+        .stat,
+        .tech-item,
+        .scope,
+        p,
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          orphans: 3;
+          widows: 3;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        h1.headline,
+        h2.section-title,
+        h3,
+        .section-head {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+        hr.rule {
+          break-before: avoid;
+          page-break-before: avoid;
+        }
+        .browser {
+          box-shadow: none;
+          border: 1px solid #cfd2c8;
+        }
+        .feature-card,
+        .flow,
+        .tech-item {
+          box-shadow: none;
+        }
+        footer {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p style="margin: 0 0 20px; font-size: 0.92rem">
+        <a
+          href="../index.html#works"
+          style="
+            color: var(--ink);
+            opacity: 0.7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+          "
+          >← 制作事例一覧に戻る</a
+        >
+      </p>
+
+      <header class="hero">
+        <span class="eyebrow"
+          >導入レポート — AI搭載 売上分析ダッシュボード</span
+        >
+        <h1 class="headline">
+          「本当にExcelと一致してますか？」に、<em>胸を張って</em>答えられる。
+        </h1>
+        <p class="sub">
+          売上CSVをアップロードするだけで、3大KPIを自動集計・グラフ化し、AIが「今月何が起きたか」
+          「来月何をすべきか」を根拠つきで提案します。数字の計算は必ずプログラム側で行い、
+          AIには解釈だけを任せる設計にしました。
+        </p>
+      </header>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">BACKGROUND</p>
+          <h2 class="section-title">
+            感覚で決まる打ち手と、3時間かかるレポート
+          </h2>
+        </div>
+        <p>
+          月次の売上レポート作成にExcelで毎回3時間かかっている。社長・マーケ部長・営業が
+          それぞれ別の資料を見ていて、会議のたびに数字の確認から始まる。そして次の施策が
+          担当者の感覚で決まっていて、なぜその判断をしたかを説明できない。
+          <strong>ただ数字を並べるだけのダッシュボードは他社でも作れる</strong
+          >ので、
+          今回は「AIが根拠つきで来月のアクションまで提案する」ことを一番のこだわりにしました。
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <span class="num">180分→30分</span>
+            <span class="label"
+              >月次レポート作成にかかる時間の想定（約83%削減・実測値ではありません）</span
+            >
+          </div>
+          <div class="stat">
+            <span class="num">¥560,600</span>
+            <span class="label"
+              >Excelの集計と1円もズレずに一致した売上合計</span
+            >
+          </div>
+          <div class="stat">
+            <span class="num">36件</span>
+            <span class="label"
+              >集計ロジックの自動テスト（pushのたびに実行）</span
+            >
+          </div>
+        </div>
+        <p class="lede">
+          集計はプログラムが正確に行い、AIには集計済みの数字だけを渡して解釈させる。
+          そういう役割分担にしました。
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">HOW IT WORKS</p>
+          <h2 class="section-title">CSVを渡してから、提案が出るまで</h2>
+        </div>
+
+        <div class="flow">
+          <div class="flow-row">
+            <span class="flow-num">1</span>
+            <div class="flow-body">
+              <h3>CSVをアップロード</h3>
+              <p>
+                ドラッグ&ドロップで売上CSVを渡します。1件でもおかしい行があれば、
+                行番号つきで理由を示して全体を取り込みません。一部だけ取り込んで
+                合計がこっそりズレる事故を防ぐためです。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">2</span>
+            <div class="flow-body">
+              <h3>正確に集計する</h3>
+              <p>
+                売上・粗利・リピート率をプログラム側で計算します。AIには計算をさせません。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">3</span>
+            <div class="flow-body">
+              <h3>AIが解釈する</h3>
+              <p>
+                集計済みの正しい数字だけをAIに渡し、今月の総括と来月のアクションを、
+                根拠の数字つきで考えてもらいます。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row alert">
+            <span class="flow-num">4</span>
+            <div class="flow-body">
+              <h3>二重に動かさない</h3>
+              <p>
+                分析には30秒〜1分半ほどかかります。その間は他の人の画面にも
+                「分析中です」と伝わるようにして、二重に実行されるのを防ぎます。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">5</span>
+            <div class="flow-body">
+              <h3>ダッシュボードに反映</h3>
+              <p>
+                総括・注目ポイント・注意して見るべき点・優先度つきのアクションが
+                画面に並びます。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step" style="margin-top: 44px">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r" aria-hidden="true"></span
+              ><span class="dot y" aria-hidden="true"></span
+              ><span class="dot g" aria-hidden="true"></span>
+              <span class="browser-url">mock-project8.vercel.app</span>
+            </div>
+            <div class="browser-screen">
+              <div class="demo-head">
+                LUMINA 売上ダッシュボード<span class="dept">2025年11月</span>
+              </div>
+              <div class="demo-body">
+                <div class="kpi-grid">
+                  <div class="kpi-cell">
+                    <div class="l">売上</div>
+                    <div class="v">¥264,700</div>
+                    <div class="m up">↑+79.5%</div>
+                  </div>
+                  <div class="kpi-cell">
+                    <div class="l">粗利</div>
+                    <div class="v">¥163,100</div>
+                    <div class="m up">↑+76.1%</div>
+                  </div>
+                  <div class="kpi-cell">
+                    <div class="l">リピート率</div>
+                    <div class="v">28.6%</div>
+                    <div class="m">8人/28人</div>
+                  </div>
+                </div>
+                <div class="demo-label">カテゴリ別（前月比）</div>
+                <div class="demo-result">
+                  <div class="demo-badges">
+                    <span class="badge meta">アウター +344.4%</span>
+                    <span class="badge meta">アクセサリー -50.0%</span>
+                  </div>
+                  <div class="demo-reason">
+                    冬物アウターが牽引する一方、他3カテゴリは減少。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">アップロード直後から</p>
+            <h3>数字はその場で、正しい形で見える</h3>
+            <p>
+              CSVを保存した時点で、3大KPIとカテゴリ別・SKUトップ10はすぐに表示されます。
+              AIの分析を待たなくても、数字だけは確実に見られる作りにしています。
+            </p>
+          </div>
+        </div>
+
+        <div class="step reverse">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r" aria-hidden="true"></span
+              ><span class="dot y" aria-hidden="true"></span
+              ><span class="dot g" aria-hidden="true"></span>
+              <span class="browser-url">mock-project8.vercel.app</span>
+            </div>
+            <div class="browser-screen">
+              <div class="demo-head">
+                AI の見立て<span class="dept">AI生成</span>
+              </div>
+              <div class="demo-body">
+                <div class="ai-summary">
+                  11月売上は前月比+79.5%と大幅伸長。牽引役はアウターで約19.8万円
+                  （+344.4%）。一方トップス・ボトムス・アクセサリーは揃って減少。
+                </div>
+                <div class="demo-label">翌月のアクション</div>
+                <div class="demo-result">
+                  <div class="demo-badges">
+                    <span class="badge priority">最優先</span>
+                  </div>
+                  <div class="demo-reason">
+                    <b>
+                      ウールコート・ダウンジャケットの在庫を12月商戦向けに追加確保し、
+                      Instagram広告予算を30%増額する
+                    </b>
+                    根拠：上位2SKUで当月売上の約74.9%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">来月どうするかまで</p>
+            <h3>「広告を強化する」では終わらせない</h3>
+            <p>
+              アクション提案は具体策の粒度まで縛っています。「アウターのInstagram広告予算を
+              30%増額する」のように、読んだ人が明日、誰が何をするか迷わず決められる形にしました。
+              各アクションには根拠となる数字が必ず添えられます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">FEATURES</p>
+          <h2 class="section-title">安心して任せるための工夫</h2>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>数字はプログラム、意味づけはAI</h3>
+            <p>
+              集計をAIにやらせず、正確な数字を計算してから渡します。
+              「Excelと1円もズレずに一致すること」が絶対条件だったため、
+              AIに計算まで任せると間違いに気づく手段がなくなってしまいます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>1件でもエラーがあれば、全体を止める</h3>
+            <p>
+              CSVの一部だけを取り込んで合計金額がこっそりズレる、という事故を防ぐため、
+              1件でも不備があればファイル全体を取り込みません。行番号つきで、
+              どこをどう直せば良いかを表示します。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>AI分析中は、誰にも二重に動かせない</h3>
+            <p>
+              分析が始まった瞬間にデータベース側へ「分析中」の印を残すため、
+              その間に別の人が画面を開いても「分析中です」と伝わります。
+              二重にAIが動いて余計な費用がかかる事故を防いでいます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>AIが落ちても、数字は必ず見られる</h3>
+            <p>
+              CSVの保存とAIの分析は別の処理に分けています。AI側で失敗しても、
+              KPIカードとグラフは影響を受けません。分析だけは
+              ダッシュボードからいつでもやり直せます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">RUNNING COST</p>
+          <h2 class="section-title">運用にかかるお金</h2>
+        </div>
+        <p>
+          月次運用は月1回のCSVアップロードが基本のため、ホスティング・データベースとも
+          無料枠の範囲に収まり、実測の月額運用費は約210円（AI分析1回ぶんの費用のみ）です。
+        </p>
+        <p class="lede">
+          データベースには無料プランを7日間アクセスが無いと自動停止する制限があります。
+          月1回の運用だと年末年始などに1週間以上開かない期間が起こりうるため、
+          1日1回だけ軽く接続する定期処理を追加費用なしで組み込み、対策しました。
+          あわせて、本番公開の設定を見直したところ、最初は「テストが失敗しても
+          そのまま公開されてしまう」状態だったことにも気づき、設定ファイルに一行足すだけで、
+          テストが失敗したら公開も止まるように直しています。
+        </p>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">UNDER THE HOOD</p>
+          <h2 class="section-title">裏側で動いているもの（簡単に）</h2>
+        </div>
+        <p class="lede" style="margin-bottom: 20px">
+          専門的な話は抜きにして、それぞれ何をしているかだけご紹介します。
+        </p>
+        <div class="tech-list">
+          <div class="tech-item">
+            <span class="name">アプリ本体</span>
+            <span class="desc"
+              >CSVの取り込み・集計・画面表示・ログインをまとめて動かしているサーバー部分です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Claude（AI）</span>
+            <span class="desc"
+              >集計済みの正確な数字だけを読んで、今月の総括と来月のアクションを考えます。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">データベース</span>
+            <span class="desc"
+              >売上明細・AI分析結果・ログイン情報を保存する場所です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">定期チェック</span>
+            <span class="desc"
+              >1日1回データベースに軽く接続し、無料プランの自動停止を防ぐ見張り役です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">ログイン</span>
+            <span class="desc"
+              >メール＋パスワードで認証します。閲覧者のアカウントは管理者が個別に発行する運用です。</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">SCOPE</p>
+          <h2 class="section-title">できないこと（あえて対象外にしたもの）</h2>
+        </div>
+        <div class="scope">
+          <p style="margin-bottom: 0">
+            <strong
+              >今回はまず「CSVアップロード・KPI集計・AIによる分析コメント」に絞って作り込みました。</strong
+            >
+            以下は意図的に対象外としています。
+          </p>
+          <ul>
+            <li>
+              Shopify API直接連携（日次自動更新） —
+              今回は月1回のCSVアップロードで運用する前提です
+            </li>
+            <li>異常検知のSlackアラート</li>
+            <li>PDFレポートの自動生成・メール配信</li>
+            <li>多店舗・多チャネル対応</li>
+            <li>
+              独自ドメイン — Vercelの既定URL（*.vercel.app）で運用しています
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <span
+          >LUMINA 向け AI搭載 売上分析ダッシュボード（案件8・模擬案件）</span
+        >
+        <span>2026年8月 導入</span>
+      </footer>
+
+      <div style="margin: 48px 0 0; text-align: center">
+        <p style="margin: 0 0 16px">
+          <a
+            href="../index.html#contact"
+            style="
+              display: inline-block;
+              padding: 14px 32px;
+              border-radius: 8px;
+              background: var(--accent);
+              color: #fff;
+              font-weight: 700;
+              text-decoration: none;
+            "
+            >この仕組みを自社向けに相談する →</a
+          >
+        </p>
+        <p style="margin: 0; font-size: 0.92rem">
+          <a
+            href="../index.html#works"
+            style="
+              color: var(--ink);
+              opacity: 0.7;
+              text-decoration: underline;
+              text-underline-offset: 3px;
+            "
+            >← 他の制作事例を見る</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      「あの提案書、どこにあったっけ」を、出典付きで即答する｜ Yuuki Taniguchi
+    </title>
+
+    <style>
+      :root {
+        --bg: #f7f6f3;
+        --surface: #ffffff;
+        --surface-2: #ecebe6;
+        --ink: #23282e;
+        --ink-soft: #5d6672;
+        --ink-faint: #939ba6;
+        --rule: #dedcd5;
+        --accent: #3d5a73;
+        --accent-ink: #2c4459;
+        --accent-soft: #e2e9ef;
+        --danger: #c0392b;
+        --danger-soft: #fbe7e4;
+        --danger-ink: #96291d;
+        --bezel: #1a1d21;
+
+        --font-display:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-body:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-mono:
+          ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+        --shadow-card:
+          0 1px 2px rgba(28, 32, 38, 0.06),
+          0 8px 20px -12px rgba(28, 32, 38, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(18, 22, 28, 0.4),
+          0 4px 12px -4px rgba(18, 22, 28, 0.28);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12151a;
+          --surface: #1a1e24;
+          --surface-2: #232830;
+          --ink: #e6e9ed;
+          --ink-soft: #a0a8b4;
+          --ink-faint: #6f7885;
+          --rule: #2e343d;
+          --accent: #7fa8c9;
+          --accent-ink: #a8c8e0;
+          --accent-soft: #24333f;
+          --danger: #e06c5c;
+          --danger-soft: #3a221e;
+          --danger-ink: #f0a397;
+          --bezel: #0a0c0f;
+          --shadow-card:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+          --shadow-window:
+            0 24px 48px -20px rgba(0, 0, 0, 0.7),
+            0 4px 12px -4px rgba(0, 0, 0, 0.5);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #12151a;
+        --surface: #1a1e24;
+        --surface-2: #232830;
+        --ink: #e6e9ed;
+        --ink-soft: #a0a8b4;
+        --ink-faint: #6f7885;
+        --rule: #2e343d;
+        --accent: #7fa8c9;
+        --accent-ink: #a8c8e0;
+        --accent-soft: #24333f;
+        --danger: #e06c5c;
+        --danger-soft: #3a221e;
+        --danger-ink: #f0a397;
+        --bezel: #0a0c0f;
+        --shadow-card:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+        --shadow-window:
+          0 24px 48px -20px rgba(0, 0, 0, 0.7),
+          0 4px 12px -4px rgba(0, 0, 0, 0.5);
+      }
+      :root[data-theme="light"] {
+        --bg: #f7f6f3;
+        --surface: #ffffff;
+        --surface-2: #ecebe6;
+        --ink: #23282e;
+        --ink-soft: #5d6672;
+        --ink-faint: #939ba6;
+        --rule: #dedcd5;
+        --accent: #3d5a73;
+        --accent-ink: #2c4459;
+        --accent-soft: #e2e9ef;
+        --danger: #c0392b;
+        --danger-soft: #fbe7e4;
+        --danger-ink: #96291d;
+        --bezel: #1a1d21;
+        --shadow-card:
+          0 1px 2px rgba(28, 32, 38, 0.06),
+          0 8px 20px -12px rgba(28, 32, 38, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(18, 22, 28, 0.4),
+          0 4px 12px -4px rgba(18, 22, 28, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+
+      a {
+        color: var(--accent-ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Header / Hero ---------- */
+      .hero {
+        padding: 56px 0 8px;
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--accent-ink);
+        background: var(--accent-soft);
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      h1.headline {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.7rem, 5.6vw, 2.5rem);
+        line-height: 1.5;
+        margin: 0 0 18px;
+        text-wrap: balance;
+        letter-spacing: 0.01em;
+      }
+      .headline em {
+        font-style: normal;
+        color: var(--accent-ink);
+      }
+      .sub {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+        max-width: 34em;
+        margin: 0 0 40px;
+      }
+
+      /* ---------- Section scaffolding ---------- */
+      section {
+        margin: 72px 0;
+      }
+      section:first-of-type {
+        margin-top: 0;
+      }
+      .section-head {
+        margin-bottom: 28px;
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+        margin: 0 0 8px;
+      }
+      h2.section-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin: 0;
+        text-wrap: balance;
+      }
+      p {
+        margin: 0 0 1em;
+      }
+      .lede {
+        color: var(--ink-soft);
+      }
+
+      hr.rule {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 72px 0;
+      }
+
+      /* ---------- Stat strip ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 28px 0;
+      }
+      .stat {
+        background: var(--surface);
+        padding: 20px 10px;
+        text-align: center;
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 1.3rem;
+        color: var(--accent-ink);
+        display: block;
+      }
+      .stat .label {
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ---------- Step layout ---------- */
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 40px 0;
+      }
+      .step-text {
+        width: 100%;
+      }
+      .step-tag {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .step-text h3 {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0 0 8px;
+      }
+      .step-text p {
+        color: var(--ink-soft);
+        margin: 0;
+        font-size: 0.96rem;
+      }
+
+      /* ---------- Browser window mockup ---------- */
+      .browser {
+        width: 300px;
+        max-width: 100%;
+        flex-shrink: 0;
+        background: var(--bezel);
+        border-radius: 14px;
+        padding: 7px 7px 0;
+        box-shadow: var(--shadow-window);
+      }
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 8px;
+      }
+      .browser-bar .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .browser-bar .dot.r {
+        background: #ff5f57;
+      }
+      .browser-bar .dot.y {
+        background: #febc2e;
+      }
+      .browser-bar .dot.g {
+        background: #28c840;
+      }
+      .browser-url {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-left: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .browser-screen {
+        background: #fff;
+        border-radius: 0 0 9px 9px;
+        overflow: hidden;
+        min-height: 250px;
+      }
+
+      /* -- Slack mockup -- */
+      .slack-titlebar {
+        background: #3f0e40;
+        color: #fff;
+        padding: 9px 10px;
+        font-size: 0.66rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .slack-body {
+        padding: 12px 10px;
+        background: #fff;
+        min-height: 215px;
+      }
+      .slack-msg {
+        display: flex;
+        gap: 7px;
+      }
+      .slack-msg + .slack-msg {
+        margin-top: 12px;
+      }
+      .slack-avatar {
+        width: 22px;
+        height: 22px;
+        border-radius: 5px;
+        background: var(--accent);
+        flex-shrink: 0;
+      }
+      .slack-avatar.bot {
+        background: #2c4459;
+      }
+      .slack-content {
+        flex: 1;
+        min-width: 0;
+      }
+      .slack-meta {
+        font-size: 0.58rem;
+        color: #616061;
+        margin-bottom: 4px;
+      }
+      .slack-meta b {
+        color: #1d1c1d;
+        font-size: 0.62rem;
+      }
+      .slack-question {
+        font-size: 0.62rem;
+        color: #1d1c1d;
+        line-height: 1.6;
+      }
+      /* デフォルトは通常回答（青系）。緊急/警告を出したいときだけ
+         .slack-card.alert で危険色に切り替える（クレーム用の赤をデフォルトに
+         しない。既定色と上書き色の関係が名前から読み取れるようにするため）。 */
+      .slack-card {
+        border-left: 3px solid #3d5a73;
+        padding-left: 8px;
+      }
+      .slack-card.alert {
+        border-left-color: #c0392b;
+      }
+      .slack-card .bodytext {
+        font-size: 0.6rem;
+        color: #1d1c1d;
+        line-height: 1.7;
+        margin-bottom: 7px;
+      }
+      .slack-card .cite {
+        font-size: 0.55rem;
+        color: #616061;
+        line-height: 1.6;
+        border-top: 1px dashed #dedcd5;
+        padding-top: 5px;
+        margin-top: 2px;
+      }
+
+      /* -- Demo screen mockup -- */
+      .demo-head {
+        /* デモ画面モックの中身は「常にライトのアプリ画面」なので、
+       ページのテーマ変数(--accent)ではなく固定色にする（Slackモックと同じ方針）。 */
+        background: #3d5a73;
+        color: #fff;
+        padding: 9px 10px;
+        font-size: 0.66rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .demo-head .dept {
+        font-size: 0.56rem;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.16);
+        padding: 2px 7px;
+        border-radius: 999px;
+      }
+      .demo-body {
+        padding: 11px 10px;
+        background: #fbfbfa;
+        min-height: 215px;
+      }
+      .demo-label {
+        font-size: 0.55rem;
+        color: #5d6672;
+        margin-bottom: 4px;
+        font-weight: 700;
+      }
+      .demo-input {
+        background: #fff;
+        border: 1px solid #dedcd5;
+        border-radius: 7px;
+        padding: 7px 8px;
+        font-size: 0.6rem;
+        color: #23282e;
+        line-height: 1.6;
+        margin-bottom: 9px;
+      }
+      .demo-result {
+        background: #fff;
+        border: 1px solid #dedcd5;
+        border-radius: 7px;
+        padding: 9px;
+      }
+      .demo-badges {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 7px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        font-size: 0.55rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      /* このモック内は「常にライトのアプリ画面のスクリーンショット」という
+         想定のため、ページのテーマ変数(--accent等)ではなく固定色にしている
+         （ダークモードでも中の見た目は変えない。.demo-headと同じ方針）。 */
+      .badge.meta {
+        background: #ecebe6;
+        color: #5d6672;
+        font-weight: 600;
+      }
+      .demo-reason {
+        font-size: 0.57rem;
+        color: #5d6672;
+        line-height: 1.6;
+      }
+      .demo-reason b {
+        color: #23282e;
+        display: block;
+        font-size: 0.54rem;
+        margin-bottom: 2px;
+      }
+      .demo-cite-title {
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: #23282e;
+        margin-bottom: 6px;
+      }
+      .demo-score {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+      }
+      .demo-score .bar {
+        flex: 1;
+        height: 4px;
+        border-radius: 999px;
+        background: #ecebe6;
+        overflow: hidden;
+      }
+      .demo-score .bar span {
+        display: block;
+        height: 100%;
+        background: #3d5a73;
+      }
+      .demo-score .val {
+        font-size: 0.52rem;
+        color: #5d6672;
+        white-space: nowrap;
+      }
+
+      /* ---------- Feature cards ---------- */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .feature-card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .feature-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.06rem;
+        font-weight: 500;
+        margin: 0 0 6px;
+      }
+      .feature-card p {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        margin: 0;
+      }
+
+      /* ---------- Flow diagram ---------- */
+      .flow {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .flow-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 11px 0;
+      }
+      .flow-row + .flow-row {
+        border-top: 1px dashed var(--rule);
+      }
+      .flow-num {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        color: #fff;
+        background: var(--accent);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 3px;
+      }
+      .flow-row.alert .flow-num {
+        background: var(--danger);
+      }
+      .flow-body h3 {
+        margin: 0 0 2px;
+        font-size: 0.96rem;
+        font-weight: 600;
+        font-family: var(--font-display);
+      }
+      .flow-body p {
+        margin: 0;
+        font-size: 0.88rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Tech strip ---------- */
+      .tech-list {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--rule);
+      }
+      .tech-item {
+        display: grid;
+        grid-template-columns: 9.5em 1fr;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--rule);
+        align-items: baseline;
+      }
+      .tech-item .name {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent-ink);
+      }
+      .tech-item .desc {
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Scope note ---------- */
+      .scope {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 20px 22px;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+      .scope strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .scope ul {
+        margin: 8px 0 0;
+        padding-left: 1.2em;
+      }
+      .scope li {
+        margin-bottom: 4px;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 96px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule);
+        font-size: 0.82rem;
+        color: var(--ink-faint);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 620px) {
+        .hero {
+          padding-top: 72px;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        .step-text {
+          padding-top: 34px;
+        }
+      }
+
+      /* ---------- Print ---------- */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          background: #fff;
+        }
+        .wrap {
+          max-width: none;
+          padding: 0 8px 20px;
+        }
+        .hero {
+          padding-top: 12px;
+        }
+        section {
+          margin: 36px 0;
+        }
+        .step,
+        .browser,
+        .feature-card,
+        .flow,
+        .flow-row,
+        .stats,
+        .stat,
+        .tech-item,
+        .scope,
+        p,
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          orphans: 3;
+          widows: 3;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        h1.headline,
+        h2.section-title,
+        h3,
+        .section-head {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+        hr.rule {
+          break-before: avoid;
+          page-break-before: avoid;
+        }
+        .browser {
+          box-shadow: none;
+          border: 1px solid #cfd2c8;
+        }
+        .feature-card,
+        .flow,
+        .tech-item {
+          box-shadow: none;
+        }
+        footer {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p style="margin: 0 0 20px; font-size: 0.92rem">
+        <a
+          href="../index.html#works"
+          style="
+            color: var(--ink);
+            opacity: 0.7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+          "
+          >← 制作事例一覧に戻る</a
+        >
+      </p>
+
+      <header class="hero">
+        <span class="eyebrow"
+          >導入レポート — 社内ナレッジ検索 + Slackボット</span
+        >
+        <h1 class="headline">
+          「あの提案書、どこにあったっけ」を、<em>出典付きで即答</em>する。
+        </h1>
+        <p class="sub">
+          過去の提案書・報告書をAIに自然文で聞くと、SlackでもWebでも出典付きの要約がすぐ返ってきます。
+          部署をまたいだ文書は最初から見せない仕組みを、データベース側にきちんと組み込みました。
+        </p>
+      </header>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">BACKGROUND</p>
+          <h2 class="section-title">探せない、見つかっても信じられない</h2>
+        </div>
+        <p>
+          コンサル業務では、過去10年分・数千件の提案書や報告書が資産として眠っている一方、
+          部署をまたいだ知識共有がうまく機能せず、似た案件の存在に気づけないことが多い。
+          かといってAIに自由に答えさせると、もっともらしい嘘（ハルシネーション）をつくことがあり、
+          根拠を示せないと業務では使えない。さらに機密度の高い文書も混ざっているため、
+          <strong
+            >「検索できる」だけでなく「見せてよい人にしか見せない」</strong
+          >
+          ことも同時に満たす必要がありました。
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <span class="num">80%以上</span>
+            <span class="label">上位5件以内に正解が入る割合の目標</span>
+          </div>
+          <div class="stat">
+            <span class="num">100%（8/8）</span>
+            <span class="label">実際の達成率</span>
+          </div>
+          <div class="stat">
+            <span class="num">0件</span>
+            <span class="label"
+              >他部署への文書漏えい（行単位のアクセス制御=RLSの検証）</span
+            >
+          </div>
+        </div>
+        <p class="lede">
+          文書を検索の意味のまとまり（見出し単位）で分割し、部署ごとのアクセス制御をデータベース側にかけたうえで、
+          出典付きの要約を返す。そういう作りにしました。
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">HOW IT WORKS</p>
+          <h2 class="section-title">質問してから回答が返るまで</h2>
+        </div>
+
+        <div class="flow">
+          <div class="flow-row">
+            <span class="flow-num">1</span>
+            <div class="flow-body">
+              <h3>文書を取り込む</h3>
+              <p>
+                PDF・Wordを見出し単位（セクション単位）に分割し、部署・客先・作成年・機密度を自動で読み取ります。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">2</span>
+            <div class="flow-body">
+              <h3>検索用のデータに変換</h3>
+              <p>
+                分割した各セクションを検索用の数値データ（ベクトル）に変換し、データベースに保存します。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">3</span>
+            <div class="flow-body">
+              <h3>権限つきで検索</h3>
+              <p>
+                Slack・Webどちらから来た質問も、閲覧者の部署の権限のまま検索します。他部署の文書は最初から候補に出てきません。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row">
+            <span class="flow-num">4</span>
+            <div class="flow-body">
+              <h3>出典付きで回答を生成</h3>
+              <p>
+                見つかった文書の中身だけを根拠に、結論→数値→出典の順でAIが要約します。根拠が薄ければ「該当なし」と答えます。
+              </p>
+            </div>
+          </div>
+          <div class="flow-row alert">
+            <span class="flow-num">5</span>
+            <div class="flow-body">
+              <h3>誰が・何を検索したか記録</h3>
+              <p>
+                検索と同時に監査ログを書き込みます。結果が0件でも必ず1行残るので、あとから「検索されなかった」ことも確認できます。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step" style="margin-top: 44px">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r" aria-hidden="true"></span
+              ><span class="dot y" aria-hidden="true"></span
+              ><span class="dot g" aria-hidden="true"></span>
+              <span class="browser-url">app.slack.com</span>
+            </div>
+            <div class="browser-screen">
+              <div class="slack-titlebar"># 知識共有-戦略部門</div>
+              <div class="slack-body">
+                <div class="slack-msg">
+                  <div class="slack-avatar" aria-hidden="true"></div>
+                  <div class="slack-content">
+                    <div class="slack-meta"><b>たにぐち</b> 10:06</div>
+                    <div class="slack-question">
+                      @knowledge 金融業界向けのDX提案でROI試算を含むものは？
+                    </div>
+                  </div>
+                </div>
+                <div class="slack-msg">
+                  <div class="slack-avatar bot" aria-hidden="true"></div>
+                  <div class="slack-content">
+                    <div class="slack-meta"><b>🤖 Knowledge</b> 10:06</div>
+                    <div class="slack-card">
+                      <div class="bodytext">
+                        「銀行A向け DX 推進提案書」がROI試算を含む提案です。<br />
+                        ・窓口対応時間 18分→9分（50%削減）<br />
+                        ・年間約1.2億円の人件費削減効果<br />
+                        ・初期投資の回収期間は約2.5年
+                      </div>
+                      <div class="cite">
+                        📄 銀行A向け DX 推進提案書<br />
+                        「4. ROI 試算」の節 ・ p.1<br />
+                        戦略 ・ 地方銀行A ・ 2024 ・ 社外秘
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">利用者から見ると</p>
+            <h3>Slackで聞くだけで、結論と根拠が同時に届く</h3>
+            <p>
+              「@knowledge
+              ◯◯について」と聞くだけで、結論を先頭に置いた要約と、ファイル名・見出し・ページ範囲までの出典が返ってきます。
+              3秒以内にまず応答を返し、実際の検索・生成は裏側で進める作りにしているので、Slack側でタイムアウト扱いになりません。
+            </p>
+          </div>
+        </div>
+
+        <div class="step reverse">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r" aria-hidden="true"></span
+              ><span class="dot y" aria-hidden="true"></span
+              ><span class="dot g" aria-hidden="true"></span>
+              <span class="browser-url">project7-khaki.vercel.app</span>
+            </div>
+            <div class="browser-screen">
+              <div class="demo-head">
+                ナレッジ検索<span class="dept">部署: 戦略 ▾</span>
+              </div>
+              <div class="demo-body">
+                <div class="demo-label">質問</div>
+                <div class="demo-input">
+                  金融業界向けのDX提案でROI試算を含むものは？
+                </div>
+                <div class="demo-label">出典</div>
+                <div class="demo-result">
+                  <div class="demo-cite-title">
+                    📄 銀行A向け DX 推進提案書（サマリ版）
+                  </div>
+                  <div style="font-size: 0.57rem; color: #5d6672">
+                    「4. ROI 試算」の節 ・ p.1
+                  </div>
+                  <div class="demo-badges" style="margin-top: 6px">
+                    <span class="badge meta">戦略</span>
+                    <span class="badge meta">地方銀行A</span>
+                    <span class="badge meta">2024</span>
+                    <span class="badge meta">社外秘</span>
+                  </div>
+                  <div class="demo-score">
+                    <span class="bar"><span style="width: 60%"></span></span>
+                    <span class="val">適合度 0.60</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">部署セレクタを切り替えると</p>
+            <h3>同じ質問でも、見える結果が変わる</h3>
+            <p>
+              ログイン機能は作らず、部署セレクタで閲覧者の部署を切り替える形にしています。
+              裏側のアクセス制御はアプリのコードではなくデータベース側（RLS =
+              行単位のアクセス制御）で本物が動いているので、
+              他部署に切り替えるとこの文書自体が検索結果から消えます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">FEATURES</p>
+          <h2 class="section-title">安心して任せるための工夫</h2>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>出典が無ければ、答えない</h3>
+            <p>
+              最高類似度がしきい値未満ならAIを呼ばずに「該当なし」を返します。プロンプトでも「文脈にない情報は書かない」と明示していて、
+              ハルシネーション対策を2段構えにしています。「該当なし」と「検索処理自体のエラー」も必ず別の文言で返すので、
+              利用者がどちらか区別できます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>アクセス制御は、データベース側の1か所に</h3>
+            <p>
+              ログイン機能の代わりに、部署名を持つ一時的な通行証（JWT）を発行してデータベースに渡す方式にしました。
+              SlackとWeb、入口が2つあっても判定するのはデータベース側だけなので、どちらかのアプリのコードに
+              チェックを書き忘れて他部署の文書が漏れる、という事故が構造的に起きません。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>検索とログ書き込みが、書き漏れない</h3>
+            <p>
+              「誰が・いつ・何を検索し、どの文書を参照したか」を記録する監査ログは、検索処理と同じデータベース操作の中で書き込んでいます。
+              検索結果が0件（他部署の文書が弾かれた、もっとも記録したい瞬間）でも、ログは必ず1行残ります。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>取り込みに失敗しても、放置されない</h3>
+            <p>
+              文書の取り込みに失敗すると、週1回自動で対象文書だけを再挑戦します。3回失敗した文書はその場でSlackに通知が届き、
+              月次の監査レポートにも「取り込めなかった文書」として載り続けるので、気づかれないまま検索できない文書が残りません。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">RUNNING COST</p>
+          <h2 class="section-title">運用にかかるお金</h2>
+        </div>
+        <p>
+          毎月の固定費はSupabase・Vercelとも無料枠の範囲に収めています。かかるのは検索・要約に使うAPIの利用料だけです。
+        </p>
+        <p class="lede">
+          Embedding（文章のベクトル化）APIの無料枠はレート制限が厳しく、まとめて呼ぶとすぐ429エラー（呼びすぎ）になることが実測でわかりました。
+          1件ずつ・12秒間隔をあけて呼ぶ形に変え、追加費用なしで安定させています。
+          データベースもSupabaseの無料プランの上限（作れるプロジェクト数）に達していたため、既存プロジェクトの中に専用の区画（スキーマ）を作って同居させました。
+        </p>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">UNDER THE HOOD</p>
+          <h2 class="section-title">裏側で動いているもの（簡単に）</h2>
+        </div>
+        <p class="lede" style="margin-bottom: 20px">
+          専門的な話は抜きにして、それぞれ何をしているかだけご紹介します。
+        </p>
+        <div class="tech-list">
+          <div class="tech-item">
+            <span class="name">アプリ本体</span>
+            <span class="desc"
+              >検索・Slackへの応答・文書の取り込みバッチをまとめて動かしているサーバー部分です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Claude（AI）</span>
+            <span class="desc"
+              >見つかった文書の中身だけを根拠に、結論→数値→出典の順で要約を作ります。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">データベース</span>
+            <span class="desc"
+              >文書の中身・検索用のベクトルデータ・検索ログを保存する場所です。部署ごとのアクセス制御もここで判定します。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">部署の通行証（JWT）</span>
+            <span class="desc"
+              >ログイン機能の代わりに、部署名を持つ一時的な認証情報を発行してデータベースに渡します。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Slack</span>
+            <span class="desc"
+              >「@knowledge」のメンションに3秒以内で応答し、実際の検索・生成はその裏側で進めます。</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">SCOPE</p>
+          <h2 class="section-title">できないこと（あえて対象外にしたもの）</h2>
+        </div>
+        <div class="scope">
+          <p style="margin-bottom: 0">
+            <strong
+              >今回はまず「部署別アクセス制御付きの検索」と「出典付きの要約」に絞って作り込みました。</strong
+            >
+            以下は意図的に対象外としています。
+          </p>
+          <ul>
+            <li>
+              SharePointへの実接続 —
+              入力元を差し替え可能な設計にはしてありますが、今回はローカルフォルダを入力元にしています
+            </li>
+            <li>
+              Web画面のログイン機能 —
+              部署セレクタで閲覧者の部署を切り替える形で代替しています（アクセス制御自体はデータベース側で本物が動作）
+            </li>
+            <li>
+              5,000件規模での実データ検証 —
+              サンプル5文書で検証し、バッチ処理・冪等な取り込みで件数増に対応できる設計にしています
+            </li>
+            <li>PowerPoint文書の取り込み — 対応形式はPDF・Wordのみです</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <span>社内ナレッジ検索 + Slackボット（案件7・模擬案件）</span>
+        <span>2026年8月 導入</span>
+      </footer>
+
+      <div style="margin: 48px 0 0; text-align: center">
+        <p style="margin: 0 0 16px">
+          <a
+            href="../index.html#contact"
+            style="
+              display: inline-block;
+              padding: 14px 32px;
+              border-radius: 8px;
+              background: var(--accent);
+              color: #fff;
+              font-weight: 700;
+              text-decoration: none;
+            "
+            >この仕組みを自社向けに相談する →</a
+          >
+        </p>
+        <p style="margin: 0; font-size: 0.92rem">
+          <a
+            href="../index.html#works"
+            style="
+              color: var(--ink);
+              opacity: 0.7;
+              text-decoration: underline;
+              text-underline-offset: 3px;
+            "
+            >← 他の制作事例を見る</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

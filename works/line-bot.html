@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>「また同じ質問か…」をAIに任せてみた｜ Yuuki Taniguchi</title>
+
+    <style>
+      :root {
+        --bg: #f5f6f1;
+        --surface: #ffffff;
+        --surface-2: #eef0e9;
+        --ink: #1c231e;
+        --ink-soft: #5c665e;
+        --ink-faint: #8b948a;
+        --rule: #dcdfd5;
+        --accent: #b97a1e;
+        --accent-ink: #7a4d12;
+        --accent-soft: #f3e3c8;
+        --line-green: #06c755;
+        --danger: #c23b3b;
+        --bezel: #1b1e1a;
+
+        --font-display:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-body:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-mono:
+          ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+        --shadow-card:
+          0 1px 2px rgba(28, 35, 30, 0.06),
+          0 8px 20px -12px rgba(28, 35, 30, 0.18);
+        --shadow-phone:
+          0 24px 48px -20px rgba(20, 24, 18, 0.45),
+          0 4px 12px -4px rgba(20, 24, 18, 0.3);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #14170f;
+          --surface: #1c2018;
+          --surface-2: #262b21;
+          --ink: #ece9de;
+          --ink-soft: #a3ac9d;
+          --ink-faint: #737c6f;
+          --rule: #33392e;
+          --accent: #dea855;
+          --accent-ink: #f0c07d;
+          --accent-soft: #3a2f18;
+          --bezel: #0c0e0a;
+          --shadow-card:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+          --shadow-phone:
+            0 24px 48px -20px rgba(0, 0, 0, 0.7),
+            0 4px 12px -4px rgba(0, 0, 0, 0.5);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #14170f;
+        --surface: #1c2018;
+        --surface-2: #262b21;
+        --ink: #ece9de;
+        --ink-soft: #a3ac9d;
+        --ink-faint: #737c6f;
+        --rule: #33392e;
+        --accent: #dea855;
+        --accent-ink: #f0c07d;
+        --accent-soft: #3a2f18;
+        --bezel: #0c0e0a;
+        --shadow-card:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+        --shadow-phone:
+          0 24px 48px -20px rgba(0, 0, 0, 0.7),
+          0 4px 12px -4px rgba(0, 0, 0, 0.5);
+      }
+      :root[data-theme="light"] {
+        --bg: #f5f6f1;
+        --surface: #ffffff;
+        --surface-2: #eef0e9;
+        --ink: #1c231e;
+        --ink-soft: #5c665e;
+        --ink-faint: #8b948a;
+        --rule: #dcdfd5;
+        --accent: #b97a1e;
+        --accent-ink: #7a4d12;
+        --accent-soft: #f3e3c8;
+        --bezel: #1b1e1a;
+        --shadow-card:
+          0 1px 2px rgba(28, 35, 30, 0.06),
+          0 8px 20px -12px rgba(28, 35, 30, 0.18);
+        --shadow-phone:
+          0 24px 48px -20px rgba(20, 24, 18, 0.45),
+          0 4px 12px -4px rgba(20, 24, 18, 0.3);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+
+      a {
+        color: var(--accent-ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Header / Hero ---------- */
+      .hero {
+        padding: 56px 0 8px;
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--accent-ink);
+        background: var(--accent-soft);
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      h1.headline {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.7rem, 5.6vw, 2.5rem);
+        line-height: 1.5;
+        margin: 0 0 18px;
+        text-wrap: balance;
+        letter-spacing: 0.01em;
+      }
+      .headline em {
+        font-style: normal;
+        color: var(--accent-ink);
+      }
+      .sub {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+        max-width: 34em;
+        margin: 0 0 40px;
+      }
+
+      /* ---------- Section scaffolding ---------- */
+      section {
+        margin: 72px 0;
+      }
+      section:first-of-type {
+        margin-top: 0;
+      }
+      .section-head {
+        margin-bottom: 28px;
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+        margin: 0 0 8px;
+      }
+      h2.section-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin: 0;
+        text-wrap: balance;
+      }
+      p {
+        margin: 0 0 1em;
+      }
+      .lede {
+        color: var(--ink-soft);
+      }
+
+      hr.rule {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 72px 0;
+      }
+
+      /* ---------- Stat strip ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 28px 0;
+      }
+      .stat {
+        background: var(--surface);
+        padding: 20px 14px;
+        text-align: center;
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 1.6rem;
+        color: var(--accent-ink);
+        display: block;
+      }
+      .stat .label {
+        font-size: 0.76rem;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ---------- Step layout ---------- */
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 40px 0;
+      }
+      .step-text {
+        width: 100%;
+      }
+      .step-tag {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .step-text h3 {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0 0 8px;
+      }
+      .step-text p {
+        color: var(--ink-soft);
+        margin: 0;
+        font-size: 0.96rem;
+      }
+
+      /* ---------- Phone mockup ---------- */
+      .phone {
+        width: 264px;
+        flex-shrink: 0;
+        background: var(--bezel);
+        border-radius: 34px;
+        padding: 10px;
+        box-shadow: var(--shadow-phone);
+      }
+      .phone-screen {
+        background: #f4f4f2;
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        min-height: 380px;
+      }
+      .phone-notch {
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 84px;
+        height: 18px;
+        background: var(--bezel);
+        border-radius: 10px;
+        z-index: 5;
+      }
+      .phone-home {
+        position: absolute;
+        bottom: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: rgba(0, 0, 0, 0.18);
+        border-radius: 3px;
+        z-index: 5;
+      }
+
+      /* -- LINE chat mockup -- */
+      .line-app {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .line-bar {
+        background: var(--line-green);
+        color: #fff;
+        padding: 30px 14px 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .line-bar .oa-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #fff;
+        color: var(--line-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+      .line-body {
+        flex: 1;
+        background: #e3e5df;
+        padding: 14px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .bubble-row {
+        display: flex;
+        flex-direction: column;
+        max-width: 82%;
+      }
+      .bubble-row.mine {
+        align-self: flex-end;
+        align-items: flex-end;
+      }
+      .bubble-label {
+        font-size: 0.6rem;
+        color: var(--ink-faint);
+        margin-bottom: 2px;
+      }
+      .bubble {
+        background: #fff;
+        border-radius: 14px;
+        padding: 8px 11px;
+        font-size: 0.78rem;
+        line-height: 1.5;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+      }
+      .bubble.mine {
+        background: #a4e079;
+      }
+      .bubble .badge-fast {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.55rem;
+        color: var(--line-green);
+        background: #eafbf0;
+        border-radius: 3px;
+        padding: 1px 5px;
+        margin-bottom: 4px;
+        letter-spacing: 0.04em;
+      }
+      .bubble-time {
+        font-size: 0.58rem;
+        color: var(--ink-faint);
+        margin-top: 2px;
+      }
+
+      /* -- notification mockup -- */
+      .notif-screen {
+        background: linear-gradient(160deg, #3a4560, #20263a);
+        height: 100%;
+        padding: 54px 12px 12px;
+      }
+      .notif-clock {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.92);
+        font-family: var(--font-mono);
+        font-size: 2.1rem;
+        font-variant-numeric: tabular-nums;
+        margin-bottom: 22px;
+      }
+      .notif-card {
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(4px);
+        border-radius: 14px;
+        padding: 10px 11px;
+        display: flex;
+        gap: 9px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      }
+      .notif-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--line-green);
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .notif-copy .app {
+        font-size: 0.68rem;
+        color: #444;
+        font-weight: 600;
+      }
+      .notif-copy .title {
+        font-size: 0.76rem;
+        color: #111;
+        font-weight: 700;
+        margin-top: 1px;
+      }
+      .notif-copy .body {
+        font-size: 0.72rem;
+        color: #333;
+        margin-top: 2px;
+        line-height: 1.5;
+      }
+
+      /* -- admin dashboard mockup -- */
+      .admin-screen {
+        background: var(--surface);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-top: 26px;
+      }
+      .admin-top {
+        font-size: 0.66rem;
+        color: var(--ink-faint);
+        text-align: center;
+        padding: 4px 0 10px;
+        font-family: var(--font-mono);
+      }
+      .admin-body {
+        flex: 1;
+        padding: 0 10px;
+        overflow: hidden;
+      }
+      .admin-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .admin-stat {
+        border: 1px solid #e6e7e1;
+        border-radius: 12px;
+        background: #fff;
+        text-align: center;
+        padding: 8px 2px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      }
+      .admin-stat .v {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        font-family: var(--font-mono);
+      }
+      .admin-stat .l {
+        font-size: 0.56rem;
+        color: #6b7280;
+        margin-top: 2px;
+      }
+      .admin-h2 {
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: #374151;
+        margin: 8px 0 4px;
+      }
+      .admin-note {
+        font-size: 0.55rem;
+        color: #6b7280;
+        margin: 0 0 8px;
+        line-height: 1.5;
+      }
+      .admin-card {
+        border: 1px solid #e6e7e1;
+        border-radius: 14px;
+        background: #fff;
+        padding: 8px 9px;
+        margin-bottom: 6px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      }
+      .admin-card .row {
+        display: flex;
+        justify-content: space-between;
+      }
+      .admin-card .time {
+        font-size: 0.56rem;
+        color: #9ca3af;
+      }
+      .admin-card .name {
+        font-size: 0.56rem;
+        color: #6b7280;
+        font-weight: 600;
+      }
+      .admin-card .q {
+        font-size: 0.68rem;
+        color: #111827;
+        margin-top: 3px;
+      }
+      .admin-card .btn {
+        margin-top: 6px;
+        display: inline-block;
+        background: #f3f4f6;
+        color: #111827;
+        font-size: 0.56rem;
+        padding: 4px 8px;
+        border-radius: 8px;
+      }
+      .admin-nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid #e6e7e1;
+        padding: 6px 0 4px;
+        background: #fff;
+      }
+      .admin-nav div {
+        text-align: center;
+        font-size: 0.52rem;
+        color: #6b7280;
+      }
+      .admin-nav div.active {
+        color: #2563eb;
+      }
+      .admin-nav .ic {
+        font-size: 0.95rem;
+        display: block;
+      }
+
+      /* -- broadcast mockup (compact card) -- */
+      .bcast-screen {
+        background: var(--surface);
+        height: 100%;
+        padding: 26px 10px 10px;
+      }
+      .bcast-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 6px;
+      }
+      .bcast-box {
+        border: 1px solid #e6e7e1;
+        border-radius: 10px;
+        background: #fafafa;
+        padding: 8px;
+        font-size: 0.64rem;
+        color: #374151;
+        line-height: 1.6;
+        min-height: 56px;
+      }
+      .bcast-warn {
+        font-size: 0.56rem;
+        color: #b45309;
+        margin: 6px 0;
+      }
+      .bcast-btn {
+        background: #dc2626;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px;
+        font-size: 0.66rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      .bcast-hist-title {
+        font-size: 0.62rem;
+        font-weight: 700;
+        color: #374151;
+        margin-bottom: 4px;
+      }
+      .bcast-card {
+        border: 1px solid #e6e7e1;
+        border-radius: 10px;
+        padding: 7px 8px;
+        background: #fff;
+        margin-bottom: 5px;
+      }
+      .bcast-card .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .bcast-card .time {
+        font-size: 0.54rem;
+        color: #9ca3af;
+      }
+      .bcast-badge {
+        font-size: 0.5rem;
+        background: #dcfce7;
+        color: #166534;
+        padding: 1px 6px;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+      .bcast-card .msg {
+        font-size: 0.6rem;
+        color: #111827;
+        margin-top: 3px;
+      }
+
+      /* ---------- Feature cards ---------- */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .feature-card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .feature-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.06rem;
+        font-weight: 500;
+        margin: 0 0 6px;
+      }
+      .feature-card p {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        margin: 0;
+      }
+
+      /* ---------- Tech strip ---------- */
+      .tech-list {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--rule);
+      }
+      .tech-item {
+        display: grid;
+        grid-template-columns: 9.5em 1fr;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--rule);
+        align-items: baseline;
+      }
+      .tech-item .name {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent-ink);
+      }
+      .tech-item .desc {
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Scope note ---------- */
+      .scope {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 20px 22px;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+      .scope strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .scope ul {
+        margin: 8px 0 0;
+        padding-left: 1.2em;
+      }
+      .scope li {
+        margin-bottom: 4px;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 96px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule);
+        font-size: 0.82rem;
+        color: var(--ink-faint);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 620px) {
+        .hero {
+          padding-top: 72px;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        .step-text {
+          padding-top: 34px;
+        }
+      }
+
+      /* ---------- Print ---------- */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          background: #fff;
+        }
+        .wrap {
+          max-width: none;
+          padding: 0 8px 20px;
+        }
+        .hero {
+          padding-top: 12px;
+        }
+        section {
+          margin: 36px 0;
+        }
+
+        /* keep visual units intact instead of splitting mid-card across pages */
+        .step,
+        .phone,
+        .feature-card,
+        .stats,
+        .stat,
+        .tech-item,
+        .admin-card,
+        .bcast-card,
+        .scope,
+        .notif-card,
+        p,
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          orphans: 3;
+          widows: 3;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+
+        /* don't leave a heading stranded at the bottom of a page */
+        h1.headline,
+        h2.section-title,
+        h3,
+        .section-head {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+
+        hr.rule {
+          break-before: avoid;
+          page-break-before: avoid;
+        }
+        .phone {
+          box-shadow: none;
+          border: 1px solid #cfd2c8;
+        }
+        .feature-card,
+        .admin-card,
+        .bcast-card,
+        .tech-item {
+          box-shadow: none;
+        }
+        footer {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p style="margin: 0 0 20px; font-size: 0.92rem">
+        <a
+          href="../index.html#works"
+          style="
+            color: var(--ink);
+            opacity: 0.7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+          "
+          >← 制作事例一覧に戻る</a
+        >
+      </p>
+
+      <header class="hero">
+        <span class="eyebrow">導入レポート — LINE自動応答ツール</span>
+        <h1 class="headline">
+          「また同じ質問か…」を、<em>AIに任せてみた。</em>
+        </h1>
+        <p class="sub">
+          毎日届く「営業時間は？」「料金は？」に、AIが代わりに即答。
+          答えられない質問だけがオーナーのLINEに届く——そんな仕組みを作りました。
+        </p>
+      </header>
+
+      <section aria-label="実際のやり取りの例">
+        <div class="step">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch"></div>
+              <div class="line-app">
+                <div class="line-bar">
+                  <span class="oa-icon">公</span>お店の公式アカウント
+                </div>
+                <div class="line-body">
+                  <div class="bubble-row mine">
+                    <div class="bubble-label">お客様</div>
+                    <div class="bubble mine">営業時間を教えてください</div>
+                    <div class="bubble-time">14:32</div>
+                  </div>
+                  <div class="bubble-row">
+                    <div class="bubble-label">自動応答</div>
+                    <div class="bubble">
+                      <span class="badge-fast">AUTO・2秒</span><br />
+                      平日10:00〜19:00、土日祝10:00〜17:00です。
+                    </div>
+                    <div class="bubble-time">14:32</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-home"></div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="lede" style="margin-top: 0">
+              お客様から見ると、いつも通りLINEで質問するだけ。深夜でも定休日でも、数秒で返信が届きます。
+              営業時間・料金・アクセスなど、あらかじめ登録した「よくある質問」の範囲でAIが判断して回答します。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">BACKGROUND</p>
+          <h2 class="section-title">きっかけは、休めないこと</h2>
+        </div>
+        <p>
+          これまでは、LINEに届く質問ひとつひとつに手作業で返信してきました。
+          営業時間、料金、アクセス方法——聞かれることの多くは、実は毎回同じ内容です。
+          それでも「早く返信しなきゃ」というプレッシャーは休日や営業時間外にもついてまわり、
+          気持ちの休まる時間がなかなか取れずにいました。
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <span class="num">10〜15</span
+            ><span class="label">1日あたりの問い合わせ件数</span>
+          </div>
+          <div class="stat">
+            <span class="num">約8割</span
+            ><span class="label">自動応答でカバーする目標</span>
+          </div>
+          <div class="stat">
+            <span class="num">2,000〜3,000円</span
+            ><span class="label">月額コストの目安</span>
+          </div>
+        </div>
+        <p class="lede">
+          そこで、「よくある質問」だけをAIに任せ、判断に迷う質問だけを自分に回す仕組みを作ることにしました。
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">HOW IT WORKS</p>
+          <h2 class="section-title">3つの画面でわかる仕組み</h2>
+        </div>
+
+        <div class="step">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch"></div>
+              <div class="notif-screen">
+                <div class="notif-clock">14:33</div>
+                <div class="notif-card">
+                  <div class="notif-icon">L</div>
+                  <div class="notif-copy">
+                    <div class="app">LINE ・ たった今</div>
+                    <div class="title">【未回答の質問】</div>
+                    <div class="body">
+                      お客様（田中さん）より:<br />駐車場はありますか？<br />トーク一覧から「田中」さんを探してご返信ください。
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-home"></div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">わからない質問は</p>
+            <h3>オーナーのLINEに直接届く</h3>
+            <p>
+              登録した「よくある質問」に含まれない内容は、AIが無理に答えず「確認して改めてご連絡します」と保留の返信をしたうえで、
+              オーナーのLINEに通知します。誰からの質問かも表示されるので、LINEアプリのトーク一覧からすぐに見つけて返信できます。
+            </p>
+          </div>
+        </div>
+
+        <div class="step reverse">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch"></div>
+              <div class="admin-screen">
+                <div class="admin-top">admin.example.app</div>
+                <div class="admin-body">
+                  <div class="admin-stats">
+                    <div class="admin-stat">
+                      <div class="v">12</div>
+                      <div class="l">本日の問い合わせ</div>
+                    </div>
+                    <div class="admin-stat">
+                      <div class="v">83%</div>
+                      <div class="l">自動応答率</div>
+                    </div>
+                    <div class="admin-stat">
+                      <div class="v">2</div>
+                      <div class="l">要対応</div>
+                    </div>
+                  </div>
+                  <div class="admin-h2">要対応の質問</div>
+                  <p class="admin-note">
+                    実際の返信はLINEアプリから。ここでは記録のみ行います。
+                  </p>
+                  <div class="admin-card">
+                    <div class="row">
+                      <span class="time">14:33</span
+                      ><span class="name">田中さん</span>
+                    </div>
+                    <div class="q">駐車場はありますか？</div>
+                    <span class="btn">対応済みにする</span>
+                  </div>
+                  <div class="admin-card">
+                    <div class="row">
+                      <span class="time">11:02</span
+                      ><span class="name">佐藤さん</span>
+                    </div>
+                    <div class="q">当日予約は可能ですか？</div>
+                    <span class="btn">対応済みにする</span>
+                  </div>
+                </div>
+                <div class="admin-nav">
+                  <div class="active"><span class="ic">🏠</span>ホーム</div>
+                  <div><span class="ic">❓</span>FAQ</div>
+                  <div><span class="ic">📣</span>配信</div>
+                  <div><span class="ic">⚙️</span>設定</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">状況の確認は</p>
+            <h3>スマホの管理画面をひと目見るだけ</h3>
+            <p>
+              今日何件問い合わせがあり、そのうち何割をAIが自動対応できたか、対応が必要な質問は何件残っているか——
+              専用の管理画面で一目でわかります。パソコンは不要で、スマホのブラウザだけで完結します。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">FEATURES</p>
+          <h2 class="section-title">日々の運用でできること</h2>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>FAQの追加・編集</h3>
+            <p>
+              「よくある質問」と回答は、いつでも管理画面から自由に追加・編集できます。
+              一時的に使わない質問は「無効」にして、表示順も入れ替え可能。専門知識は不要です。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>お知らせの一斉配信</h3>
+            <div
+              class="phone"
+              style="width: 100%; max-width: 280px; margin: 14px auto"
+            >
+              <div class="phone-screen" style="min-height: auto">
+                <div class="bcast-screen" style="padding-bottom: 14px">
+                  <div class="bcast-title">お知らせを配信</div>
+                  <div class="bcast-box">
+                    本日は臨時休業とさせていただきます。ご不便をおかけし申し訳ございません。
+                  </div>
+                  <div class="bcast-warn">
+                    送信すると友だち全員に配信されます。取り消せません。
+                  </div>
+                  <div class="bcast-btn">配信する</div>
+                  <div class="bcast-hist-title">配信履歴</div>
+                  <div class="bcast-card">
+                    <div class="row">
+                      <span class="time">7/3 09:00</span
+                      ><span class="bcast-badge">送信済み</span>
+                    </div>
+                    <div class="msg">夏季限定メニューを始めました。</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>
+              セールや休業のお知らせなどを、友だち登録している全員に一斉送信できます。過去の配信履歴も一覧で確認できます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>スマホだけで完結</h3>
+            <p>
+              管理画面はスマホのホーム画面に追加すれば、アプリのような感覚で使えます。パソコンを開く必要はありません。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>安全な設定管理</h3>
+            <p>
+              ID・パスワードでログインを保護。LINEやAIの接続情報も、オーナー本人だけが管理画面から確認・更新できます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">UNDER THE HOOD</p>
+          <h2 class="section-title">裏側で動いているもの（簡単に）</h2>
+        </div>
+        <p class="lede" style="margin-bottom: 20px">
+          専門的な話は抜きにして、それぞれ何をしているかだけご紹介します。
+        </p>
+        <div class="tech-list">
+          <div class="tech-item">
+            <span class="name">LINE API</span>
+            <span class="desc"
+              >お客様とのメッセージのやり取りそのものを担当。LINE公式アカウントの裏側で動きます。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Claude（AI）</span>
+            <span class="desc"
+              >届いた質問の意味を理解し、登録済みのFAQの範囲で答えられるかを判断します。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">アプリ本体</span>
+            <span class="desc"
+              >管理画面やメッセージのやり取りを24時間動かし続けるサーバー部分です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">データベース</span>
+            <span class="desc"
+              >FAQの内容や、これまでの問い合わせ履歴を安全に保存しておく場所です。</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">SCOPE</p>
+          <h2 class="section-title">できないこと（あえて対象外にしたもの）</h2>
+        </div>
+        <div class="scope">
+          <p style="margin-bottom: 0">
+            <strong
+              >今回はまず「よくある質問への自動返信」に絞って導入しました。</strong
+            >
+            以下は意図的に対象外としています。
+          </p>
+          <ul>
+            <li>予約の受付</li>
+            <li>顧客情報の管理（顧客カルテ）</li>
+            <li>決済</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <span>LINE bot + AI自動応答ツール（案件1・模擬案件）</span>
+        <span>2026年7月 導入</span>
+      </footer>
+
+      <div style="margin: 48px 0 0; text-align: center">
+        <p style="margin: 0 0 16px">
+          <a
+            href="../index.html#contact"
+            style="
+              display: inline-block;
+              padding: 14px 32px;
+              border-radius: 8px;
+              background: var(--accent);
+              color: #fff;
+              font-weight: 700;
+              text-decoration: none;
+            "
+            >この仕組みを自社向けに相談する →</a
+          >
+        </p>
+        <p style="margin: 0; font-size: 0.92rem">
+          <a
+            href="../index.html#works"
+            style="
+              color: var(--ink);
+              opacity: 0.7;
+              text-decoration: underline;
+              text-underline-offset: 3px;
+            "
+            >← 他の制作事例を見る</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

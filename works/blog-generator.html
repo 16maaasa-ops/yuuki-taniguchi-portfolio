@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>「今週もあと1本…」を、AIに任せてみた｜ Yuuki Taniguchi</title>
+
+    <style>
+      :root {
+        --bg: #f3f1e8;
+        --surface: #ffffff;
+        --surface-2: #ece7d5;
+        --ink: #201f17;
+        --ink-soft: #635f4e;
+        --ink-faint: #8d8873;
+        --rule: #ded6bd;
+        --accent: #2f6467;
+        --accent-ink: #1f4749;
+        --accent-soft: #dfe9e8;
+        --sheets-green: #188038;
+        --wp-blue: #21759b;
+        --danger: #c23b3b;
+        --bezel: #1b1e1a;
+
+        --font-display:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-body:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-mono:
+          ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+        --shadow-card:
+          0 1px 2px rgba(28, 35, 30, 0.06),
+          0 8px 20px -12px rgba(28, 35, 30, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(20, 24, 18, 0.4),
+          0 4px 12px -4px rgba(20, 24, 18, 0.28);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #15170f;
+          --surface: #1d2017;
+          --surface-2: #262a1f;
+          --ink: #eae6d8;
+          --ink-soft: #a6a18e;
+          --ink-faint: #77735f;
+          --rule: #34352a;
+          --accent: #6fb5b4;
+          --accent-ink: #a8d9d7;
+          --accent-soft: #1e2e2c;
+          --bezel: #0c0e0a;
+          --shadow-card:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+          --shadow-window:
+            0 24px 48px -20px rgba(0, 0, 0, 0.7),
+            0 4px 12px -4px rgba(0, 0, 0, 0.5);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #15170f;
+        --surface: #1d2017;
+        --surface-2: #262a1f;
+        --ink: #eae6d8;
+        --ink-soft: #a6a18e;
+        --ink-faint: #77735f;
+        --rule: #34352a;
+        --accent: #6fb5b4;
+        --accent-ink: #a8d9d7;
+        --accent-soft: #1e2e2c;
+        --bezel: #0c0e0a;
+        --shadow-card:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+        --shadow-window:
+          0 24px 48px -20px rgba(0, 0, 0, 0.7),
+          0 4px 12px -4px rgba(0, 0, 0, 0.5);
+      }
+      :root[data-theme="light"] {
+        --bg: #f3f1e8;
+        --surface: #ffffff;
+        --surface-2: #ece7d5;
+        --ink: #201f17;
+        --ink-soft: #635f4e;
+        --ink-faint: #8d8873;
+        --rule: #ded6bd;
+        --accent: #2f6467;
+        --accent-ink: #1f4749;
+        --accent-soft: #dfe9e8;
+        --bezel: #1b1e1a;
+        --shadow-card:
+          0 1px 2px rgba(28, 35, 30, 0.06),
+          0 8px 20px -12px rgba(28, 35, 30, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(20, 24, 18, 0.4),
+          0 4px 12px -4px rgba(20, 24, 18, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+
+      a {
+        color: var(--accent-ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Header / Hero ---------- */
+      .hero {
+        padding: 56px 0 8px;
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--accent-ink);
+        background: var(--accent-soft);
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      h1.headline {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.7rem, 5.6vw, 2.5rem);
+        line-height: 1.5;
+        margin: 0 0 18px;
+        text-wrap: balance;
+        letter-spacing: 0.01em;
+      }
+      .headline em {
+        font-style: normal;
+        color: var(--accent-ink);
+      }
+      .sub {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+        max-width: 34em;
+        margin: 0 0 40px;
+      }
+
+      /* ---------- Section scaffolding ---------- */
+      section {
+        margin: 72px 0;
+      }
+      section:first-of-type {
+        margin-top: 0;
+      }
+      .section-head {
+        margin-bottom: 28px;
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+        margin: 0 0 8px;
+      }
+      h2.section-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin: 0;
+        text-wrap: balance;
+      }
+      p {
+        margin: 0 0 1em;
+      }
+      .lede {
+        color: var(--ink-soft);
+      }
+
+      hr.rule {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 72px 0;
+      }
+
+      /* ---------- Stat strip ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 28px 0;
+      }
+      .stat {
+        background: var(--surface);
+        padding: 20px 14px;
+        text-align: center;
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 1.5rem;
+        color: var(--accent-ink);
+        display: block;
+      }
+      .stat .label {
+        font-size: 0.74rem;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ---------- Step layout ---------- */
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 40px 0;
+      }
+      .step-text {
+        width: 100%;
+      }
+      .step-tag {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .step-text h3 {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0 0 8px;
+      }
+      .step-text p {
+        color: var(--ink-soft);
+        margin: 0;
+        font-size: 0.96rem;
+      }
+
+      /* ---------- Browser window mockup (spreadsheet / WordPress) ---------- */
+      .browser {
+        width: 300px;
+        flex-shrink: 0;
+        background: var(--bezel);
+        border-radius: 14px;
+        padding: 7px 7px 0;
+        box-shadow: var(--shadow-window);
+      }
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 8px;
+      }
+      .browser-bar .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .browser-bar .dot.r {
+        background: #ff5f57;
+      }
+      .browser-bar .dot.y {
+        background: #febc2e;
+      }
+      .browser-bar .dot.g {
+        background: #28c840;
+      }
+      .browser-url {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-left: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .browser-screen {
+        background: #fff;
+        border-radius: 0 0 9px 9px;
+        overflow: hidden;
+        min-height: 250px;
+      }
+
+      /* -- spreadsheet mockup -- */
+      .sheet-toolbar {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e1e3e1;
+        padding: 6px 9px;
+        font-size: 0.6rem;
+        color: #5f6368;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .sheet-toolbar .menu-open {
+        background: var(--sheets-green);
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .sheet-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.56rem;
+      }
+      .sheet-table th {
+        background: #f8f9fa;
+        color: #5f6368;
+        font-weight: 600;
+        padding: 5px 6px;
+        border: 1px solid #e1e3e1;
+        text-align: left;
+      }
+      .sheet-table td {
+        padding: 6px 6px;
+        border: 1px solid #e1e3e1;
+        color: #3c4043;
+      }
+      .sheet-table tr.selected td {
+        background: #e8f0fe;
+      }
+      .status-pill {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.5rem;
+        padding: 1px 6px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .status-pill.wait {
+        background: #ececec;
+        color: #5f6368;
+      }
+      .status-pill.working {
+        background: #fef3d6;
+        color: #a1670a;
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      .status-pill.done {
+        background: #e3ecfb;
+        color: #1a56b0;
+      }
+      .status-pill.posted {
+        background: #e1f2e5;
+        color: #1a7a37;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.55;
+        }
+      }
+
+      /* -- WordPress admin mockup -- */
+      .wp-topbar {
+        background: var(--wp-blue);
+        color: #fff;
+        font-size: 0.58rem;
+        padding: 6px 9px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .wp-list-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 0.62rem;
+        color: #1d2327;
+        font-weight: 700;
+        padding: 8px 9px;
+        border-bottom: 1px solid #e1e1e1;
+      }
+      .wp-list-head span {
+        font-size: 0.54rem;
+        color: #646970;
+        font-weight: 400;
+      }
+      .wp-row {
+        padding: 8px 9px;
+        border-bottom: 1px solid #f0f0f1;
+      }
+      .wp-row.new {
+        background: #f3f8f2;
+      }
+      .wp-row .title {
+        font-size: 0.66rem;
+        color: var(--wp-blue);
+        font-weight: 600;
+        line-height: 1.4;
+      }
+      .wp-badge-draft {
+        display: inline-block;
+        background: #f0f0f1;
+        color: #646970;
+        font-size: 0.5rem;
+        padding: 1px 6px;
+        border-radius: 3px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+      .wp-row .meta {
+        font-size: 0.54rem;
+        color: #8c8f94;
+        margin-top: 3px;
+      }
+
+      /* ---------- Feature cards ---------- */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .feature-card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .feature-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.06rem;
+        font-weight: 500;
+        margin: 0 0 6px;
+      }
+      .feature-card p {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        margin: 0;
+      }
+
+      /* -- mini status legend embedded in a feature card -- */
+      .mini-status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 14px 0;
+        padding: 12px;
+        background: #fafaf6;
+        border: 1px solid #e6e2d2;
+        border-radius: 10px;
+      }
+
+      /* ---------- Tech strip ---------- */
+      .tech-list {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--rule);
+      }
+      .tech-item {
+        display: grid;
+        grid-template-columns: 9.5em 1fr;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--rule);
+        align-items: baseline;
+      }
+      .tech-item .name {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent-ink);
+      }
+      .tech-item .desc {
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Scope note ---------- */
+      .scope {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 20px 22px;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+      .scope strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .scope ul {
+        margin: 8px 0 0;
+        padding-left: 1.2em;
+      }
+      .scope li {
+        margin-bottom: 4px;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 96px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule);
+        font-size: 0.82rem;
+        color: var(--ink-faint);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 620px) {
+        .hero {
+          padding-top: 72px;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        .step-text {
+          padding-top: 34px;
+        }
+      }
+
+      /* ---------- Print ---------- */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          background: #fff;
+        }
+        .wrap {
+          max-width: none;
+          padding: 0 8px 20px;
+        }
+        .hero {
+          padding-top: 12px;
+        }
+        section {
+          margin: 36px 0;
+        }
+        .step,
+        .browser,
+        .feature-card,
+        .stats,
+        .stat,
+        .tech-item,
+        .wp-row,
+        .scope,
+        p,
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          orphans: 3;
+          widows: 3;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        h1.headline,
+        h2.section-title,
+        h3,
+        .section-head {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+        hr.rule {
+          break-before: avoid;
+          page-break-before: avoid;
+        }
+        .browser {
+          box-shadow: none;
+          border: 1px solid #cfd2c8;
+        }
+        .feature-card,
+        .wp-row,
+        .tech-item {
+          box-shadow: none;
+        }
+        footer {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p style="margin: 0 0 20px; font-size: 0.92rem">
+        <a
+          href="../index.html#works"
+          style="
+            color: var(--ink);
+            opacity: 0.7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+          "
+          >← 制作事例一覧に戻る</a
+        >
+      </p>
+
+      <header class="hero">
+        <span class="eyebrow">導入レポート — ブログ記事自動生成ツール</span>
+        <h1 class="headline">
+          「今週もあと1本…」を、<em>AIに任せてみた。</em>
+        </h1>
+        <p class="sub">
+          週3本のノルマ、1本3時間。ネタ出し・構成・執筆を繰り返すだけで週9時間が消えていた。
+          キーワードを入れるだけでAIが下書きを書き、WordPressに保存する——そんな仕組みを作りました。
+        </p>
+      </header>
+
+      <section aria-label="実際の操作画面">
+        <div class="step">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">docs.google.com/spreadsheets</span>
+            </div>
+            <div class="browser-screen">
+              <div class="sheet-toolbar">
+                記事自動生成 <span class="menu-open">▸ 選択行を生成</span>
+              </div>
+              <table class="sheet-table">
+                <tr>
+                  <th>キーワード</th>
+                  <th>ステータス</th>
+                  <th>タイトル</th>
+                </tr>
+                <tr class="selected">
+                  <td>勤怠管理<br />エクセル 限界</td>
+                  <td><span class="status-pill working">生成中</span></td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>有給休暇<br />管理 方法</td>
+                  <td><span class="status-pill wait">未生成</span></td>
+                  <td>—</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="lede" style="margin-top: 0">
+              担当者から見ると、いつも通りスプレッドシートにキーワードを入れるだけ。
+              対象の行を選んでメニューから「選択行を生成」を押すと、あとはAIが記事の下書きを書き上げてくれます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">BACKGROUND</p>
+          <h2 class="section-title">きっかけは、書く時間が足りないこと</h2>
+        </div>
+        <p>
+          これまでは、ネタ出し・構成づくり・執筆をすべて手作業でこなしてきました。
+          キーワードは決まっていても、白紙から2,000〜3,000文字の記事を書き上げるには
+          毎回まとまった時間が必要で、気づけば1本に3時間、週3本のノルマで週9時間が
+          執筆だけに消えていました。
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <span class="num">週9時間</span
+            ><span class="label">これまで執筆に消えていた時間</span>
+          </div>
+          <div class="stat">
+            <span class="num">30分以下</span
+            ><span class="label">1本あたりの目標編集時間</span>
+          </div>
+          <div class="stat">
+            <span class="num">500〜1,000円</span
+            ><span class="label">月額コストの目安</span>
+          </div>
+        </div>
+        <p class="lede">
+          そこで、「下書きの60〜70点」をAIに任せ、人間は10分程度の編集で90点に仕上げる——
+          そんな役割分担の仕組みを作ることにしました。
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">HOW IT WORKS</p>
+          <h2 class="section-title">2つの画面でわかる仕組み</h2>
+        </div>
+
+        <div class="step">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">docs.google.com/spreadsheets</span>
+            </div>
+            <div class="browser-screen">
+              <div class="sheet-toolbar">
+                記事自動生成 <span class="menu-open">▸ 選択行を生成</span>
+              </div>
+              <table class="sheet-table">
+                <tr>
+                  <th>キーワード</th>
+                  <th>ステータス</th>
+                  <th>タイトル</th>
+                </tr>
+                <tr>
+                  <td>勤怠管理<br />エクセル 限界</td>
+                  <td><span class="status-pill posted">投稿済み</span></td>
+                  <td>「勤怠管理はエクセルで十分」は本当か？</td>
+                </tr>
+                <tr>
+                  <td>有給休暇<br />管理 方法</td>
+                  <td><span class="status-pill wait">未生成</span></td>
+                  <td>—</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">キーワードを入れるだけで</p>
+            <h3>タイトル・ステータスが自動で埋まっていく</h3>
+            <p>
+              サブキーワード（盛り込みたい観点）も一緒に渡せます。生成が終わると
+              タイトルとステータスがその場で反映されるので、どこまで進んだかが一覧で分かります。
+            </p>
+          </div>
+        </div>
+
+        <div class="step reverse">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">example.com/wp-admin/edit.php</span>
+            </div>
+            <div class="browser-screen">
+              <div class="wp-topbar">投稿 &gt; 新規追加</div>
+              <div class="wp-list-head">
+                タイトル <span>すべて (12) | 下書き (1)</span>
+              </div>
+              <div class="wp-row new">
+                <div class="title">
+                  「勤怠管理はエクセルで十分」は本当か？<span
+                    class="wp-badge-draft"
+                    >下書き</span
+                  >
+                </div>
+                <div class="meta">たった今 — 未公開</div>
+              </div>
+              <div class="wp-row">
+                <div class="title" style="color: #1d2327">
+                  36協定 残業時間の上限、正しく把握できていますか
+                </div>
+                <div class="meta">3日前 — 公開済み</div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">気づけば</p>
+            <h3>WordPressに下書きができている</h3>
+            <p>
+              タイトル・本文・メタディスクリプションが揃った状態で下書き保存されます。
+              自動で公開されることはなく、必ず人間が中身を確認してから公開するかどうかを判断します。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">FEATURES</p>
+          <h2 class="section-title">日々の運用でできること</h2>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>サンプル記事のトーンマナーを再現</h3>
+            <p>
+              クライアントが「理想」として共有したサンプル記事を模範に、文体・構成（導入＋H2見出し×3＋まとめ）を
+              プロンプトで再現します。オリジナルの表現で書くよう指示しているので、丸写しにはなりません。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>生成ステータスがひと目でわかる</h3>
+            <div class="mini-status">
+              <span class="status-pill wait">未生成</span>
+              <span class="status-pill working">生成中</span>
+              <span class="status-pill done">完了</span>
+              <span class="status-pill posted">投稿済み</span>
+            </div>
+            <p>
+              どの記事がどこまで進んでいるかが、スプレッドシートのステータス列を見るだけで分かります。
+              失敗した行だけがエラーになり、他の行の処理には影響しません。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>メタディスクリプションも自動生成</h3>
+            <p>
+              検索結果に表示される要約文もAIが一緒に作成します。記事タイトル・本文だけでなく、
+              SEOに関わる項目もまとめて下書きとして用意されます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>下書き保存のみ、公開は人間が判断</h3>
+            <p>
+              このツールが行うのはWordPressへの下書き保存まで。誤って自動公開されてしまう心配はなく、
+              必ず担当者の目でレビューしてから公開する運用にしています。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">UNDER THE HOOD</p>
+          <h2 class="section-title">裏側で動いているもの（簡単に）</h2>
+        </div>
+        <p class="lede" style="margin-bottom: 20px">
+          専門的な話は抜きにして、それぞれ何をしているかだけご紹介します。
+        </p>
+        <div class="tech-list">
+          <div class="tech-item">
+            <span class="name">Google スプレッドシート</span>
+            <span class="desc"
+              >キーワードの入力と、生成の進み具合を記録しておく場所です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Google Apps Script</span>
+            <span class="desc"
+              >スプレッドシートのメニュー操作をきっかけに、AIとWordPressへの連携を裏側で動かします。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Claude（AI）</span>
+            <span class="desc"
+              >キーワードから、タイトル・本文・メタディスクリプションをまとめて書き上げます。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">WordPress</span>
+            <span class="desc"
+              >生成された記事を下書きとして保存しておくブログ本体です。</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">SCOPE</p>
+          <h2 class="section-title">できないこと（あえて対象外にしたもの）</h2>
+        </div>
+        <div class="scope">
+          <p style="margin-bottom: 0">
+            <strong
+              >今回はまず「記事下書きの自動生成」に絞って導入しました。</strong
+            >
+            以下は意図的に対象外としています。
+          </p>
+          <ul>
+            <li>画像の挿入（クライアント側で手動設定）</li>
+            <li>記事の自動公開（下書き保存のみ。公開判断は必ず人間）</li>
+            <li>
+              コピペチェックの自動判定（プロンプトで指示するのみ。公開前の確認は人間が行う）
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <span>ブログ記事自動生成ツール（案件2・模擬案件）</span>
+        <span>2026年7月 導入</span>
+      </footer>
+
+      <div style="margin: 48px 0 0; text-align: center">
+        <p style="margin: 0 0 16px">
+          <a
+            href="../index.html#contact"
+            style="
+              display: inline-block;
+              padding: 14px 32px;
+              border-radius: 8px;
+              background: var(--accent);
+              color: #fff;
+              font-weight: 700;
+              text-decoration: none;
+            "
+            >この仕組みを自社向けに相談する →</a
+          >
+        </p>
+        <p style="margin: 0; font-size: 0.92rem">
+          <a
+            href="../index.html#works"
+            style="
+              color: var(--ink);
+              opacity: 0.7;
+              text-decoration: underline;
+              text-underline-offset: 3px;
+            "
+            >← 他の制作事例を見る</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

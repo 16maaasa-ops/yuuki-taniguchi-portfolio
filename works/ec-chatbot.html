@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      「今日中に返信できるかな…」を、AIに任せてみた｜ Yuuki Taniguchi
+    </title>
+
+    <style>
+      :root {
+        --bg: #faf7f2;
+        --surface: #ffffff;
+        --surface-2: #f2ede1;
+        --ink: #2c251a;
+        --ink-soft: #6b6048;
+        --ink-faint: #9c9076;
+        --rule: #e4d9c0;
+        --accent: #547042;
+        --accent-ink: #37452d;
+        --accent-soft: #e5ece0;
+        --danger: #c23b3b;
+        --bezel: #1b1e1a;
+
+        --font-display:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-body:
+          "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+        --font-mono:
+          ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+        --shadow-card:
+          0 1px 2px rgba(28, 35, 30, 0.06),
+          0 8px 20px -12px rgba(28, 35, 30, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(20, 24, 18, 0.4),
+          0 4px 12px -4px rgba(20, 24, 18, 0.28);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #14170f;
+          --surface: #1c2018;
+          --surface-2: #262b21;
+          --ink: #ece9de;
+          --ink-soft: #a3ac9d;
+          --ink-faint: #737c6f;
+          --rule: #33392e;
+          --accent: #9bc98a;
+          --accent-ink: #c8e0ba;
+          --accent-soft: #2b3a24;
+          --bezel: #0c0e0a;
+          --shadow-card:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+          --shadow-window:
+            0 24px 48px -20px rgba(0, 0, 0, 0.7),
+            0 4px 12px -4px rgba(0, 0, 0, 0.5);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #14170f;
+        --surface: #1c2018;
+        --surface-2: #262b21;
+        --ink: #ece9de;
+        --ink-soft: #a3ac9d;
+        --ink-faint: #737c6f;
+        --rule: #33392e;
+        --accent: #9bc98a;
+        --accent-ink: #c8e0ba;
+        --accent-soft: #2b3a24;
+        --bezel: #0c0e0a;
+        --shadow-card:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+        --shadow-window:
+          0 24px 48px -20px rgba(0, 0, 0, 0.7),
+          0 4px 12px -4px rgba(0, 0, 0, 0.5);
+      }
+      :root[data-theme="light"] {
+        --bg: #faf7f2;
+        --surface: #ffffff;
+        --surface-2: #f2ede1;
+        --ink: #2c251a;
+        --ink-soft: #6b6048;
+        --ink-faint: #9c9076;
+        --rule: #e4d9c0;
+        --accent: #547042;
+        --accent-ink: #37452d;
+        --accent-soft: #e5ece0;
+        --bezel: #1b1e1a;
+        --shadow-card:
+          0 1px 2px rgba(28, 35, 30, 0.06),
+          0 8px 20px -12px rgba(28, 35, 30, 0.18);
+        --shadow-window:
+          0 24px 48px -20px rgba(20, 24, 18, 0.4),
+          0 4px 12px -4px rgba(20, 24, 18, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 20px 96px;
+      }
+
+      a {
+        color: var(--accent-ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Header / Hero ---------- */
+      .hero {
+        padding: 56px 0 8px;
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--accent-ink);
+        background: var(--accent-soft);
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      h1.headline {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.7rem, 5.6vw, 2.5rem);
+        line-height: 1.5;
+        margin: 0 0 18px;
+        text-wrap: balance;
+        letter-spacing: 0.01em;
+      }
+      .headline em {
+        font-style: normal;
+        color: var(--accent-ink);
+      }
+      .sub {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+        max-width: 34em;
+        margin: 0 0 40px;
+      }
+
+      /* ---------- Section scaffolding ---------- */
+      section {
+        margin: 72px 0;
+      }
+      section:first-of-type {
+        margin-top: 0;
+      }
+      .section-head {
+        margin-bottom: 28px;
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+        margin: 0 0 8px;
+      }
+      h2.section-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin: 0;
+        text-wrap: balance;
+      }
+      p {
+        margin: 0 0 1em;
+      }
+      .lede {
+        color: var(--ink-soft);
+      }
+
+      hr.rule {
+        border: none;
+        border-top: 1px solid var(--rule);
+        margin: 72px 0;
+      }
+
+      /* ---------- Stat strip ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 28px 0;
+      }
+      .stat {
+        background: var(--surface);
+        padding: 20px 10px;
+        text-align: center;
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 1.3rem;
+        color: var(--accent-ink);
+        display: block;
+      }
+      .stat .label {
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ---------- Step layout ---------- */
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 40px 0;
+      }
+      .step-text {
+        width: 100%;
+      }
+      .step-tag {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .step-text h3 {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0 0 8px;
+      }
+      .step-text p {
+        color: var(--ink-soft);
+        margin: 0;
+        font-size: 0.96rem;
+      }
+
+      /* ---------- Browser window mockup ---------- */
+      .browser {
+        width: 300px;
+        flex-shrink: 0;
+        background: var(--bezel);
+        border-radius: 14px;
+        padding: 7px 7px 0;
+        box-shadow: var(--shadow-window);
+      }
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 8px;
+      }
+      .browser-bar .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .browser-bar .dot.r {
+        background: #ff5f57;
+      }
+      .browser-bar .dot.y {
+        background: #febc2e;
+      }
+      .browser-bar .dot.g {
+        background: #28c840;
+      }
+      .browser-url {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-left: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .browser-screen {
+        background: #fff;
+        border-radius: 0 0 9px 9px;
+        overflow: hidden;
+        min-height: 250px;
+      }
+
+      /* -- chat widget mockup -- */
+      .chat-title-bar {
+        background: var(--accent);
+        color: #fff;
+        padding: 9px 10px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .chat-title-bar .leaf {
+        font-size: 0.85rem;
+      }
+      .chat-body {
+        padding: 12px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        min-height: 190px;
+        background: #fdfbf7;
+      }
+      .chat-row {
+        display: flex;
+        flex-direction: column;
+        max-width: 84%;
+      }
+      .chat-row.user {
+        align-self: flex-end;
+        align-items: flex-end;
+      }
+      .chat-bubble {
+        border-radius: 12px;
+        padding: 7px 10px;
+        font-size: 0.68rem;
+        line-height: 1.65;
+      }
+      .chat-bubble.user {
+        background: #4c7a3f;
+        color: #fff;
+      }
+      .chat-bubble.ai {
+        background: #f2ede1;
+        color: #2c251a;
+      }
+      .chat-cite {
+        margin-top: 6px;
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.54rem;
+        color: #5c6b4f;
+        background: #e5ece0;
+        border-radius: 999px;
+        padding: 2px 8px;
+      }
+      .chat-escalate {
+        margin-top: 6px;
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.54rem;
+        color: #8a5a1f;
+        background: #f3e3c8;
+        border-radius: 999px;
+        padding: 2px 8px;
+      }
+      .chat-input-bar {
+        display: flex;
+        gap: 6px;
+        padding: 8px 9px;
+        border-top: 1px solid #e6e2d2;
+        background: #fafafa;
+      }
+      .chat-input-field {
+        flex: 1;
+        border: 1px solid #e4d9c0;
+        border-radius: 8px;
+        padding: 5px 8px;
+        font-size: 0.6rem;
+        color: #9c9076;
+        background: #fff;
+      }
+      .chat-send-btn {
+        background: var(--accent);
+        color: #fff;
+        border-radius: 8px;
+        padding: 5px 10px;
+        font-size: 0.6rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* -- operator dashboard mockup -- */
+      .admin-titlebar {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e6e2d2;
+        padding: 8px 10px;
+        font-size: 0.66rem;
+        font-weight: 700;
+        color: #2c251a;
+      }
+      .admin-wrap {
+        display: flex;
+        min-height: 220px;
+        background: #fff;
+      }
+      .admin-list {
+        width: 40%;
+        border-right: 1px solid #eee6d6;
+      }
+      .admin-tab {
+        padding: 6px 8px;
+        font-size: 0.56rem;
+        font-weight: 700;
+        color: var(--accent-ink);
+        background: var(--accent-soft);
+      }
+      .admin-item {
+        padding: 7px 8px;
+        border-bottom: 1px solid #f1ede0;
+      }
+      .admin-item .name {
+        font-size: 0.58rem;
+        color: #6b6048;
+      }
+      .admin-item .q {
+        font-size: 0.62rem;
+        color: #2c251a;
+        margin-top: 2px;
+      }
+      .admin-item.active {
+        background: #fbf8f2;
+      }
+      .admin-conv {
+        flex: 1;
+        padding: 9px 10px;
+        display: flex;
+        flex-direction: column;
+      }
+      .admin-conv .hdr {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .admin-conv .badge-wait {
+        font-size: 0.52rem;
+        background: #f3e3c8;
+        color: #8a5a1f;
+        padding: 2px 7px;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+      .admin-conv .btn {
+        background: var(--accent);
+        color: #fff;
+        font-size: 0.56rem;
+        padding: 4px 9px;
+        border-radius: 8px;
+        font-weight: 600;
+        align-self: flex-start;
+      }
+      .admin-conv .msg {
+        font-size: 0.6rem;
+        color: #2c251a;
+        background: #f2ede1;
+        border-radius: 8px;
+        padding: 6px 8px;
+        margin-top: 8px;
+      }
+
+      /* ---------- Feature cards ---------- */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .feature-card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: var(--shadow-card);
+      }
+      .feature-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.06rem;
+        font-weight: 500;
+        margin: 0 0 6px;
+      }
+      .feature-card p {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        margin: 0;
+      }
+
+      /* ---------- Tech strip ---------- */
+      .tech-list {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--rule);
+      }
+      .tech-item {
+        display: grid;
+        grid-template-columns: 9.5em 1fr;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--rule);
+        align-items: baseline;
+      }
+      .tech-item .name {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent-ink);
+      }
+      .tech-item .desc {
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Scope note ---------- */
+      .scope {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 20px 22px;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+      .scope strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .scope ul {
+        margin: 8px 0 0;
+        padding-left: 1.2em;
+      }
+      .scope li {
+        margin-bottom: 4px;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 96px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule);
+        font-size: 0.82rem;
+        color: var(--ink-faint);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 620px) {
+        .hero {
+          padding-top: 72px;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        .step-text {
+          padding-top: 34px;
+        }
+      }
+
+      /* ---------- Print ---------- */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          background: #fff;
+        }
+        .wrap {
+          max-width: none;
+          padding: 0 8px 20px;
+        }
+        .hero {
+          padding-top: 12px;
+        }
+        section {
+          margin: 36px 0;
+        }
+        .step,
+        .browser,
+        .feature-card,
+        .stats,
+        .stat,
+        .tech-item,
+        .scope,
+        p,
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          orphans: 3;
+          widows: 3;
+        }
+        .step {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .step.reverse {
+          flex-direction: row-reverse;
+        }
+        h1.headline,
+        h2.section-title,
+        h3,
+        .section-head {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+        hr.rule {
+          break-before: avoid;
+          page-break-before: avoid;
+        }
+        .browser {
+          box-shadow: none;
+          border: 1px solid #cfd2c8;
+        }
+        .feature-card,
+        .tech-item {
+          box-shadow: none;
+        }
+        footer {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p style="margin: 0 0 20px; font-size: 0.92rem">
+        <a
+          href="../index.html#works"
+          style="
+            color: var(--ink);
+            opacity: 0.7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+          "
+          >← 制作事例一覧に戻る</a
+        >
+      </p>
+
+      <header class="hero">
+        <span class="eyebrow">導入レポート — ECサイト向けCSチャットボット</span>
+        <h1 class="headline">
+          「今日中に返信できるかな…」を、<em>AIに任せてみた。</em>
+        </h1>
+        <p class="sub">
+          ECサイトに毎月500件届く問い合わせに、オペレーター2名では追いつかず返信に1〜2日。
+          よくある質問にはAIが数秒で答え、判断が必要なものだけ担当者に引き継ぐ——そんな仕組みを作りました。
+        </p>
+      </header>
+
+      <section aria-label="実際のやり取りの例">
+        <div class="step">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">botanica-store.example.com</span>
+            </div>
+            <div class="browser-screen">
+              <div class="chat-title-bar">
+                <span class="leaf">🌿</span>BOTANICA サポート
+              </div>
+              <div class="chat-body">
+                <div class="chat-row user">
+                  <div class="chat-bubble user">送料はいくらですか？</div>
+                </div>
+                <div class="chat-row">
+                  <div class="chat-bubble ai">
+                    送料は全国一律550円でございます。5,000円（税込）以上のお買い上げで送料無料となります。
+                    <div><span class="chat-cite">FAQ No.4 を参照</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-input-bar">
+                <span class="chat-input-field">メッセージを入力...</span>
+                <span class="chat-send-btn">送信</span>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="lede" style="margin-top: 0">
+              お客様から見ると、サイトの右下にあるチャットに質問するだけ。数秒でAIが回答し、
+              何を根拠に答えたか（どのFAQか）も裏側で必ず記録されます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">BACKGROUND</p>
+          <h2 class="section-title">
+            きっかけは、返信の遅れで離れていくお客様
+          </h2>
+        </div>
+        <p>
+          ブランドサイトに月500件届く「在庫はいつ入る？」「送料は？」「返品したい」といった問い合わせに、
+          オペレーター2名で手作業で対応していました。1件ずつ丁寧に答えたくても件数が多く、
+          返信までに1〜2日かかることも。その間にお客様が離れてしまうケースも起きていました。
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <span class="num">500件</span
+            ><span class="label">月あたりの問い合わせ件数</span>
+          </div>
+          <div class="stat">
+            <span class="num">1〜2日→24h以内</span
+            ><span class="label">目標の返信時間</span>
+          </div>
+          <div class="stat">
+            <span class="num">約70%</span
+            ><span class="label">AIで自動対応する目標割合</span>
+          </div>
+        </div>
+        <p class="lede">
+          そこで、よくある質問だけをAIに任せ、判断に迷う質問やクレームだけを担当者に引き継ぐ仕組みを作ることにしました。
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">HOW IT WORKS</p>
+          <h2 class="section-title">2つの画面でわかる仕組み</h2>
+        </div>
+
+        <div class="step">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">botanica-store.example.com</span>
+            </div>
+            <div class="browser-screen">
+              <div class="chat-title-bar">
+                <span class="leaf">🌿</span>BOTANICA サポート
+              </div>
+              <div class="chat-body">
+                <div class="chat-row user">
+                  <div class="chat-bubble user">
+                    定期購入の解約方法と、ポイントの有効期限を教えて
+                  </div>
+                </div>
+                <div class="chat-row">
+                  <div class="chat-bubble ai">
+                    定期便管理からいつでも解約できます。5日前までにお手続きください。ポイントの有効期限は最終購入日から1年間です。
+                    <div>
+                      <span class="chat-cite">FAQ No.14, 17 を参照</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-input-bar">
+                <span class="chat-input-field">メッセージを入力...</span>
+                <span class="chat-send-btn">送信</span>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">FAQに書いてあることは</p>
+            <h3>1つの質問に複数の要件があっても、まとめて即答</h3>
+            <p>
+              登録したFAQの範囲であれば、質問に複数の要件が含まれていても、それぞれの根拠をもとにAIがまとめて回答します。
+            </p>
+          </div>
+        </div>
+
+        <div class="step reverse">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot r"></span><span class="dot y"></span
+              ><span class="dot g"></span>
+              <span class="browser-url">admin.botanica.example.com</span>
+            </div>
+            <div class="browser-screen">
+              <div class="admin-titlebar">BOTANICA サポート管理画面</div>
+              <div class="admin-wrap">
+                <div class="admin-list">
+                  <div class="admin-tab">対応待ち (2)</div>
+                  <div class="admin-item active">
+                    <div class="name">田中さん</div>
+                    <div class="q">対応が遅すぎる。責任者を…</div>
+                  </div>
+                  <div class="admin-item">
+                    <div class="name">佐藤さん</div>
+                    <div class="q">請求が二重になっている…</div>
+                  </div>
+                </div>
+                <div class="admin-conv">
+                  <div class="hdr">
+                    <span class="badge-wait">対応待ち</span>
+                    <span class="btn">対応する</span>
+                  </div>
+                  <div class="msg">
+                    ご不便をおかけし申し訳ございません。担当者より改めて対応させていただきます。
+                    <div>
+                      <span class="chat-escalate">AIが自動で引き継ぎ</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-text">
+            <p class="step-tag">判断が必要なことは</p>
+            <h3>AIが無理に答えず、自動で担当者に引き継ぐ</h3>
+            <p>
+              個別の注文確認や強いクレームなど、AIだけで判断すべきでない内容は自動的に「対応待ち」として管理画面に並びます。
+              担当者は「対応する」を押すだけで会話を引き継げます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">FEATURES</p>
+          <h2 class="section-title">日々の運用でできること</h2>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>登録されていないことは答えない</h3>
+            <p>
+              FAQに書かれていない内容は、AIが推測で答えることはありません。関係のない質問には丁寧にお断りし、
+              根拠のない回答をしそうになった場合は自動的に担当者への引き継ぎに切り替わる、二重の安全設計にしています。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>営業時間外もお待たせしない</h3>
+            <p>
+              夜間や休業日の問い合わせにもAIがすぐに反応し、「翌営業日に担当者よりご連絡します」とその場でお伝えします。
+              問い合わせは翌営業日の「対応待ち」一覧にそのまま並ぶので、対応漏れの心配もありません。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>スマホ・タブレットでも見やすい管理画面</h3>
+            <p>
+              対応が必要な問い合わせの一覧と会話画面は、画面の狭いタブレットやスマホでも見やすいレイアウトに調整済み。
+              外出先からでも状況を確認し、その場で返信できます。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>ブランドサイトへの導入は1行だけ</h3>
+            <p>
+              既存のECサイトに専用のコードを1行貼るだけでチャット画面が追加されます。サイトのデザインやシステムを
+              作り直す必要はありません。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">UNDER THE HOOD</p>
+          <h2 class="section-title">裏側で動いているもの（簡単に）</h2>
+        </div>
+        <p class="lede" style="margin-bottom: 20px">
+          専門的な話は抜きにして、それぞれ何をしているかだけご紹介します。
+        </p>
+        <div class="tech-list">
+          <div class="tech-item">
+            <span class="name">アプリ本体</span>
+            <span class="desc"
+              >チャット画面と管理画面のやり取りをまとめて動かしているサーバー部分です。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">Claude（AI）</span>
+            <span class="desc"
+              >届いた質問の意味を理解し、登録済みのFAQの範囲で答えられるかを判断します。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">データベース</span>
+            <span class="desc"
+              >FAQの内容や会話履歴を安全に保存する場所です。オペレーターの操作もリアルタイムで画面に反映されます。</span
+            >
+          </div>
+          <div class="tech-item">
+            <span class="name">埋め込みスクリプト</span>
+            <span class="desc"
+              >ブランドサイトに貼るだけでチャット画面を追加できる、専用の小さなプログラムです。</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <p class="kicker">SCOPE</p>
+          <h2 class="section-title">できないこと（あえて対象外にしたもの）</h2>
+        </div>
+        <div class="scope">
+          <p style="margin-bottom: 0">
+            <strong
+              >今回はまず「FAQに基づく自動応答と担当者への引き継ぎ」に絞って導入しました。</strong
+            >
+            以下は意図的に対象外としています。
+          </p>
+          <ul>
+            <li>
+              問い合わせ内容の感情分析・週次レポートなどの分析ダッシュボード
+            </li>
+            <li>在庫・配送状況システムとの連携（個別注文の自動照会）</li>
+            <li>予約受付・決済機能</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <span>ECサイト向けCSチャットボット（案件4・模擬案件）</span>
+        <span>2026年7月 導入</span>
+      </footer>
+
+      <div style="margin: 48px 0 0; text-align: center">
+        <p style="margin: 0 0 16px">
+          <a
+            href="../index.html#contact"
+            style="
+              display: inline-block;
+              padding: 14px 32px;
+              border-radius: 8px;
+              background: var(--accent);
+              color: #fff;
+              font-weight: 700;
+              text-decoration: none;
+            "
+            >この仕組みを自社向けに相談する →</a
+          >
+        </p>
+        <p style="margin: 0; font-size: 0.92rem">
+          <a
+            href="../index.html#works"
+            style="
+              color: var(--ink);
+              opacity: 0.7;
+              text-decoration: underline;
+              text-underline-offset: 3px;
+            "
+            >← 他の制作事例を見る</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
