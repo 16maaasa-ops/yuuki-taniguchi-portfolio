@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" font-family="sans-serif">
+  <rect width="1200" height="750" fill="#FFFFFF"/>
+
+  <!-- 左：お客様とのチャット（FAQ即答＋根拠表示） -->
+  <text x="40" y="66" font-size="20" fill="#1A1A1A" font-weight="bold">① FAQに載っていることは、根拠つきで即答</text>
+  <rect x="40" y="86" width="540" height="580" rx="16" fill="#F2F4F1"/>
+  <rect x="40" y="86" width="540" height="52" rx="16" fill="#4C7A3F"/>
+  <text x="64" y="119" font-size="17" fill="#FFFFFF" font-weight="bold">🌿 BOTANICA サポート</text>
+
+  <rect x="300" y="164" width="256" height="52" rx="14" fill="#4C7A3F"/>
+  <text x="324" y="196" font-size="15" fill="#FFFFFF">送料はいくらですか?</text>
+
+  <rect x="64" y="240" width="420" height="118" rx="14" fill="#FFFFFF" stroke="#E1E5DE"/>
+  <text x="88" y="274" font-size="15" fill="#1A1A1A">送料は全国一律550円でございます。</text>
+  <text x="88" y="300" font-size="15" fill="#1A1A1A">5,000円(税込)以上のご購入で送料無料です。</text>
+  <rect x="88" y="318" width="150" height="26" rx="13" fill="#E5ECE0"/>
+  <text x="104" y="336" font-size="13" fill="#5C6B4F">FAQ No.4 を参照</text>
+
+  <rect x="300" y="382" width="256" height="52" rx="14" fill="#4C7A3F"/>
+  <text x="324" y="414" font-size="15" fill="#FFFFFF">対応が遅すぎる。責任者を出して</text>
+
+  <rect x="64" y="458" width="420" height="118" rx="14" fill="#FFFFFF" stroke="#E1E5DE"/>
+  <text x="88" y="492" font-size="15" fill="#1A1A1A">ご不便をおかけし申し訳ございません。</text>
+  <text x="88" y="518" font-size="15" fill="#1A1A1A">担当者より改めてご連絡いたします。</text>
+  <rect x="88" y="536" width="180" height="26" rx="13" fill="#F3E3C8"/>
+  <text x="104" y="554" font-size="13" fill="#8A5A1F">AIが自動で担当者へ引き継ぎ</text>
+
+  <!-- 右：オペレーター管理画面 -->
+  <text x="620" y="66" font-size="20" fill="#1A1A1A" font-weight="bold">② 判断が必要なものは、担当者の画面へ</text>
+  <rect x="620" y="86" width="540" height="580" rx="6" fill="#EBEEF3"/>
+  <text x="648" y="126" font-size="16" fill="#1A1A1A" font-weight="bold">BOTANICA サポート管理画面</text>
+
+  <rect x="648" y="146" width="150" height="34" rx="4" fill="#547042"/>
+  <text x="723" y="169" font-size="13" fill="#FFFFFF" text-anchor="middle">対応待ち (2)</text>
+
+  <rect x="648" y="194" width="484" height="70" rx="4" fill="#FFFFFF"/>
+  <text x="672" y="222" font-size="14" fill="#8A8578">田中さん</text>
+  <text x="672" y="248" font-size="15" fill="#1A1A1A">対応が遅すぎる。責任者を出してください</text>
+
+  <rect x="648" y="276" width="484" height="70" rx="4" fill="#FFFFFF"/>
+  <text x="672" y="304" font-size="14" fill="#8A8578">佐藤さん</text>
+  <text x="672" y="330" font-size="15" fill="#1A1A1A">請求が二重になっているようです</text>
+
+  <rect x="648" y="372" width="484" height="230" rx="4" fill="#FFFFFF"/>
+  <rect x="1000" y="392" width="112" height="36" rx="6" fill="#547042"/>
+  <text x="1056" y="416" font-size="14" fill="#FFFFFF" text-anchor="middle">対応する</text>
+  <text x="672" y="416" font-size="14" fill="#8A5A1F">🟡 対応待ち</text>
+  <rect x="672" y="444" width="440" height="70" rx="6" fill="#F2ede1"/>
+  <text x="692" y="474" font-size="14" fill="#1A1A1A">ご不便をおかけしており、大変申し訳ございま</text>
+  <text x="692" y="498" font-size="14" fill="#1A1A1A">せん。担当者より改めてご連絡いたします。</text>
+
+  <text x="890" y="700" font-size="20" fill="#8A8578" text-anchor="middle">※ 実際の画面スクリーンショットに差し替え予定(データはダミー)</text>
+</svg>

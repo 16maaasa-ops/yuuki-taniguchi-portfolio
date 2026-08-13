@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" font-family="sans-serif">
+  <rect width="1200" height="750" fill="#FFFFFF"/>
+
+  <!-- 左：LINEで届いた問い合わせ -->
+  <text x="40" y="70" font-size="20" fill="#1A1A1A" font-weight="bold">① LINEに届いた問い合わせ</text>
+  <rect x="40" y="90" width="360" height="560" rx="20" fill="#8FA3B8" opacity="0.18"/>
+  <rect x="66" y="130" width="300" height="96" rx="16" fill="#FFFFFF" stroke="#D9DEE5"/>
+  <text x="90" y="166" font-size="16" fill="#1A1A1A">先週から水漏れが直っていません。</text>
+  <text x="90" y="192" font-size="16" fill="#1A1A1A">何度連絡しても折り返しがなく、</text>
+  <text x="90" y="218" font-size="16" fill="#1A1A1A">対応が遅すぎます。</text>
+  <rect x="66" y="250" width="300" height="60" rx="16" fill="#FFFFFF" stroke="#D9DEE5"/>
+  <text x="90" y="288" font-size="16" fill="#1A1A1A">駅近の1LDKを探しています。</text>
+  <rect x="66" y="334" width="300" height="60" rx="16" fill="#FFFFFF" stroke="#D9DEE5"/>
+  <text x="90" y="372" font-size="16" fill="#1A1A1A">来週末に内見できますか?</text>
+
+  <!-- 中央：AIが分類 -->
+  <text x="440" y="360" font-size="18" fill="#8A8578">② AIが5分類</text>
+  <path d="M430 380 h120" stroke="#C05621" stroke-width="3" stroke-linecap="round"/>
+  <path d="M540 372 l14 8 -14 8" fill="none" stroke="#C05621" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 右上：Slackの担当チャネルへ振り分け（クレームカード） -->
+  <text x="600" y="70" font-size="20" fill="#1A1A1A" font-weight="bold">③ Slackの担当チャネルへ自動振り分け</text>
+  <rect x="600" y="90" width="560" height="330" rx="6" fill="#EBEEF3"/>
+  <text x="628" y="132" font-size="16" fill="#3F0E40" font-weight="bold"># 問い合わせ-クレーム</text>
+  <rect x="628" y="150" width="504" height="240" rx="4" fill="#FFFFFF"/>
+  <rect x="628" y="150" width="6" height="240" fill="#C0392B"/>
+  <text x="656" y="188" font-size="18" fill="#1A1A1A" font-weight="bold">🚨 クレーム発生</text>
+  <text x="656" y="216" font-size="14" fill="#8A8578">🔴 未対応</text>
+  <text x="656" y="250" font-size="14" fill="#4A4A46">経路：LINE　　送信者：佐藤様</text>
+  <text x="656" y="284" font-size="14" fill="#1A1A1A">先週から水漏れが直っていません。何度連絡</text>
+  <text x="656" y="306" font-size="14" fill="#1A1A1A">しても折り返しがなく、対応が遅すぎます。</text>
+  <rect x="656" y="330" width="120" height="38" rx="6" fill="#007A5A"/>
+  <text x="716" y="355" font-size="14" fill="#FFFFFF" text-anchor="middle">担当になる</text>
+  <rect x="788" y="330" width="120" height="38" rx="6" fill="#FFFFFF" stroke="#BBBBBB"/>
+  <text x="848" y="355" font-size="14" fill="#1A1A1A" text-anchor="middle">対応済にする</text>
+
+  <!-- 右下：クレームは営業部長のLINEへ即通知 -->
+  <text x="600" y="470" font-size="20" fill="#1A1A1A" font-weight="bold">④ クレームは営業部長のLINEへ即通知</text>
+  <rect x="600" y="490" width="560" height="150" rx="12" fill="#2F3D4D"/>
+  <rect x="624" y="516" width="512" height="100" rx="12" fill="#F5F5F7"/>
+  <rect x="644" y="536" width="18" height="18" rx="4" fill="#06C755"/>
+  <text x="672" y="551" font-size="13" fill="#6A6A6E">LINE　　今</text>
+  <text x="644" y="582" font-size="15" fill="#111111" font-weight="bold">🚨クレーム検知：佐藤様（LINE経由）</text>
+  <text x="644" y="606" font-size="14" fill="#2C2C2E">「先週から水漏れが直っていません…」</text>
+  <text x="1136" y="628" font-size="13" fill="#C05621" text-anchor="end">受信から約14秒</text>
+
+  <text x="600" y="700" font-size="20" fill="#8A8578" text-anchor="middle">※ 実際の画面スクリーンショットに差し替え予定(データはダミー)</text>
+</svg>

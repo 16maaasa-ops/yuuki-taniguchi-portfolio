@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Yuuki Taniguchi | AI業務効率化ツール開発 —
+      面倒な事務作業、AIで自動化します
+    </title>
+    <meta
+      name="description"
+      content="医療事務の現場出身。ChatGPT/Claude連携ツール・スプレッドシート自動化・LINE botなど、手作業のしんどさが分かる開発者が業務効率化ツールをお作りします。"
+    />
+
+    <!-- OGP -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Yuuki Taniguchi | AI業務効率化ツール開発"
+    />
+    <meta
+      property="og:description"
+      content="面倒な事務作業、AIで自動化します。勤務先チームで実運用中の自動化ツール開発実績あり。"
+    />
+    <meta
+      property="og:image"
+      content="https://REPLACE-WITH-YOUR-DOMAIN.vercel.app/images/ogp.png"
+    />
+    <meta
+      property="og:url"
+      content="https://REPLACE-WITH-YOUR-DOMAIN.vercel.app/"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="images/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="#top" class="brand"
+          >Yuuki Taniguchi<span class="brand-sub"
+            >AI業務効率化ツール開発</span
+          ></a
+        >
+        <nav class="global-nav" aria-label="メイン">
+          <a href="#works">制作事例</a>
+          <a href="#services">できること</a>
+          <a href="#profile">プロフィール</a>
+          <a href="#faq">よくある質問</a>
+          <a href="#contact" class="nav-cta">相談する</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ============ ヒーロー ============ -->
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-text">
+            <p class="hero-eyebrow">
+              ChatGPT / Claude 連携ツール・スプレッドシート自動化・LINE bot
+            </p>
+            <h1 class="hero-title">
+              面倒な事務作業、<br /><span class="u-marker">AIで自動化</span
+              >します。
+            </h1>
+            <p class="hero-lead">
+              勤務先のチーム(8名)で毎日動いている自動化ツールを、設計から運用まで一人で作りました。<br />
+              元・調剤薬局事務。<strong>「その作業、手でやるのしんどいですよね」が分かる</strong>開発者です。
+            </p>
+            <div class="hero-actions">
+              <a href="#contact" class="btn btn-primary"
+                >相談してみる(見積り無料)</a
+              >
+              <a href="#works" class="btn btn-ghost">制作事例を見る</a>
+            </div>
+          </div>
+          <figure class="hero-visual">
+            <img
+              src="images/placeholder-mercari.svg"
+              alt="メルカリ出品アシスタントの操作画面。商品写真を渡すと商品名と説明文が自動生成される"
+              width="1200"
+              height="750"
+            />
+            <figcaption>
+              写真を渡すだけで出品文が完成する「メルカリ出品アシスタント」(制作物)
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ Works(一軍) ============ -->
+      <section id="works" class="works">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="section-num">01</span>Works<span class="section-ja"
+              >制作事例</span
+            >
+          </h2>
+          <p class="section-lead">
+            「何に困っていて、何を作って、どう変わったか」でご紹介します。
+          </p>
+
+          <!-- Task Bot -->
+          <article id="work-taskbot" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/placeholder-taskbot.svg"
+                alt="Task Botが毎朝Slackに自動投稿するタスク一覧と週次レポートのグラフ"
+                width="1200"
+                height="750"
+                loading="lazy"
+              />
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-live"
+                  >実運用中 — 勤務先チーム8名で稼働</span
+                >
+              </p>
+              <h3 class="work-title">
+                Task Bot — チームタスク管理・自動通知システム
+              </h3>
+              <dl class="work-story">
+                <div>
+                  <dt>困っていたこと</dt>
+                  <dd>
+                    リモートチームのタスク共有が「毎朝の手動投稿とスレッド返信」頼み。投稿する人の負担が大きく、期日超過の見逃しも起きていました。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    Notion・Slack・Googleカレンダーをつないだ自動通知Bot。毎朝、各メンバーに予定と未完了タスクをDMし、リーダーには期日超過の一覧を届けます。週次レポートはグラフ付きで自動生成。
+                  </dd>
+                </div>
+                <div>
+                  <dt>どう変わったか</dt>
+                  <dd>
+                    毎朝の投稿作業がゼロに。GitHub
+                    Actionsの定時実行なので<strong>ランニングコストも0円</strong>。導入から現在まで毎日稼働しています。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Python / Notion API / Slack API / Google Calendar API / GitHub
+                Actions
+              </p>
+              <p class="work-links">
+                <a
+                  class="text-link"
+                  href="https://zingy-malasada-8f649b.netlify.app/"
+                  target="_blank"
+                  rel="noopener"
+                  >導入事例の詳細ページを見る →</a
+                >
+              </p>
+            </div>
+          </article>
+
+          <!-- メルカリ出品アシスタント -->
+          <article id="work-mercari" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/placeholder-mercari.svg"
+                alt="商品写真から商品名・説明文が生成されるメルカリ出品アシスタントの画面"
+                width="1200"
+                height="750"
+                loading="lazy"
+              />
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-app"
+                  >自主制作 — Webアプリとして公開</span
+                >
+              </p>
+              <h3 class="work-title">メルカリ出品アシスタント</h3>
+              <dl class="work-story">
+                <div>
+                  <dt>困っていたこと</dt>
+                  <dd>
+                    出品のたびに商品名と説明文を考えるのに1品10分。写真は撮ってあるのに、文章づくりで手が止まっていました。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    商品写真と実寸サイズを渡すだけで、AI(Claude)が売れやすい商品名と説明文を下書きしてくれるWebアプリ。文字数カウンターとワンタップコピー付きで、生成後にそのまま手直しできます。
+                  </dd>
+                </div>
+                <div>
+                  <dt>どう変わったか</dt>
+                  <dd>
+                    下書き完成まで約30秒。「考える」部分をAIに任せて、人は最後の確認だけ。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Next.js / TypeScript / Claude API(画像認識) / Vercel
+              </p>
+              <p class="work-note">
+                実際に動くデモは、ご相談の際にご案内します(API利用料保護のためパスワード制にしています)。
+              </p>
+            </div>
+          </article>
+
+          <!-- 問い合わせ集約 + AI分類 (project5) -->
+          <article id="work-inquiry-hub" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/placeholder-inquiryhub.svg"
+                alt="LINEに届いた問い合わせをAIが5分類し、Slackの担当チャネルへ振り分け、クレームは営業部長のLINEへ即通知する流れ"
+                width="1200"
+                height="750"
+                loading="lazy"
+              />
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-mock"
+                  >模擬案件 — 架空のご依頼を想定した自主制作</span
+                >
+              </p>
+              <h3 class="work-title">
+                問い合わせ集約 + AI自動分類 — クレームを見逃さない仕組み
+              </h3>
+              <dl class="work-story">
+                <div>
+                  <dt>想定した困りごと</dt>
+                  <dd>
+                    不動産会社で、問い合わせがメールとLINEに分かれて届く。担当者が両方を見張っていないと取りこぼし、特に<strong>クレームの初動が半日遅れる</strong>と大きな問題になる。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    LINEに届いた問い合わせをAI(Claude)が「賃貸・売買・内見・クレーム・その他」に自動分類し、Slackの担当チャネルへ振り分け。クレームと判定したものだけ、営業部長の個人LINEへ即通知します。
+                  </dd>
+                </div>
+                <div>
+                  <dt>ポイント</dt>
+                  <dd>
+                    クレーム受信から通知まで<strong>実測約14秒</strong>(目標は5分以内)。同じ通知が二度飛ばない設計や、なりすまし防止の署名検証まで作り込み、<strong>本番環境で実際に動くところまで</strong>確認しています。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Next.js / TypeScript / Claude API / Supabase / Slack API / LINE
+                Messaging API / Vercel
+              </p>
+              <p class="work-links">
+                <a
+                  class="text-link"
+                  href="https://project5-three-weld.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  >分類デモを触ってみる →</a
+                >
+              </p>
+            </div>
+          </article>
+
+          <!-- CSチャットボット (project4) -->
+          <article id="work-cs-chatbot" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/placeholder-ecchatbot.svg"
+                alt="ECサイトのチャットボットがFAQをもとに根拠つきで即答し、判断が必要な質問は担当者の管理画面へ自動で引き継ぐ流れ"
+                width="1200"
+                height="750"
+                loading="lazy"
+              />
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-mock"
+                  >模擬案件 — 架空のご依頼を想定した自主制作</span
+                >
+              </p>
+              <h3 class="work-title">
+                CSチャットボット — AIが一次対応し、難しいものは人へ
+              </h3>
+              <dl class="work-story">
+                <div>
+                  <dt>想定した困りごと</dt>
+                  <dd>
+                    ECサイトに月500件ほど届く問い合わせを、オペレーター2名では捌ききれず、返信に1〜2日かかっていた。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    FAQをもとにAI(Claude)が自動で回答し、判断が必要な質問や強いクレームは<strong>AIが自分で判断して人間のオペレーターに引き継ぐ</strong>チャットボット。夜間・休日はAIが一次対応し、「翌営業日に対応します」と案内して対応待ちリストに積みます。
+                  </dd>
+                </div>
+                <div>
+                  <dt>ポイント</dt>
+                  <dd>
+                    AIが「それっぽいけど間違ったこと」を答えてしまう不安に対して、回答の根拠(どのFAQか)を必ず示させ、根拠が無い場合はプログラム側で<strong>強制的に人へ引き継ぐ</strong>三重の対策を入れています。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Next.js / TypeScript / Claude API / Supabase / Vercel
+              </p>
+              <p class="work-note">
+                実際に動く画面は、ご相談の際にご案内します(API利用料保護のためパスワード制にしています)。
+              </p>
+            </div>
+          </article>
+
+          <!-- 社内文書検索AI -->
+          <article id="work-rag" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/placeholder-rag.svg"
+                alt="PDFマニュアルに質問すると出典付きで回答が返る社内文書検索AIの画面"
+                width="1200"
+                height="750"
+                loading="lazy"
+              />
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-mock"
+                  >模擬案件 — 架空のご依頼を想定した自主制作</span
+                >
+              </p>
+              <h3 class="work-title">
+                社内文書検索AI — 「マニュアルどこ?」をなくす
+              </h3>
+              <dl class="work-story">
+                <div>
+                  <dt>想定した困りごと</dt>
+                  <dd>
+                    社内マニュアルや規程がPDFで散在していて、必要な1行を探すのに時間がかかる。新人さんが同じ質問を何度もすることになる。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    PDFを取り込んでおくと、普通の言葉で質問するだけで<strong>出典(どのファイルの何ページか)付き</strong>で答えてくれる検索AI。要件定義書の作成から、実装・テストまで受注を想定して一式作りました。
+                  </dd>
+                </div>
+                <div>
+                  <dt>ポイント</dt>
+                  <dd>
+                    「AIの答えが本当か確認できない」という不安に対して、必ず根拠の箇所を一緒に表示する設計にしています。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Next.js / Supabase(pgvector) / Claude API / Voyage AI
+              </p>
+            </div>
+          </article>
+
+          <!-- LINE bot -->
+          <article id="work-linebot" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/placeholder-linebot.svg"
+                alt="LINE上でAIが自動応答する画面と、オーナー向け管理画面"
+                width="1200"
+                height="750"
+                loading="lazy"
+              />
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-mock"
+                  >模擬案件 — 架空のご依頼を想定した自主制作</span
+                >
+              </p>
+              <h3 class="work-title">
+                LINE公式アカウントのAI自動応答 + 管理画面
+              </h3>
+              <dl class="work-story">
+                <div>
+                  <dt>想定した困りごと</dt>
+                  <dd>
+                    お店のLINEに届く「営業時間は?」「予約できますか?」への返信が営業中にさばききれない。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    よくある質問にAIが自動で答えるLINE
+                    bot。オーナーさん向けには、回答内容を自分で編集できる管理画面と、<strong>納品後に一人で運用できるマニュアル</strong>まで用意しました。
+                  </dd>
+                </div>
+                <div>
+                  <dt>ポイント</dt>
+                  <dd>
+                    「納品されたけど使い方が分からない」を防ぐため、要件定義 →
+                    実装 →
+                    納品マニュアルまでを一式で作れることを確認した制作です。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Next.js / LINE Messaging API / Claude API / Supabase
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 二軍(その他) ============ -->
+      <section id="more-works" class="more-works">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="section-num">02</span>More Works<span
+              class="section-ja"
+              >その他の自動化例</span
+            >
+          </h2>
+          <p class="section-lead">
+            小さな道具もいろいろ作っています。「これに近いものがほしい」の参考にどうぞ。
+          </p>
+          <ul class="mini-list" data-stagger>
+            <li class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <rect
+                  x="4"
+                  y="6"
+                  width="24"
+                  height="21"
+                  rx="2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4 12h24M10 3.5v5M22 3.5v5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M16 23.5l-3.2-3.1c-1.1-1.1-.9-2.9.5-3.6 1-.5 2.1-.1 2.7.8.6-.9 1.7-1.3 2.7-.8 1.4.7 1.6 2.5.5 3.6z"
+                  fill="#c05621"
+                  stroke="none"
+                />
+              </svg>
+              <h3>記念日リマインダー</h3>
+              <p>
+                誕生日・記念日を登録すると近い順に並び、7日以内は強調表示。登録なしでそのまま触れます。
+              </p>
+              <p class="mini-links">
+                <a
+                  class="text-link"
+                  href="https://anniversary-reminder-six.vercel.app/"
+                  target="_blank"
+                  rel="noopener"
+                  >デモを触ってみる →</a
+                >
+              </p>
+            </li>
+            <li class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <rect
+                  x="12"
+                  y="3.5"
+                  width="8"
+                  height="14"
+                  rx="4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8 14.5c0 4.4 3.6 8 8 8s8-3.6 8-8M16 22.5v5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M22.5 26h-13"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <h3>会議の議事録自動生成</h3>
+              <p>
+                会議の録音を渡すと、文字起こし → 要約 →
+                Googleドキュメントの議事録まで自動作成。
+              </p>
+            </li>
+            <li class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M4.5 4.5v23h23"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10 22.5v-6M16 22.5V11"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M22 22.5V7.5"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <h3>アンケート自由記述の分析</h3>
+              <p>
+                アンケートCSVを読み込み、自由記述の回答をAIが分類・要約。集計作業を数分に。
+              </p>
+            </li>
+            <li class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M5 15.5h22c0 5-3 9.5-8 11h-6c-5-1.5-8-6-8-11z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9 26.5l-2.5 2M23 26.5l2.5 2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M13 11c-.8-1.6.8-2.4 0-4M19 11c-.8-1.6.8-2.4 0-4"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <h3>レシピ提案ツール</h3>
+              <p>
+                冷蔵庫にある食材を入れるとAIがレシピを提案し、スプレッドシートに記録。
+              </p>
+            </li>
+            <li class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M16.5 4.5H27v10.5L15 27.5c-.8.8-2 .8-2.8 0l-7.7-7.7c-.8-.8-.8-2 0-2.8z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="21.5"
+                  cy="10.5"
+                  r="1.8"
+                  fill="#c05621"
+                  stroke="none"
+                />
+              </svg>
+              <h3>EC価格の定点観測</h3>
+              <p>
+                楽天の商品価格を毎日自動チェックしてスプレッドシートに記録。価格改定の判断材料に。
+              </p>
+            </li>
+            <li class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M10 24.5a5.5 5.5 0 0 1-.6-11c1-3 3.9-5 7.1-5 3.6 0 6.6 2.5 7.3 5.9a4.8 4.8 0 0 1-1 9.6z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 27.5l-1.2 2.3M18 27.5l-1.2 2.3M24 27.5l-1.2 2.3"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <h3>天気予報Webアプリ</h3>
+              <p>
+                都市検索・週間予報・服装アドバイス付きの天気アプリ。UIづくりの練習を兼ねた制作。
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ できること ============ -->
+      <section id="services" class="services">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="section-num">03</span>Services<span class="section-ja"
+              >できること</span
+            >
+          </h2>
+          <p class="section-lead">
+            「うちの場合はどれ?」と迷ったら、そのままの言葉でご相談ください。
+          </p>
+          <div class="service-list" data-stagger>
+            <article class="service reveal">
+              <svg class="service-icon" viewBox="0 0 48 48" aria-hidden="true">
+                <rect
+                  x="7"
+                  y="9"
+                  width="34"
+                  height="30"
+                  rx="2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M7 18h34M19 18v21M7 28.5h34"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M27 23.5c4-2.5 8 .5 7.5 4"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M35.5 24.5l-.8 3.6-3.4-1.3"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <h3>スプレッドシート・事務作業の自動化</h3>
+              <p>
+                毎日・毎週の転記、集計、リマインドなど「人がやらなくていい作業」をなくします。
+              </p>
+              <p class="service-price">目安 15,000円〜 / 5日〜</p>
+            </article>
+            <article class="service reveal">
+              <svg class="service-icon" viewBox="0 0 48 48" aria-hidden="true">
+                <path
+                  d="M9 12c0-2 1.5-3.5 3.5-3.5h23c2 0 3.5 1.5 3.5 3.5v16c0 2-1.5 3.5-3.5 3.5H22l-8 7v-7h-1.5c-2 0-3.5-1.5-3.5-3.5z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M16 20.5h11M16 25h7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M34 15.5l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1z"
+                  fill="#c05621"
+                  stroke="none"
+                />
+              </svg>
+              <h3>ChatGPT / Claude を使った業務ツール開発</h3>
+              <p>
+                文章の下書き、問い合わせの一次対応、書類の要約・分類など、AIに任せる部分を切り出して道具にします。
+              </p>
+              <p class="service-price">目安 30,000円〜 / 10日〜</p>
+            </article>
+            <article class="service reveal">
+              <svg class="service-icon" viewBox="0 0 48 48" aria-hidden="true">
+                <rect
+                  x="14"
+                  y="6"
+                  width="20"
+                  height="36"
+                  rx="4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M21 10.5h6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M19 20h10v7.5h-6l-3 3v-3h-1z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="24"
+                  cy="36.5"
+                  r="1.8"
+                  fill="#c05621"
+                  stroke="none"
+                />
+              </svg>
+              <h3>LINE bot・チャットボット開発</h3>
+              <p>
+                LINE公式アカウントの自動応答や、Slack・Notionと連携する社内向けbotをお作りします。
+              </p>
+              <p class="service-price">目安 50,000円〜 / 2週間〜</p>
+            </article>
+          </div>
+          <p class="service-note">
+            ※ 価格・納期は内容により変わります。お見積りは無料です。
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ プロフィール ============ -->
+      <section id="profile" class="profile">
+        <div class="container profile-inner">
+          <figure class="profile-visual">
+            <img
+              src="images/avatar-placeholder.svg"
+              alt="Yuuki Taniguchiのプロフィールイラスト"
+              width="240"
+              height="240"
+              loading="lazy"
+            />
+          </figure>
+          <div class="profile-body">
+            <h2 class="section-title">
+              <span class="section-num">04</span>Profile<span class="section-ja"
+                >プロフィール</span
+              >
+            </h2>
+            <p class="profile-name">
+              Yuuki Taniguchi<span>AI業務効率化ツール開発</span>
+            </p>
+            <p>
+              調剤薬局の事務を5年以上。処方箋の入力、レセプト、在庫の管理——「これ、手でやる意味あるのかな」と思う作業に毎日向き合ってきました。
+            </p>
+            <p>
+              その後、医療系の企業で業務効率化に携わる中でプログラミングとAIを学び、勤務先のチームで実際に使われる自動化ツールを自分の手で作るようになりました。
+            </p>
+            <p>
+              エンジニア出身ではありません。だからこそ、<strong>「現場のどこがしんどいか」を業務の言葉のまま</strong>聞き取って、道具に変えるのが得意です。専門用語での説明はしません(必要なら、します)。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 進め方 ============ -->
+      <section id="process" class="process">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="section-num">05</span>Process<span class="section-ja"
+              >ご依頼の進め方</span
+            >
+          </h2>
+          <ol class="process-steps" data-stagger>
+            <li class="reveal">
+              <h3>ヒアリング</h3>
+              <p>
+                今の作業の流れを、そのままの言葉で教えてください。資料がなくても大丈夫です。
+              </p>
+            </li>
+            <li class="reveal">
+              <h3>ご提案・お見積り</h3>
+              <p>
+                「何を・いくらで・いつまでに」を文章にしてお渡しします。ここまでは無料です。
+              </p>
+            </li>
+            <li class="reveal">
+              <h3>制作</h3>
+              <p>
+                途中経過を画面付きでご報告しながら進めます。「思ってたのと違う」を早めに潰します。
+              </p>
+            </li>
+            <li class="reveal">
+              <h3>納品・サポート</h3>
+              <p>
+                使い方の説明資料をお付けします。納品後2週間は不具合対応を無料で行います。
+              </p>
+            </li>
+          </ol>
+          <div class="policy">
+            <h3>お約束していること</h3>
+            <ul>
+              <li>
+                メッセージの返信は<strong>24時間以内</strong>(平日夜・土日も確認しています)
+              </li>
+              <li>制作中の軽微な修正は<strong>2回まで無料</strong></li>
+              <li>
+                できないこと・自信がないことは、正直に「できません」と言います
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FAQ ============ -->
+      <section id="faq" class="faq">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="section-num">06</span>FAQ<span class="section-ja"
+              >よくある質問</span
+            >
+          </h2>
+          <dl class="faq-list">
+            <div class="faq-item">
+              <dt>プログラミングのことが全然分からなくても依頼できますか?</dt>
+              <dd>
+                はい、むしろそういう方のために作っています。「毎週この作業に2時間かかっている」のような、今の困りごとだけ教えてください。
+              </dd>
+            </div>
+            <div class="faq-item">
+              <dt>何を用意すればいいですか?</dt>
+              <dd>
+                特に何も要りません。今使っているファイル(ExcelやスプレッドシートのサンプルでOK)があれば話が早いですが、なくてもヒアリングで伺います。
+              </dd>
+            </div>
+            <div class="faq-item">
+              <dt>途中で「やっぱりこうしたい」と変更できますか?</dt>
+              <dd>
+                できます。小さな変更は制作中に2回まで無料で対応します。大きな方向転換の場合は、追加のお見積りを先にお出しして、ご納得いただいてから進めます。
+              </dd>
+            </div>
+            <div class="faq-item">
+              <dt>AIの利用料など、納品後にお金はかかりますか?</dt>
+              <dd>
+                ツールによります。AIを使うツールは月数百円〜の利用料がかかることが多いですが、Task
+                Botのように<strong>ランニングコスト0円</strong>で組める構成もあります。お見積り時に必ず明示します。
+              </dd>
+            </div>
+            <div class="faq-item">
+              <dt>会社の情報を渡しても大丈夫ですか?</dt>
+              <dd>
+                いただいた資料は制作の目的以外に使いません。秘密保持契約(NDA)にも対応します。医療業界出身なので、扱いに気をつかう情報がある現場の感覚は理解しているつもりです。
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ============ お問い合わせ ============ -->
+      <section id="contact" class="contact">
+        <div class="container">
+          <h2 class="section-title section-title-invert">
+            <span class="section-num">07</span>Contact<span class="section-ja"
+              >ご相談はこちら</span
+            >
+          </h2>
+          <p class="contact-lead">
+            「これって自動化できますか?」だけでも大丈夫です。<br />
+            見積りまでは無料なので、お気軽にどうぞ。
+          </p>
+          <div class="contact-actions">
+            <a href="contact.html" class="btn btn-primary btn-large"
+              >問い合わせフォームで相談する</a
+            >
+            <a href="#" class="btn btn-ghost-invert js-coconala-link"
+              >ココナラで相談する</a
+            >
+            <a href="#" class="btn btn-ghost-invert js-crowdworks-link"
+              >クラウドワークスで相談する</a
+            >
+          </div>
+          <!-- 受注後にレビュー・お客様の声をここに追加する(プレースホルダ) -->
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2026 Yuuki Taniguchi — AI業務効率化ツール開発</p>
+      </div>
+    </footer>
+
+    <!-- スマホ用固定CTA -->
+    <div class="mobile-cta" id="mobile-cta">
+      <a href="#contact" class="btn btn-primary">相談してみる(見積り無料)</a>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
