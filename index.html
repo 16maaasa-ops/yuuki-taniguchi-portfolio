@@ -87,13 +87,13 @@
           </div>
           <figure class="hero-visual">
             <img
-              src="images/placeholder-mercari.svg"
-              alt="メルカリ出品アシスタントの操作画面。商品写真を渡すと商品名と説明文が自動生成される"
-              width="1200"
-              height="750"
+              src="images/dashboard-kpi.jpg"
+              alt="CSVをアップロードすると売上・粗利・リピート率の3大KPIとAIの分析コメントが表示される売上分析ダッシュボードの画面"
+              width="805"
+              height="355"
             />
             <figcaption>
-              写真を渡すだけで出品文が完成する「メルカリ出品アシスタント」(制作物)
+              CSVを1枚渡すと、3大KPIとAIの分析コメントまで自動で出る画面(架空ブランドを想定した自主制作・制作事例の一つ)
             </figcaption>
           </figure>
         </div>
@@ -162,55 +162,8 @@
                   href="https://zingy-malasada-8f649b.netlify.app/"
                   target="_blank"
                   rel="noopener"
-                  >導入事例の詳細ページを見る →</a
+                  >どう作ったか、くわしく見る →</a
                 >
-              </p>
-            </div>
-          </article>
-
-          <!-- メルカリ出品アシスタント -->
-          <article id="work-mercari" class="work reveal">
-            <figure class="work-visual">
-              <img
-                src="images/placeholder-mercari.svg"
-                alt="商品写真から商品名・説明文が生成されるメルカリ出品アシスタントの画面"
-                width="1200"
-                height="750"
-                loading="lazy"
-              />
-            </figure>
-            <div class="work-body">
-              <p class="work-badges">
-                <span class="badge badge-app"
-                  >自主制作 — Webアプリとして公開</span
-                >
-              </p>
-              <h3 class="work-title">メルカリ出品アシスタント</h3>
-              <dl class="work-story">
-                <div>
-                  <dt>困っていたこと</dt>
-                  <dd>
-                    出品のたびに商品名と説明文を考えるのに1品10分。写真は撮ってあるのに、文章づくりで手が止まっていました。
-                  </dd>
-                </div>
-                <div>
-                  <dt>作ったもの</dt>
-                  <dd>
-                    商品写真と実寸サイズを渡すだけで、AI(Claude)が売れやすい商品名と説明文を下書きしてくれるWebアプリ。文字数カウンターとワンタップコピー付きで、生成後にそのまま手直しできます。
-                  </dd>
-                </div>
-                <div>
-                  <dt>どう変わったか</dt>
-                  <dd>
-                    下書き完成まで約30秒。「考える」部分をAIに任せて、人は最後の確認だけ。
-                  </dd>
-                </div>
-              </dl>
-              <p class="work-tech">
-                Next.js / TypeScript / Claude API(画像認識) / Vercel
-              </p>
-              <p class="work-note">
-                実際に動くデモは、ご相談の際にご案内します(API利用料保護のためパスワード制にしています)。
               </p>
             </div>
           </article>
@@ -225,11 +178,17 @@
                 height="750"
                 loading="lazy"
               />
+              <figcaption>
+                架空の不動産会社を想定した模擬案件(データはすべてダミー)
+              </figcaption>
             </figure>
             <div class="work-body">
               <p class="work-badges">
                 <span class="badge badge-mock"
                   >模擬案件 — 架空のご依頼を想定した自主制作</span
+                >
+                <span class="badge badge-app"
+                  >公開デモあり — 実際に触れます</span
                 >
               </p>
               <h3 class="work-title">
@@ -266,6 +225,144 @@
                   target="_blank"
                   rel="noopener"
                   >分類デモを触ってみる →</a
+                >
+              </p>
+              <p class="work-links">
+                <a class="text-link" href="works/inquiry-hub.html"
+                  >どう作ったか、くわしく見る →</a
+                >
+              </p>
+            </div>
+          </article>
+
+          <!-- LUMINA 売上分析ダッシュボード (project8) -->
+          <article id="work-sales-dashboard" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/dashboard-charts.jpg"
+                alt="月次推移グラフ・カテゴリ別売上・SKUランキングが表示されるLUMINA売上分析ダッシュボードの画面"
+                width="805"
+                height="570"
+                loading="lazy"
+              />
+              <figcaption>
+                架空アパレルEC「LUMINA」を想定した模擬案件(データはすべてダミー)
+              </figcaption>
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-mock"
+                  >模擬案件 — 架空のご依頼を想定した自主制作</span
+                >
+                <span class="badge badge-app"
+                  >公開デモあり — 実際に触れます</span
+                >
+              </p>
+              <h3 class="work-title">
+                LUMINA 売上分析ダッシュボード — AIが根拠つきで来月を提案
+              </h3>
+              <dl class="work-story">
+                <div>
+                  <dt>想定した困りごと</dt>
+                  <dd>
+                    月次の売上レポート作成にExcelで毎回3時間かかっている。社長・マーケ部長・営業がそれぞれ別の資料を見ていて、会議のたびに数字の確認から始まる。次の施策が担当者の感覚で決まっていて、なぜその判断をしたか説明できない。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    売上CSVをアップロードするだけで、売上・粗利・リピート率の3大KPIを自動集計・グラフ化し、AI(Claude)が「今月何が起きたか」「来月何をすべきか」を根拠つきで提案するダッシュボード。数字の計算は必ずプログラム側で行い、AIには解釈だけを任せる設計にしています。
+                  </dd>
+                </div>
+                <div>
+                  <dt>ポイント</dt>
+                  <dd>
+                    <strong>Excelの手計算と1円もズレずに一致すること</strong
+                    >をテストで担保。AIのアクション提案も「広告を強化」では終わらせず、「アウターのInstagram広告予算を30%増額する」のレベルまで具体化させています。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Next.js / TypeScript / Claude API / Supabase / Vercel
+              </p>
+              <p class="work-links">
+                <a
+                  class="text-link"
+                  href="https://mock-project8.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  >ダッシュボードのデモを見る →</a
+                >
+              </p>
+              <p class="work-links">
+                <a class="text-link" href="works/sales-dashboard.html"
+                  >どう作ったか、くわしく見る →</a
+                >
+              </p>
+            </div>
+          </article>
+
+          <!-- 社内ナレッジ検索 + Slackボット (project7) -->
+          <article id="work-knowledge-search" class="work reveal">
+            <figure class="work-visual">
+              <img
+                src="images/placeholder-knowledge.svg"
+                alt="Slackで質問すると出典(ファイル名・ページ範囲)付きでAIが即答する社内ナレッジ検索の画面"
+                width="1200"
+                height="750"
+                loading="lazy"
+              />
+              <figcaption>
+                架空の社内文書を想定した模擬案件(データはすべてダミー・実物のスクリーンショットは準備中)
+              </figcaption>
+            </figure>
+            <div class="work-body">
+              <p class="work-badges">
+                <span class="badge badge-mock"
+                  >模擬案件 — 架空のご依頼を想定した自主制作</span
+                >
+                <span class="badge badge-app"
+                  >公開デモあり — 実際に触れます</span
+                >
+              </p>
+              <h3 class="work-title">
+                社内ナレッジ検索 + Slackボット — 出典つきで即答する
+              </h3>
+              <dl class="work-story">
+                <div>
+                  <dt>想定した困りごと</dt>
+                  <dd>
+                    過去10年分・約5,000件を想定した社内文書がPDFやWordで散在していて、必要な1行を探すのに時間がかかる。Slackで聞いても「たぶんこの資料」で終わってしまう。
+                  </dd>
+                </div>
+                <div>
+                  <dt>作ったもの</dt>
+                  <dd>
+                    PDF・Wordを取り込んでおくと、Slackから自然文で質問するだけで、出典(ファイル名・ページ範囲)つきでAI(Claude)が要約して答えるナレッジ検索bot。同じ内容をWebの検索画面からも引けます。
+                  </dd>
+                </div>
+                <div>
+                  <dt>ポイント</dt>
+                  <dd>
+                    部署・客先・作成年・機密度でメタデータを分けて管理し、機密文書の扱いを定めたガバナンス手順書まで用意しました。
+                  </dd>
+                </div>
+              </dl>
+              <p class="work-tech">
+                Next.js / Supabase(pgvector) / Claude API / Slack API
+              </p>
+              <p class="work-links">
+                <a
+                  class="text-link"
+                  href="https://project7-khaki.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  >検索デモを触ってみる →</a
+                >
+              </p>
+              <p class="work-links">
+                <a class="text-link" href="works/knowledge-search.html"
+                  >どう作ったか、くわしく見る →</a
                 >
               </p>
             </div>
@@ -317,100 +414,10 @@
               <p class="work-note">
                 実際に動く画面は、ご相談の際にご案内します(API利用料保護のためパスワード制にしています)。
               </p>
-            </div>
-          </article>
-
-          <!-- 社内文書検索AI -->
-          <article id="work-rag" class="work reveal">
-            <figure class="work-visual">
-              <img
-                src="images/placeholder-rag.svg"
-                alt="PDFマニュアルに質問すると出典付きで回答が返る社内文書検索AIの画面"
-                width="1200"
-                height="750"
-                loading="lazy"
-              />
-            </figure>
-            <div class="work-body">
-              <p class="work-badges">
-                <span class="badge badge-mock"
-                  >模擬案件 — 架空のご依頼を想定した自主制作</span
+              <p class="work-links">
+                <a class="text-link" href="works/ec-chatbot.html"
+                  >どう作ったか、くわしく見る →</a
                 >
-              </p>
-              <h3 class="work-title">
-                社内文書検索AI — 「マニュアルどこ?」をなくす
-              </h3>
-              <dl class="work-story">
-                <div>
-                  <dt>想定した困りごと</dt>
-                  <dd>
-                    社内マニュアルや規程がPDFで散在していて、必要な1行を探すのに時間がかかる。新人さんが同じ質問を何度もすることになる。
-                  </dd>
-                </div>
-                <div>
-                  <dt>作ったもの</dt>
-                  <dd>
-                    PDFを取り込んでおくと、普通の言葉で質問するだけで<strong>出典(どのファイルの何ページか)付き</strong>で答えてくれる検索AI。要件定義書の作成から、実装・テストまで受注を想定して一式作りました。
-                  </dd>
-                </div>
-                <div>
-                  <dt>ポイント</dt>
-                  <dd>
-                    「AIの答えが本当か確認できない」という不安に対して、必ず根拠の箇所を一緒に表示する設計にしています。
-                  </dd>
-                </div>
-              </dl>
-              <p class="work-tech">
-                Next.js / Supabase(pgvector) / Claude API / Voyage AI
-              </p>
-            </div>
-          </article>
-
-          <!-- LINE bot -->
-          <article id="work-linebot" class="work reveal">
-            <figure class="work-visual">
-              <img
-                src="images/placeholder-linebot.svg"
-                alt="LINE上でAIが自動応答する画面と、オーナー向け管理画面"
-                width="1200"
-                height="750"
-                loading="lazy"
-              />
-            </figure>
-            <div class="work-body">
-              <p class="work-badges">
-                <span class="badge badge-mock"
-                  >模擬案件 — 架空のご依頼を想定した自主制作</span
-                >
-              </p>
-              <h3 class="work-title">
-                LINE公式アカウントのAI自動応答 + 管理画面
-              </h3>
-              <dl class="work-story">
-                <div>
-                  <dt>想定した困りごと</dt>
-                  <dd>
-                    お店のLINEに届く「営業時間は?」「予約できますか?」への返信が営業中にさばききれない。
-                  </dd>
-                </div>
-                <div>
-                  <dt>作ったもの</dt>
-                  <dd>
-                    よくある質問にAIが自動で答えるLINE
-                    bot。オーナーさん向けには、回答内容を自分で編集できる管理画面と、<strong>納品後に一人で運用できるマニュアル</strong>まで用意しました。
-                  </dd>
-                </div>
-                <div>
-                  <dt>ポイント</dt>
-                  <dd>
-                    「納品されたけど使い方が分からない」を防ぐため、要件定義 →
-                    実装 →
-                    納品マニュアルまでを一式で作れることを確認した制作です。
-                  </dd>
-                </div>
-              </dl>
-              <p class="work-tech">
-                Next.js / LINE Messaging API / Claude API / Supabase
               </p>
             </div>
           </article>
@@ -427,9 +434,177 @@
             >
           </h2>
           <p class="section-lead">
-            小さな道具もいろいろ作っています。「これに近いものがほしい」の参考にどうぞ。
+            上記のほかにも、いろいろな業務を自動化してきました。「これに近いものがほしい」の参考にどうぞ。
           </p>
           <ul class="mini-list" data-stagger>
+            <li id="work-mercari" class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <rect
+                  x="5"
+                  y="11"
+                  width="22"
+                  height="15"
+                  rx="2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11 11l2-3.5h6l2 3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="16"
+                  cy="18.5"
+                  r="4.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <circle
+                  cx="23"
+                  cy="14.5"
+                  r="1.3"
+                  fill="#c05621"
+                  stroke="none"
+                />
+              </svg>
+              <span class="badge badge-app"
+                >自主制作 — Webアプリとして公開</span
+              >
+              <h3>メルカリ出品アシスタント</h3>
+              <p>
+                商品写真と実寸サイズを渡すだけで、AI(Claude)が売れやすい商品名と説明文を下書き。1品10分かかっていた作業が約30秒に。
+              </p>
+              <p class="mini-links">
+                実際に動くデモは、ご相談の際にご案内します(パスワード制)。
+              </p>
+            </li>
+            <li id="work-rag" class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M8 4.5h11l5 5v18h-16z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M19 4.5v5h5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="15.5"
+                  cy="19"
+                  r="4"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2"
+                />
+                <path
+                  d="M18.5 22l3 3"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span class="badge badge-mock"
+                >模擬案件 — 架空のご依頼を想定した自主制作</span
+              >
+              <h3>社内文書検索AI(RAG)</h3>
+              <p>
+                社内マニュアルをPDFで取り込んでおくと、質問するだけで出典(ファイル名・ページ)付きで回答するAI検索。要件定義から実装まで一式制作しました。
+              </p>
+              <p class="mini-links">
+                <a class="text-link" href="works/doc-search.html"
+                  >どう作ったか、くわしく見る →</a
+                >
+              </p>
+            </li>
+            <li id="work-linebot" class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M5 8.5c0-2 1.5-3.5 3.5-3.5h15c2 0 3.5 1.5 3.5 3.5v11c0 2-1.5 3.5-3.5 3.5H14l-6 5v-5H8.5c-2 0-3.5-1.5-3.5-3.5z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="12"
+                  cy="14"
+                  r="1.4"
+                  fill="currentColor"
+                  stroke="none"
+                />
+                <circle
+                  cx="17"
+                  cy="14"
+                  r="1.4"
+                  fill="currentColor"
+                  stroke="none"
+                />
+                <circle cx="22" cy="14" r="1.4" fill="#c05621" stroke="none" />
+              </svg>
+              <span class="badge badge-mock"
+                >模擬案件 — 架空のご依頼を想定した自主制作</span
+              >
+              <h3>LINE公式アカウントのAI自動応答</h3>
+              <p>
+                よくある質問にAIが自動回答するLINE
+                bot。オーナー向け管理画面と、納品後に一人で運用できるマニュアルまで一式制作しました。
+              </p>
+              <p class="mini-links">
+                <a class="text-link" href="works/line-bot.html"
+                  >どう作ったか、くわしく見る →</a
+                >
+              </p>
+            </li>
+            <li class="mini-card reveal">
+              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M6 5.5h14v22h-14z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.5 11h7M9.5 15h7M9.5 19h4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M21 21l6-6 2 2-6 6-2.6.6z"
+                  fill="none"
+                  stroke="#c05621"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="badge badge-mock"
+                >模擬案件 — 架空のご依頼を想定した自主制作</span
+              >
+              <h3>スプレッドシート + AI ブログ記事自動生成</h3>
+              <p>
+                キーワードを入力してボタン一つでAIが下書きを生成し、WordPressに下書き保存。1本3時間かかっていた執筆を30分以下に短縮する設計にしました。
+              </p>
+              <p class="mini-links">
+                <a class="text-link" href="works/blog-generator.html"
+                  >どう作ったか、くわしく見る →</a
+                >
+              </p>
+            </li>
             <li class="mini-card reveal">
               <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
                 <rect
@@ -583,28 +758,6 @@
               <h3>EC価格の定点観測</h3>
               <p>
                 楽天の商品価格を毎日自動チェックしてスプレッドシートに記録。価格改定の判断材料に。
-              </p>
-            </li>
-            <li class="mini-card reveal">
-              <svg class="mini-icon" viewBox="0 0 32 32" aria-hidden="true">
-                <path
-                  d="M10 24.5a5.5 5.5 0 0 1-.6-11c1-3 3.9-5 7.1-5 3.6 0 6.6 2.5 7.3 5.9a4.8 4.8 0 0 1-1 9.6z"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M12 27.5l-1.2 2.3M18 27.5l-1.2 2.3M24 27.5l-1.2 2.3"
-                  fill="none"
-                  stroke="#c05621"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-              </svg>
-              <h3>天気予報Webアプリ</h3>
-              <p>
-                都市検索・週間予報・服装アドバイス付きの天気アプリ。UIづくりの練習を兼ねた制作。
               </p>
             </li>
           </ul>

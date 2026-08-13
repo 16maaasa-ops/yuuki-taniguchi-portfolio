@@ -215,10 +215,17 @@ section {
   font-weight: 700;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
-  padding-bottom: 1px;
+  /* スマホでのタップ領域を広げる(視覚上の下線は詰めたまま、上下の余白だけ増やす) */
+  padding: 8px 2px 3px;
 }
 .text-link:hover {
   color: var(--teal-deep);
+}
+
+/* デモリンクと詳細ページリンクが縦に並ぶカード用の余白 */
+.work-links + .work-links,
+.mini-links + .mini-links {
+  margin-top: 4px;
 }
 
 /* ---------- ヒーロー ---------- */
@@ -326,6 +333,13 @@ section {
 
 .work-badges {
   margin-bottom: 12px;
+}
+
+/* 実際の画面写真は非エンジニアには「何を見せられているか」が伝わりにくいため説明を添える */
+.work-visual figcaption {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-top: 10px;
 }
 
 .badge {
@@ -437,6 +451,12 @@ section {
   width: 30px;
   height: 30px;
   color: var(--teal);
+  margin-bottom: 10px;
+}
+
+/* 二軍でも模擬案件には必ずバッジを出す(一軍からの降格でラベルが消えないように) */
+.mini-card .badge {
+  display: inline-block;
   margin-bottom: 10px;
 }
 
