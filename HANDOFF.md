@@ -1,66 +1,95 @@
 # 引き継ぎ書 — ポートフォリオ（営業資料）整備
 
-作成日: 2026-07-22。新しい会話の最初にこれを読めば、続きから作業できます。
+最終更新: 2026-08-13。新しい会話の最初にこれを読めば、続きから作業できます。
 このファイルは「ポートフォリオ全体（営業資料）」の引き継ぎ書です。
-個別案件 project5 のバックエンド詳細は `/Users/yukitaniguchi/claude/mock-project/project5/HANDOFF.md` を参照。
+個別案件のバックエンド詳細は各 `mock-project/projectN/` 配下の `HANDOFF.md`（あれば）を参照。
 
-## ゴールと前提（このセッションで確定した方針）
+## ゴールと前提（確定した方針）
 
 - **用途**: フリーランス個人として、**案件を受注するための営業資料**
 - **到達経路**: URLを直接送る（クラウドソーシング／SNS等）
 - **名義**: Yuuki Taniguchi（個人・フリーランス）。ポジションは「元・調剤薬局事務／現場のしんどさが分かるAI業務効率化屋」
-- **誠実さの原則**: 模擬案件は必ず「自主制作」と明記する。実運用/自主制作/模擬案件をバッジで区別する既存の仕組みを踏襲
-- **模擬案件は最終的に8つになる予定**。器（トップページ）は既に完成しているので、案件が増えるたびカードを足すだけでよい
+- **誠実さの原則**: 模擬案件は必ず「模擬案件・自主制作」と明記する。実運用/自主制作/模擬案件をバッジで区別する既存の仕組みを踏襲。**トップページの一軍・二軍・案件詳細ページ(works/)の3か所すべてで**表記が漏れないようにする
+- **模擬案件は8つ**（project1〜5, 7, 8。project6は欠番）。全8案件が2026-08-13時点でポートフォリオに反映済み
 
-## 全体構成（2階建て・決定済み）
+## 全体構成（2階建て・確定）
 
 ```
-/Users/yukitaniguchi/claude/portfolio/index.html   ← 営業サイト本体（入口）。完成度高い
-   Works セクション（一軍は最大4枠。相手に応じて入れ替える運用）
-   └ 各カード → 案件詳細ページ（showcase）へリンク
-案件詳細ページ（showcase・案件ごとに配色が違う「導入レポート」風）
-   ├ /Users/yukitaniguchi/Desktop/ec-chatbot-showcase/index.html   （project4）
-   └ /Users/yukitaniguchi/Desktop/inquiry-hub-showcase/index.html  （project5）
+/Users/yukitaniguchi/claude/portfolio/index.html   ← 営業サイト本体（入口）
+   Works セクション（一軍5枚。証拠が強い順に並べる運用）
+   More Works セクション（二軍9枚・3×3グリッド）
+   └ 各カード → 案件詳細ページ（works/）へリンク（「どう作ったか、くわしく見る →」で統一）
+案件詳細ページ（portfolio/works/*.html・案件ごとに配色が違う「導入レポート」風）
 ```
 
-- showcaseの見た目は「案件ごとの個性」として現状維持でよい（統一しない、と決定済み）
-- showcaseはまだWeb未公開。今はWorksカードから「実デモ」or「ご相談時にご案内」へ繋いでいる
+- showcaseの見た目は「案件ごとの個性」として現状維持（統一しない、と決定済み）
+- **`works/` の実体は `portfolio/works/` 側のみ**。`/Users/yukitaniguchi/Desktop/*-showcase/index.html` は
+  改修前のアーカイブとして残しているだけで、以後は編集しないこと（Desktopを直しても本サイトには反映されない）
+- `portfolio/` は 2026-08-13 に `git init` 済み。以後の作業はコミットを刻みながら進めること（Undo手段の確保）
 
-## このセッションで完了したこと
+## 一軍・二軍の割り付け（2026-08-13 時点）
 
-1. **project5・project4 をWorksに追加**（`portfolio/index.html`）
-   - 配置: Task Bot → メルカリ → **project5（#work-inquiry-hub）→ project4（#work-cs-chatbot）** → RAG → LINE bot
-   - プレースホルダー画像を新規作成: `images/placeholder-inquiryhub.svg` / `images/placeholder-ecchatbot.svg`（手描きダミー。要・実スクショ差し替え）
-   - project5カードは実デモ（https://project5-three-weld.vercel.app）へリンク。project4は「ご相談時にご案内」（公開デモURL未確認のため）
-2. **showcaseのUIレビュー指摘を反映**（inquiry-hub / ec-chatbot 両方）
-   - Hero・背景を「メール＋LINE」→「まずLINEを対象に」へ修正（末尾SCOPEと矛盾しないよう）
-   - デモ画面モックのヘッダーをダークで白飛びしないよう固定色化
-   - Hero見出しの強調を括弧をまたがない形に
-   - 両ファイルに `<!doctype html><html lang="ja">…` の骨組みを追加
-3. **project5のコード修正を本番反映**（別リポジトリ `mock-project/project5`）
-   - Slackメンション化け脆弱性（本文に`<!channel>`で全員通知が飛ぶ）をエスケープで修正 → PR #1 マージ済み・本番デプロイ済み・稼働確認済み
-4. **記事下書き作成**: `/Users/yukitaniguchi/claude/mock-project/project5-記事下書き.md`（project4の記事フォーマットに合わせた版。公開媒体への投稿用）
+**Works（一軍5枚・上から証拠が強い順）**
+
+1. `work-taskbot` — Task Bot（実運用中）
+2. `work-inquiry-hub` — 問い合わせ集約 + AI分類（p5・模擬案件＋公開デモあり）
+3. `work-sales-dashboard` — LUMINA売上分析ダッシュボード（p8・模擬案件＋公開デモあり・**実スクショ使用**）
+4. `work-knowledge-search` — 社内ナレッジ検索+Slackボット（p7・模擬案件＋公開デモあり）
+5. `work-cs-chatbot` — CSチャットボット（p4・模擬案件・デモ非公開）
+
+**More Works（二軍9枚・3×3、既存の「天気予報Webアプリ」は9枚に揃えるため除外）**
+
+- `work-mercari`（メルカリ、自主制作） / `work-rag`（p3社内文書検索AI、模擬案件） /
+  `work-linebot`（p1 LINE bot、模擬案件） / `work-blog-generator`（p2ブログ記事生成、模擬案件・新規）
+- 既存5枚: 記念日リマインダー / 会議の議事録自動生成 / アンケート自由記述の分析 / レシピ提案ツール / EC価格の定点観測
+
+p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテーマが重複していたため、**新しく充実しているp7を一軍に、p3は二軍に**という整理にした。
+
+## このセッションで完了したこと（2026-08-13）
+
+1. **`git init`** で portfolio/ を管理下に置き、各手順の区切りでコミット
+2. **p8の実スクショ4枚をトリミングして導入**
+   - 元データ（`mock-project/project8-記事画像/*.jpg`）は文字が途中で切れていたり白余白が7割を占めるなど未加工のままでは使えず、Pillowで精密にトリミング
+   - `images/dashboard-kpi.jpg`（ヒーロー用・805×355）/ `dashboard-charts.jpg` / `dashboard-upload.jpg` / `dashboard-error.jpg`
+   - `images/ogp.png`（1200×630）も同じ素材から新規作成
+   - ヒーロー画像を「メルカリの手描きダミー」→「p8ダッシュボードの実スクショ」に差し替え。**模擬案件である旨をキャプション・altに明記**（実運用ツールと誤読されないように）
+3. **`portfolio/works/` を新設し、showcase 7ファイルを取り込み**
+   - うち3ファイル（blog-generator/doc-search/line-bot）は `<!doctype>` `charset` `viewport` が丸ごと欠落しており、
+     iPhoneで正しく表示されない状態だったため骨組みを追加
+   - 7ファイル全部に「模擬案件」の但し書き（5ファイルには無かった）、冒頭の戻りリンク、末尾のCTA（相談導線）、
+     `<title>` への「｜ Yuuki Taniguchi」追加
+   - sales-dashboard.html には p8 の実スクショ3枚（charts/upload/error）を新セクションとして追加
+4. **`index.html` を再編**
+   - Works を5枚に絞り、証拠の強い順（実運用 → デモ+実測値あり → デモあり → デモあり → デモ非公開）に並べ替え
+   - p8・p7の新規カードを追加。模擬案件3件（p5/p8/p7）には「模擬案件」に加え「公開デモあり」バッジも併記
+     （模擬案件バッジが縦に並びすぎると「実績が無い人」に見えるための対策）
+   - More Worksに4枚追加（メルカリ/p3/p1を降格、p2を新規）、天気予報を除外して9枚（3×3）に調整
+   - 降格した3枚には**既存の直リンク`id`をそのまま引き継いだ**（`/#work-mercari`等が死なないように）
+   - リンク文言を「どう作ったか、くわしく見る →」に統一（「導入レポート」は実在顧客を連想させ模擬案件と矛盾するため不採用）
+5. **CSSを最小限だけ調整**（`.text-link`のタップ領域拡大、`.work-visual figcaption`、`.mini-card .badge`）。
+   `js/main.js` は無改修
+6. **README.md / HANDOFF.md（本ファイル）を更新**
 
 ## 次回やること（優先順）
 
-1. **プレースホルダー画像を実スクショに差し替え**（`portfolio/images/placeholder-*.svg`）
-   - project4/5 の実際のSlackカード・LINE通知・管理画面などのスクショを用意すれば組み込める
-   - README.md のチェックリストにも他案件（Task Bot等）の差し替え項目あり
-2. **連絡先の確定**（`portfolio/contact.html` と `index.html`）
-   - GoogleフォームのフォームID（`REPLACE-WITH-YOUR-FORM-ID` を2箇所）
+1. **公開作業**: GitHubリポジトリ作成 → Vercel連携でデプロイ → Vercel Analytics有効化
+2. **連絡先の確定**（現状は押しても何も起きない状態のため公開前に必須）
+   - GoogleフォームのフォームID（`contact.html` の `REPLACE-WITH-YOUR-FORM-ID` を2箇所）
    - ココナラ/クラウドワークスのプロフィールURL（`js-coconala-link` / `js-crowdworks-link` の `href="#"`）
-   - OGP URL（`REPLACE-WITH-YOUR-DOMAIN` 2箇所）、`images/ogp.png`（1200x630）作成
-3. **残り6案件のWorks統合**（同じカードの型に流し込む。一軍4枠を超えたら二軍へ）
-   - 一軍が増えたら、テーマの近い LINE bot（模擬）は二軍に落とす候補
-4. **公開**: GitHubリポジトリ作成 → Vercel等でデプロイ → URLを各所に反映
-5. **後片付け**: project5の worktree `fix-slack-escape`（マージ済み・不要なら削除可）
+   - OGP URL（`index.html` の `REPLACE-WITH-YOUR-DOMAIN` 2箇所）
+3. **残りの実スクショ撮影**: p7・p5・p4・Task Bot・メルカリ（現状プレースホルダーのまま）
+4. **iOS Safari実機での表示確認**。特に骨組みを追加した3ファイル
+   （`works/blog-generator.html` `works/doc-search.html` `works/line-bot.html`）
+5. `js/main.js` の `setupHashDeepLink()` に `try/catch` を追加（`#:~:text=`付きURLで例外が出る。優先度低）
+6. Vercelの `cleanUrls` 設定を検討（`works/xxx.html`直リンクのちらつき対策）
+7. メルカリのshowcaseページ作成を検討（二軍の中で唯一詳細ページが無い）
+8. Task Bot事例ページ（外部Netlify）を `works/` 配下へ取り込むか検討
 
 ## 主要ファイルの場所（絶対パス）
 
 - 営業サイト本体: `/Users/yukitaniguchi/claude/portfolio/index.html`
-- 営業サイトの公開前チェックリスト: `/Users/yukitaniguchi/claude/portfolio/README.md`
-- 案件詳細ページ: `/Users/yukitaniguchi/Desktop/{ec-chatbot,inquiry-hub}-showcase/index.html`
-- project5リポジトリ（本番稼働中）: `/Users/yukitaniguchi/claude/mock-project/project5/` （GitHub: 16maaasa-ops/inquiry-hub、デモ: project5-three-weld.vercel.app）
-- project5のバックエンド引き継ぎ書: `/Users/yukitaniguchi/claude/mock-project/project5/HANDOFF.md`
-- project4リポジトリ: `/Users/yukitaniguchi/claude/mock-project/project4/` （GitHub: 16maaasa-ops/mock-project-4）
-- 記事下書き: `/Users/yukitaniguchi/claude/mock-project/project5-記事下書き.md`
+- 公開前チェックリスト: `/Users/yukitaniguchi/claude/portfolio/README.md`
+- 案件詳細ページ（**正**。以後はここだけ編集）: `/Users/yukitaniguchi/claude/portfolio/works/*.html`
+- 案件詳細ページの原本（改修前アーカイブ・編集しない）: `/Users/yukitaniguchi/Desktop/*-showcase/index.html`
+- 各模擬案件のリポジトリ: `/Users/yukitaniguchi/claude/mock-project/project1〜8/`
+- p8のバックエンド状況メモ: `/Users/yukitaniguchi/.claude/projects/-Users-yukitaniguchi-claude-mock-project-project8/memory/case8-project-status.md`
