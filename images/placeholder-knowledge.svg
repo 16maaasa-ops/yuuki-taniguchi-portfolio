@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" font-family="sans-serif">
+  <rect width="1200" height="750" fill="#FFFFFF"/>
+  <rect width="1200" height="64" fill="#1E3A5F"/>
+  <text x="36" y="41" font-size="24" fill="#F7F8FA" font-weight="bold">社内ナレッジ検索 + Slackボット</text>
+
+  <!-- Slackのチャンネル風メッセージ -->
+  <rect x="36" y="100" width="1128" height="90" rx="4" fill="#EBEEF3"/>
+  <circle cx="72" cy="130" r="16" fill="#1E3A5F"/>
+  <text x="72" y="136" font-size="14" fill="#F7F8FA" text-anchor="middle" font-weight="bold">田</text>
+  <text x="100" y="128" font-size="16" fill="#1A1A1A" font-weight="bold">田中さん  #知的財産-質問</text>
+  <text x="100" y="158" font-size="19" fill="#1A1A1A">@ナレッジ検索bot 銀行A向け提案書のセキュリティ要件、どこに書いてありましたか?</text>
+
+  <!-- botの回答パネル -->
+  <rect x="36" y="210" width="1128" height="300" rx="4" fill="#FFFFFF" stroke="#D9DEE5" stroke-width="2"/>
+  <circle cx="72" cy="242" r="16" fill="#C05621"/>
+  <text x="72" y="248" font-size="14" fill="#F7F8FA" text-anchor="middle" font-weight="bold">bot</text>
+  <text x="100" y="248" font-size="16" fill="#1E3A5F" font-weight="bold">ナレッジ検索bot</text>
+  <text x="100" y="288" font-size="19" fill="#1A1A1A">セキュリティ要件は「データは国内リージョンに限定し、アクセスログを</text>
+  <text x="100" y="322" font-size="19" fill="#1A1A1A">1年間保持すること」と定められています。委託先の再委託には</text>
+  <text x="100" y="356" font-size="19" fill="#1A1A1A">事前承認が必要です。</text>
+  <rect x="100" y="400" width="1000" height="90" rx="3" fill="#EBEEF3"/>
+  <text x="124" y="428" font-size="15" fill="#C05621" font-weight="bold">出典</text>
+  <text x="124" y="460" font-size="17" fill="#4A4A46">銀行A向け提案書_2025.pdf — 8〜9ページ「セキュリティ要件」</text>
+
+  <!-- 検索範囲の目安 -->
+  <rect x="36" y="540" width="540" height="90" rx="4" fill="#EBEEF3"/>
+  <text x="60" y="575" font-size="16" fill="#1E3A5F" font-weight="bold">検索対象</text>
+  <text x="60" y="606" font-size="17" fill="#4A4A46">過去10年分・約5,000件の社内文書（PDF / Word）</text>
+
+  <rect x="624" y="540" width="540" height="90" rx="4" fill="#EBEEF3"/>
+  <text x="648" y="575" font-size="16" fill="#1E3A5F" font-weight="bold">利用経路</text>
+  <text x="648" y="606" font-size="17" fill="#4A4A46">Slackから質問 / Webの検索画面からも利用可能</text>
+
+  <text x="600" y="700" font-size="20" fill="#8A8578" text-anchor="middle">※ 実際の画面スクリーンショットに差し替え予定(データはダミー)</text>
+</svg>
