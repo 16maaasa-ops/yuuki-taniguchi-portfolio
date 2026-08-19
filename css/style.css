@@ -36,6 +36,10 @@ body {
   color: var(--ink);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  /* 日本語と英数字が混じった見出し・本文で、単語の途中で変な改行が
+     入らないようにする(例:「Task」と「Bot」の間で割れる、等) */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 img {
