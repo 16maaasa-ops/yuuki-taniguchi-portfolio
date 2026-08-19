@@ -103,6 +103,17 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
    - `blog-generator.html`固有のスプレッドシート風モックアップ表に
      `table-layout: fixed`・列幅指定・th nowrapを追加
    - **ユーザーへの再確認待ち**：修正後の見た目をiPhoneでもう一度見てもらう必要あり
+7. **横スクロール回帰の修正**（コミット `5839882`）
+   - 上記6で追加した`word-break: keep-all`が原因で、句読点の間が長い日本語の
+     地の文がある箇所で横スクロールが発生（`keep-all`はCJK文字同士の暗黙の改行機会を
+     止めてしまうため、句読点が少ない区間があると改行できず横にはみ出す）
+   - 見出しの単語保護は`<span style="white-space: nowrap">`方式でkeep-allに依存していない
+     ため、`css/style.css`と`works/*.html`全7ファイルのbodyから`word-break: keep-all`/
+     `overflow-wrap: break-word`を削除するだけで解決。見出しの改行修正はそのまま維持
+   - iframeで375/390/430px幅をシミュレートし（`resize_window`ツールがこの環境の
+     スクリーンショットに反映されない制約があったため）、overflowが解消したことを
+     JavaScriptで確認済み
+   - **ユーザーへの再々確認待ち**：本番URLをiPhoneでもう一度見てもらう必要あり
 
 ## 次回やること（優先順）
 
@@ -132,9 +143,11 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
    - ⬜ p4（CSチャットボット）: Vercelに未デプロイのため撮影不可。デプロイ後に対応
 4. **iOS Safari実機での表示確認** — 2026-08-19に実施。ユーザーが本番URLをiPhoneで確認し、
    画面録画3本（骨組みを追加した3ファイル: `works/blog-generator.html` `works/doc-search.html`
-   `works/line-bot.html`）を共有してくれた。動画から「見出しが日本語の単語の途中で
-   割れる」問題を発見・修正済み（詳細は下記「2026-08-19の追加修正」参照）。
-   **再確認が必要**：修正後の見た目をもう一度iPhoneで見てもらうこと
+   `works/line-bot.html`）を共有してくれた。「見出しが日本語の単語の途中で割れる」問題を
+   発見・修正 → その修正（word-break: keep-all）が原因で今度は横スクロールが発生 → 原因特定し
+   keep-allを削除して解消、という2往復のやり取りがあった（詳細は上記の完了ログ参照）。
+   **再々確認が必要**：修正後の見た目をもう一度iPhoneで見てもらうこと（変な改行・横スクロール
+   両方とも解消しているか）
 5. `js/main.js` の `setupHashDeepLink()` に `try/catch` を追加（`#:~:text=`付きURLで例外が出る。優先度低）
 6. Vercelの `cleanUrls` 設定を検討（`works/xxx.html`直リンクのちらつき対策）
 7. メルカリのshowcaseページ作成を検討（二軍の中で唯一詳細ページが無い）
