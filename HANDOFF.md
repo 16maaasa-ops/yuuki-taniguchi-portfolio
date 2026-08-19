@@ -104,7 +104,14 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
    - ✅ Googleフォームを新規作成し埋め込み済み（`contact.html`、お名前/ご連絡先/ご相談内容の3項目・全て必須）
    - ✅ ココナラ・クラウドワークスのプロフィールURLを反映済み（`index.html` / `contact.html` 計4箇所）
    - ✅ OGP URL（`index.html` の `REPLACE-WITH-YOUR-DOMAIN` 2箇所）も本番URL確定後に反映済み
-3. **残りの実スクショ撮影**: p7・p5・p4・Task Bot・メルカリ（現状プレースホルダーのまま）
+3. **残りの実スクショ撮影** — 2026-08-19、5件中3件完了
+   - ✅ Task Bot / p5（問い合わせ集約）/ p7（社内ナレッジ検索）: 公開デモ・案件詳細ページで
+     実際に操作した結果画面をスクショし、`index.html`のプレースホルダーSVGと差し替え済み
+   - ⚠️ メルカリ出品アシスタント: `images/mercari-demo.jpg`として実スクショ（開発時にdocsフォルダへ
+     残っていたもの。実アカウントの定型文`#古着屋36`が写っていたため黒塗り処理済み）を用意したが、
+     `works/mercari.html`が無いため**まだどこにも埋め込んでいない**。二軍の中で唯一詳細ページが無い
+     案件なので、ページを新規作成するタイミングでヒーロー画像として使うこと（本Handoffの末尾「次回やること」7番と合わせて対応）
+   - ⬜ p4（CSチャットボット）: Vercelに未デプロイのため撮影不可。デプロイ後に対応
 4. **iOS Safari実機での表示確認**。特に骨組みを追加した3ファイル
    （`works/blog-generator.html` `works/doc-search.html` `works/line-bot.html`）
 5. `js/main.js` の `setupHashDeepLink()` に `try/catch` を追加（`#:~:text=`付きURLで例外が出る。優先度低）
