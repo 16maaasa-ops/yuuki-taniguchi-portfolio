@@ -88,13 +88,18 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
 
 ## 次回やること（優先順）
 
-1. **公開作業**: ホスティング先を決定（Vercel or Netlify、比較検討中）→ GitHubリポジトリ作成 →
-   デプロイ → アクセス解析の有効化
+1. **公開作業** — 2026-08-19に完了（ホスティング先はVercelに決定）
+   - ✅ GitHubリポジトリ作成・push: https://github.com/16maaasa-ops/yuuki-taniguchi-portfolio （Public）
+   - ✅ Vercelプロジェクト作成・デプロイ: **本番URL https://yuuki-taniguchi-portfolio.vercel.app**
+   - ⚠️ **GitHub連携（push時の自動デプロイ）は未接続**。`vercel git connect` が
+     「Failed to connect」で失敗（Vercel側のGitHub App権限の問題と思われる）。
+     現状は `vercel --prod` で手動デプロイする運用。自動化したい場合はVercelダッシュボードの
+     Project Settings → Git から手動でGitHubリポジトリを接続する必要あり
+   - ⬜ Vercel Analytics等のアクセス解析は未設定
 2. **連絡先の確定** — 2026-08-19に完了
    - ✅ Googleフォームを新規作成し埋め込み済み（`contact.html`、お名前/ご連絡先/ご相談内容の3項目・全て必須）
    - ✅ ココナラ・クラウドワークスのプロフィールURLを反映済み（`index.html` / `contact.html` 計4箇所）
-   - ⬜ OGP URL（`index.html` の `REPLACE-WITH-YOUR-DOMAIN` 2箇所）は**ホスティング先の確定待ち**。
-     Netlifyを選ぶ場合はNetlify Forms移行も検討の余地あり（下記メモ参照）
+   - ✅ OGP URL（`index.html` の `REPLACE-WITH-YOUR-DOMAIN` 2箇所）も本番URL確定後に反映済み
 3. **残りの実スクショ撮影**: p7・p5・p4・Task Bot・メルカリ（現状プレースホルダーのまま）
 4. **iOS Safari実機での表示確認**。特に骨組みを追加した3ファイル
    （`works/blog-generator.html` `works/doc-search.html` `works/line-bot.html`）
