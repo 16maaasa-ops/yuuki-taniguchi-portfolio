@@ -116,6 +116,8 @@
         font-family: var(--font-body);
         line-height: 1.75;
         -webkit-font-smoothing: antialiased;
+        word-break: keep-all;
+        overflow-wrap: break-word;
       }
       @media (prefers-reduced-motion: reduce) {
         * {
@@ -213,7 +215,7 @@
       /* ---------- Stat strip ---------- */
       .stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
         gap: 1px;
         background: var(--rule);
         border: 1px solid var(--rule);
@@ -705,6 +707,9 @@
         .hero {
           padding-top: 72px;
         }
+        .stats {
+          grid-template-columns: repeat(3, 1fr);
+        }
         .step {
           flex-direction: row;
           align-items: flex-start;
@@ -853,7 +858,10 @@
       <section>
         <div class="section-head">
           <p class="kicker">BACKGROUND</p>
-          <h2 class="section-title">きっかけは、初動が遅れたクレーム</h2>
+          <h2 class="section-title">
+            きっかけは、<span style="white-space: nowrap">初動</span
+            >が遅れた<span style="white-space: nowrap">クレーム</span>
+          </h2>
         </div>
         <p>
           問い合わせがメールやLINEなど複数の経路に分散していて、担当者が全部を見張っていないと取りこぼす。
@@ -1187,7 +1195,11 @@
       </div>
     </div>
     <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
   </body>

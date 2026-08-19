@@ -116,6 +116,8 @@
         font-family: var(--font-body);
         line-height: 1.75;
         -webkit-font-smoothing: antialiased;
+        word-break: keep-all;
+        overflow-wrap: break-word;
       }
       @media (prefers-reduced-motion: reduce) {
         * {
@@ -213,7 +215,7 @@
       /* ---------- Stat strip ---------- */
       .stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
         gap: 1px;
         background: var(--rule);
         border: 1px solid var(--rule);
@@ -562,6 +564,9 @@
         .hero {
           padding-top: 72px;
         }
+        .stats {
+          grid-template-columns: repeat(3, 1fr);
+        }
         .step {
           flex-direction: row;
           align-items: flex-start;
@@ -678,7 +683,10 @@
         <div class="section-head">
           <p class="kicker">BACKGROUND</p>
           <h2 class="section-title">
-            感覚で決まる打ち手と、3時間かかるレポート
+            感覚で決まる<span style="white-space: nowrap">打ち手</span>と、<span
+              style="white-space: nowrap"
+              >3時間</span
+            >かかるレポート
           </h2>
         </div>
         <p>
@@ -1144,7 +1152,11 @@
       </div>
     </div>
     <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
   </body>
