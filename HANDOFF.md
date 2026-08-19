@@ -70,13 +70,31 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
    `js/main.js` は無改修
 6. **README.md / HANDOFF.md（本ファイル）を更新**
 
+## このセッションで完了したこと（2026-08-19）
+
+1. **ホスティング先の比較検討**: Vercel（無料枠）とNetlify（無料枠）を比較。
+   個人ポートフォリオ規模ならどちらも無料枠で十分だが、Netlify FormsならGoogleフォーム連携が
+   丸ごと不要になる点、Vercelはproject8のバックエンドと管理画面を統一できる点をそれぞれメリットとして提示。
+   **本セッションでは未確定**（ユーザーが先に連絡先確定を優先）
+2. **Googleフォームを新規作成**（Chrome自動操作で代行）
+   - `contact.html` のコメントに書かれていた設計どおり「お名前(ニックネーム可)/ご連絡先(メールアドレス)/ご相談内容」の
+     3項目、全て必須。ご相談内容のみ「段落」形式、他は「記述式（短文）」
+   - 公開設定は「リンクを知っている全員」が回答可能
+   - `contact.html` の埋め込みiframe・フォールバックリンクの `REPLACE-WITH-YOUR-FORM-ID` を実URLに差し替え
+3. **ココナラ・クラウドワークスのプロフィールURLを反映**
+   - `index.html` / `contact.html` 計4箇所の `href="#"` を実URLに差し替え、外部リンクなので
+     `target="_blank" rel="noopener"` を付与
+   - コミット: `d4b497d`
+
 ## 次回やること（優先順）
 
-1. **公開作業**: GitHubリポジトリ作成 → Vercel連携でデプロイ → Vercel Analytics有効化
-2. **連絡先の確定**（現状は押しても何も起きない状態のため公開前に必須）
-   - GoogleフォームのフォームID（`contact.html` の `REPLACE-WITH-YOUR-FORM-ID` を2箇所）
-   - ココナラ/クラウドワークスのプロフィールURL（`js-coconala-link` / `js-crowdworks-link` の `href="#"`）
-   - OGP URL（`index.html` の `REPLACE-WITH-YOUR-DOMAIN` 2箇所）
+1. **公開作業**: ホスティング先を決定（Vercel or Netlify、比較検討中）→ GitHubリポジトリ作成 →
+   デプロイ → アクセス解析の有効化
+2. **連絡先の確定** — 2026-08-19に完了
+   - ✅ Googleフォームを新規作成し埋め込み済み（`contact.html`、お名前/ご連絡先/ご相談内容の3項目・全て必須）
+   - ✅ ココナラ・クラウドワークスのプロフィールURLを反映済み（`index.html` / `contact.html` 計4箇所）
+   - ⬜ OGP URL（`index.html` の `REPLACE-WITH-YOUR-DOMAIN` 2箇所）は**ホスティング先の確定待ち**。
+     Netlifyを選ぶ場合はNetlify Forms移行も検討の余地あり（下記メモ参照）
 3. **残りの実スクショ撮影**: p7・p5・p4・Task Bot・メルカリ（現状プレースホルダーのまま）
 4. **iOS Safari実機での表示確認**。特に骨組みを追加した3ファイル
    （`works/blog-generator.html` `works/doc-search.html` `works/line-bot.html`）
