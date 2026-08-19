@@ -91,11 +91,15 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
 1. **公開作業** — 2026-08-19に完了（ホスティング先はVercelに決定）
    - ✅ GitHubリポジトリ作成・push: https://github.com/16maaasa-ops/yuuki-taniguchi-portfolio （Public）
    - ✅ Vercelプロジェクト作成・デプロイ: **本番URL https://yuuki-taniguchi-portfolio.vercel.app**
-   - ⚠️ **GitHub連携（push時の自動デプロイ）は未接続**。`vercel git connect` が
-     「Failed to connect」で失敗（Vercel側のGitHub App権限の問題と思われる）。
-     現状は `vercel --prod` で手動デプロイする運用。自動化したい場合はVercelダッシュボードの
-     Project Settings → Git から手動でGitHubリポジトリを接続する必要あり
-   - ⬜ Vercel Analytics等のアクセス解析は未設定
+   - ✅ **GitHub自動連携も接続済み**（push→自動デプロイが動作確認済み）。
+     `vercel git connect` は「Failed to connect」で失敗したが、原因はVercelのGitHub Appが
+     「Only select repositories」設定で新規リポジトリを許可していなかったこと。
+     GitHub Settings → Applications → Vercel → Configure で対象リポジトリを追加し、
+     Vercel側で改めて Connect したら解消した
+   - ✅ **Vercel Web Analyticsを有効化**（Hobbyプラン、月5万イベントまで無料）。
+     素のHTMLサイトのためフレームワーク自動注入が効かず、`index.html`/`contact.html`/`works/*.html`
+     の計9ファイル全てに手動でスクリプトタグ（`/_vercel/insights/script.js`）を追加。
+     本番で計測リクエスト（200 OK）を確認済み
 2. **連絡先の確定** — 2026-08-19に完了
    - ✅ Googleフォームを新規作成し埋め込み済み（`contact.html`、お名前/ご連絡先/ご相談内容の3項目・全て必須）
    - ✅ ココナラ・クラウドワークスのプロフィールURLを反映済み（`index.html` / `contact.html` 計4箇所）
