@@ -85,6 +85,24 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
    - `index.html` / `contact.html` 計4箇所の `href="#"` を実URLに差し替え、外部リンクなので
      `target="_blank" rel="noopener"` を付与
    - コミット: `d4b497d`
+4. **GitHub作成・Vercel本番デプロイ・自動連携・Web Analytics** — 詳細は上記「公開作業」項目
+5. **Task Bot・p5・p7の実スクショ差し替え、メルカリの実スクショ用意** — 詳細は上記
+   「実スクショ撮影」項目
+6. **見出し・統計カードの改行修正**（コミット `40bae2f`）
+   - `css/style.css`に前回追加した`word-break: keep-all`は、`works/*.html`が
+     `css/style.css`を読み込んでいないため効いておらず、かつ日本語だけの単語の
+     途中改行にはそもそも効かないことが判明
+   - UI/UXレビューアー・シニアエンジニアの2体にプランをレビューさせ、指摘（固定`<br>`だと
+     `text-wrap: balance`を潰しPC幅でも不要に改行される・見落とし2ファイルがある等）を反映
+   - `works/*.html`全7ファイルのbodyに`word-break: keep-all; overflow-wrap: break-word;`を追加
+   - 「きっかけは、〜」等の見出し6箇所で、割れると読みにくい単語だけ
+     `<span style="white-space: nowrap">`で保護（固定`<br>`は使わず、行の折返し自体は
+     `text-wrap: balance`に任せる設計）
+   - `.stats`（統計カード3列グリッド）を7ファイル共通でモバイル基準1列に変更し、
+     既存の`@media (min-width: 620px)`で3列に戻す
+   - `blog-generator.html`固有のスプレッドシート風モックアップ表に
+     `table-layout: fixed`・列幅指定・th nowrapを追加
+   - **ユーザーへの再確認待ち**：修正後の見た目をiPhoneでもう一度見てもらう必要あり
 
 ## 次回やること（優先順）
 
@@ -112,8 +130,11 @@ p3「社内文書検索AI」とp7「社内ナレッジ検索+Slack」はテー�
      `works/mercari.html`が無いため**まだどこにも埋め込んでいない**。二軍の中で唯一詳細ページが無い
      案件なので、ページを新規作成するタイミングでヒーロー画像として使うこと（本Handoffの末尾「次回やること」7番と合わせて対応）
    - ⬜ p4（CSチャットボット）: Vercelに未デプロイのため撮影不可。デプロイ後に対応
-4. **iOS Safari実機での表示確認**。特に骨組みを追加した3ファイル
-   （`works/blog-generator.html` `works/doc-search.html` `works/line-bot.html`）
+4. **iOS Safari実機での表示確認** — 2026-08-19に実施。ユーザーが本番URLをiPhoneで確認し、
+   画面録画3本（骨組みを追加した3ファイル: `works/blog-generator.html` `works/doc-search.html`
+   `works/line-bot.html`）を共有してくれた。動画から「見出しが日本語の単語の途中で
+   割れる」問題を発見・修正済み（詳細は下記「2026-08-19の追加修正」参照）。
+   **再確認が必要**：修正後の見た目をもう一度iPhoneで見てもらうこと
 5. `js/main.js` の `setupHashDeepLink()` に `try/catch` を追加（`#:~:text=`付きURLで例外が出る。優先度低）
 6. Vercelの `cleanUrls` 設定を検討（`works/xxx.html`直リンクのちらつき対策）
 7. メルカリのshowcaseページ作成を検討（二軍の中で唯一詳細ページが無い）
