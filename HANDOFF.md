@@ -143,7 +143,21 @@ p7は社内＝社員向けナレッジ検索と用途が異なるため、p4は�
      残っていたもの。実アカウントの定型文`#古着屋36`が写っていたため黒塗り処理済み）を用意したが、
      `works/mercari.html`が無いため**まだどこにも埋め込んでいない**。二軍の中で唯一詳細ページが無い
      案件なので、ページを新規作成するタイミングでヒーロー画像として使うこと（本Handoffの末尾「次回やること」7番と合わせて対応）
-   - ⬜ p4（CSチャットボット）: Vercelに未デプロイのため撮影不可。デプロイ後に対応
+   - ✅ p4（CSチャットボット）: 2026-08-22に完了。手順は以下の通り
+     1. `npm run seed:faqs`でFAQ18件をSupabase（project1と共有・`project4`スキーマ）に投入（upsertなので再実行安全）
+     2. `vercel link`で新規プロジェクト作成 → 環境変数6個を本番に設定 → `vercel --prod`でデプロイ
+     3. `npm run seed:operator`でスクショ撮影用オペレーターアカウントを1つ作成（Supabaseに残存。実害なし）
+     4. Chrome自動操作で顧客向け`/widget`（FAQ根拠つきAI自動応答）とオペレーター`/dashboard`
+        （ログイン→エスカレーション済み会話の一覧）を実際に操作してスクショ撮影
+     5. `images/ec-chatbot-widget.jpg`・`ec-chatbot-dashboard.jpg`としてトリミング・保存
+     6. `works/ec-chatbot.html`にSCREENSHOTSセクションを新設（他案件と同じ構成）、
+        `index.html`のWorksカードもプレースホルダーSVGから差し替え、`work-note`の文言も実態に合わせて更新
+     7. **撮影後、Vercelプロジェクトは削除済み**（`vercel remove botanica-cs-chatbot --yes`）。
+        理由: `/widget`はAPIルートに認証が一切無く、公開したままだと誰でもClaude APIを叩けてしまい
+        利用料が意図せず増えるリスクがあったため（`/dashboard`はSupabase認証で保護されているが`/widget`は無防備）。
+        ユーザーに確認の上、削除を選択
+     - 再度デモを見せたい場合は、上記1〜2の手順でいつでも再デプロイ可能（FAQ・オペレーターアカウントは
+       Supabase側に残っているので3は不要）
 4. **iOS Safari実機での表示確認** — 2026-08-19に実施。ユーザーが本番URLをiPhoneで確認し、
    画面録画3本（骨組みを追加した3ファイル: `works/blog-generator.html` `works/doc-search.html`
    `works/line-bot.html`）を共有してくれた。「見出しが日本語の単語の途中で割れる」問題を
