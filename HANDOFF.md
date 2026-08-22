@@ -1,6 +1,6 @@
 # 引き継ぎ書 — ポートフォリオ（営業資料）整備
 
-最終更新: 2026-08-13。新しい会話の最初にこれを読めば、続きから作業できます。
+最終更新: 2026-08-22。新しい会話の最初にこれを読めば、続きから作業できます。
 このファイルは「ポートフォリオ全体（営業資料）」の引き継ぎ書です。
 個別案件のバックエンド詳細は各 `mock-project/projectN/` 配下の `HANDOFF.md`（あれば）を参照。
 
@@ -139,10 +139,31 @@ p7は社内＝社員向けナレッジ検索と用途が異なるため、p4は�
 3. **残りの実スクショ撮影** — 2026-08-19、5件中3件完了
    - ✅ Task Bot / p5（問い合わせ集約）/ p7（社内ナレッジ検索）: 公開デモ・案件詳細ページで
      実際に操作した結果画面をスクショし、`index.html`のプレースホルダーSVGと差し替え済み
-   - ⚠️ メルカリ出品アシスタント: `images/mercari-demo.jpg`として実スクショ（開発時にdocsフォルダへ
-     残っていたもの。実アカウントの定型文`#古着屋36`が写っていたため黒塗り処理済み）を用意したが、
-     `works/mercari.html`が無いため**まだどこにも埋め込んでいない**。二軍の中で唯一詳細ページが無い
-     案件なので、ページを新規作成するタイミングでヒーロー画像として使うこと（本Handoffの末尾「次回やること」7番と合わせて対応）
+   - ✅ メルカリ出品アシスタント: 2026-08-22に完了。手順は以下の通り
+     1. ソースは`~/claude/オリジナルアプリ/商品名生成/`（実際に個人利用中のNext.jsアプリ。
+        GitHub: `16maaasa-ops/mercari-product-generator`、公開URL:
+        `https://mercari-product-generator.vercel.app/`・パスワード認証あり）。
+        `docs/screenshot-{login,input,result}.png`に実スクショ3枚が既にあった
+     2. result画面には実アカウントの定型ハッシュタグ`#古着屋36`が写っていたため、その1行だけ
+        黒塗りした上で、Pythonで3枚とも余白トリミング。result画像はさらに、input画面と
+        内容が重複する上部（実寸・作成するボタン）を除いて生成結果部分だけに再トリミング
+        （`images/mercari-login.jpg` 838×586 / `mercari-input.jpg` 1010×1322 /
+        `mercari-result.jpg` 1010×1180）
+     3. ui-reviewer・senior-engineerの2体にプランをレビューさせ、「3枚を横並びflex-wrapに
+        すると縦長画像(input/result)で文字が読めなくなる」「配色が既存4ファイルの
+        ブルーグレー系と被る」等の指摘を反映（line-bot.htmlの`.step`/`.step.reverse`
+        パターンを踏襲・彩度の高いインディゴ`#4338ca`を採用）
+     4. `works/mercari.html`を新規作成。模擬案件ではなく実運用アプリである旨をHOW IT WORKS
+        導入文で明記し、バッジ文言もindex.htmlのmini-cardと完全一致させた
+     5. `index.html`のmini-card（work-mercari）に、既存の`<p class="mini-links">`はそのまま
+        残し、直後に新しい段落で「どう作ったか、くわしく見る →」リンクを追加
+        （`.mini-links + .mini-links`用のCSSが既に用意されていたため2段落構成が正しい実装）
+     6. 役割が重複した旧`images/mercari-demo.jpg`は削除。`README.md`の「works/は画像無し」
+        という更新漏れの記述も、ec-chatbot.html/sales-dashboard.html/mercari.htmlの実態に
+        合わせて修正
+     7. ローカルサーバー+ブラウザ自動操作で実機相当の検証（`.step`レイアウト・スマホ幅375pxで
+        横スクロール無し・黒塗り部分を拡大表示してJPEGゴースト無しを確認・mini-cardからの
+        リンク遷移）を実施してからpush
    - ✅ p4（CSチャットボット）: 2026-08-22に完了。手順は以下の通り
      1. `npm run seed:faqs`でFAQ18件をSupabase（project1と共有・`project4`スキーマ）に投入（upsertなので再実行安全）
      2. `vercel link`で新規プロジェクト作成 → 環境変数6個を本番に設定 → `vercel --prod`でデプロイ
@@ -167,7 +188,7 @@ p7は社内＝社員向けナレッジ検索と用途が異なるため、p4は�
    横スクロールは解消済みでそちらは問題なし
 5. `js/main.js` の `setupHashDeepLink()` に `try/catch` を追加（`#:~:text=`付きURLで例外が出る。優先度低）
 6. Vercelの `cleanUrls` 設定を検討（`works/xxx.html`直リンクのちらつき対策）
-7. メルカリのshowcaseページ作成を検討（二軍の中で唯一詳細ページが無い）
+7. ✅ メルカリのshowcaseページ作成 — 2026-08-22に完了（詳細は上記「残りの実スクショ撮影」項目）
 8. Task Bot事例ページ（外部Netlify）を `works/` 配下へ取り込むか検討
 9. **見出しの変な改行、再挑戦する場合のメモ**（2026-08-19に保留）
    - `nowrap`スパンで個別の単語を守る方式は、守った単語自体は割れなくなったが、
