@@ -1,15 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" font-family="sans-serif">
-  <rect width="1200" height="750" fill="#FFFFFF"/>
-  <rect width="1200" height="64" fill="#1E3A5F"/>
-  <text x="36" y="41" font-size="24" fill="#F7F8FA" font-weight="bold">社内文書検索AI</text>
-  <rect x="36" y="100" width="1128" height="72" rx="4" fill="#EBEEF3"/>
-  <text x="60" y="145" font-size="20" fill="#1A1A1A">Q. 交通費精算の締め日はいつですか?</text>
-  <rect x="36" y="200" width="1128" height="300" rx="4" fill="#FFFFFF" stroke="#D9DEE5" stroke-width="2"/>
-  <text x="60" y="248" font-size="16" fill="#1E3A5F" font-weight="bold">回答</text>
-  <text x="60" y="290" font-size="19" fill="#1A1A1A">交通費精算の締め日は毎月25日です。25日が休日の場合は</text>
-  <text x="60" y="324" font-size="19" fill="#1A1A1A">直前の営業日が締め日になります。提出は経費精算システムから行います。</text>
-  <rect x="60" y="370" width="1080" height="100" rx="3" fill="#EBEEF3"/>
-  <text x="84" y="410" font-size="15" fill="#C05621" font-weight="bold">出典</text>
-  <text x="84" y="444" font-size="17" fill="#4A4A46">経理規程マニュアル.pdf — 12ページ「経費精算の期限」</text>
-  <text x="600" y="700" font-size="20" fill="#8A8578" text-anchor="middle">※ 実際の画面スクリーンショットに差し替え予定(データはダミー)</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" viewBox="0 0 1200 750"><rect width="1200" height="750" fill="#FFF"/><rect width="1200" height="64" fill="#1E3A5F"/><text x="36" y="41" fill="#F7F8FA" font-size="24" font-weight="bold">社内文書検索AI</text><rect width="1128" height="72" x="36" y="100" fill="#EBEEF3" rx="4"/><text x="60" y="145" fill="#1A1A1A" font-size="20">Q. 交通費精算の締め日はいつですか?</text><rect width="1128" height="300" x="36" y="200" fill="#FFF" stroke="#D9DEE5" stroke-width="2" rx="4"/><text x="60" y="248" fill="#1E3A5F" font-size="16" font-weight="bold">回答</text><text x="60" y="290" fill="#1A1A1A" font-size="19">交通費精算の締め日は毎月25日です。25日が休日の場合は</text><text x="60" y="324" fill="#1A1A1A" font-size="19">直前の営業日が締め日になります。提出は経費精算システムから行います。</text><rect width="1080" height="100" x="60" y="370" fill="#EBEEF3" rx="3"/><text x="84" y="410" fill="#C05621" font-size="15" font-weight="bold">出典</text><text x="84" y="444" fill="#4A4A46" font-size="17">経理規程マニュアル.pdf — 12ページ「経費精算の期限」</text><text x="600" y="700" fill="#8A8578" font-size="20" text-anchor="middle">※ 実際の画面スクリーンショットに差し替え予定(データはダミー)</text></svg>
