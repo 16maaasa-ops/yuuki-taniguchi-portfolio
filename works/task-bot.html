@@ -1,0 +1,1686 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>毎朝の報告作業を、ゼロにした｜ Yuuki Taniguchi</title>
+    <meta
+      name="description"
+      content="Slackの手動運用をNotion＋自動通知に置き換えた、リモートチーム向けタスク管理システムの開発実績"
+    />
+    <link
+      rel="canonical"
+      href="https://yuuki-taniguchi-portfolio.vercel.app/works/task-bot.html"
+    />
+
+    <style>
+      /* ============================================================
+   チームタスク管理・自動通知システム — ポートフォリオ
+   カラーパレット: 検証済みリファレンスパレット（light/dark両対応）
+   ============================================================ */
+
+      :root {
+        --page: #f9f9f7;
+        --surface-1: #fcfcfb;
+        --text-primary: #0b0b0b;
+        --text-secondary: #52514e;
+        --text-muted: #898781;
+        --grid: #e1e0d9;
+        --baseline: #c3c2b7;
+        --border: rgba(11, 11, 11, 0.1);
+        --accent: #2a78d6; /* series blue (light) */
+        --accent-soft: #cde2fb; /* blue 100 */
+        --delta-up: #006300; /* success text (light) */
+        --danger: #d03b3b;
+        --tag-amber-ink: #8a5a00;
+        --shadow:
+          0 1px 3px rgba(11, 11, 11, 0.06), 0 4px 16px rgba(11, 11, 11, 0.05);
+      }
+
+      [data-theme="dark"] {
+        --page: #0d0d0d;
+        --surface-1: #1a1a19;
+        --text-primary: #ffffff;
+        --text-secondary: #c3c2b7;
+        --text-muted: #898781;
+        --grid: #2c2c2a;
+        --baseline: #383835;
+        --border: rgba(255, 255, 255, 0.1);
+        --accent: #3987e5; /* series blue (dark) */
+        --accent-soft: #104281; /* blue 650 */
+        --delta-up: #0ca30c;
+        --danger: #e66767;
+        --tag-amber-ink: #eda100;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --page: #0d0d0d;
+          --surface-1: #1a1a19;
+          --text-primary: #ffffff;
+          --text-secondary: #c3c2b7;
+          --text-muted: #898781;
+          --grid: #2c2c2a;
+          --baseline: #383835;
+          --border: rgba(255, 255, 255, 0.1);
+          --accent: #3987e5;
+          --accent-soft: #104281;
+          --delta-up: #0ca30c;
+          --danger: #e66767;
+          --tag-amber-ink: #eda100;
+          --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 72px;
+      }
+
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          "Hiragino Sans",
+          "Noto Sans JP",
+          sans-serif;
+        background: var(--page);
+        color: var(--text-primary);
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* ---------- header ---------- */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--page) 85%, transparent);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        height: 56px;
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--text-primary);
+        opacity: 0.75;
+        text-decoration: none;
+      }
+      .nav-logo:hover {
+        opacity: 1;
+        color: var(--accent);
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 13.5px;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      /* ---------- hero ---------- */
+      .hero {
+        padding: 72px 20px 48px;
+      }
+      .hero-eyebrow {
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 13.5px;
+        letter-spacing: 0.06em;
+        margin-bottom: 12px;
+      }
+      .hero h1 {
+        font-size: clamp(30px, 5.4vw, 46px);
+        line-height: 1.3;
+        margin-bottom: 18px;
+      }
+      .hero-lead {
+        color: var(--text-secondary);
+        max-width: 700px;
+        font-size: 15.5px;
+      }
+      .hero-meta {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 14px;
+      }
+      .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+        list-style: none;
+      }
+      .tech-tags li {
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: var(--surface-1);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+      }
+
+      /* ---------- sections ---------- */
+      .section {
+        padding: 44px 20px;
+      }
+      .section h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+      }
+      .section-num {
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .section-lead {
+        color: var(--text-secondary);
+        margin: -8px 0 20px;
+        font-size: 14.5px;
+      }
+
+      .card {
+        background: var(--surface-1);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 24px;
+      }
+
+      /* ---------- before / after ---------- */
+      .ba-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .ba-label {
+        font-size: 15px;
+        margin-bottom: 14px;
+      }
+      .ba-before {
+        color: var(--danger);
+      }
+      .ba-after {
+        color: var(--delta-up);
+      }
+      .check-list {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+      .check-list li {
+        padding-left: 24px;
+        position: relative;
+      }
+      .check-list.cross li::before {
+        content: "✕";
+        position: absolute;
+        left: 0;
+        color: var(--danger);
+        font-weight: 700;
+      }
+      .check-list.check li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--delta-up);
+        font-weight: 700;
+      }
+
+      /* ---------- architecture ---------- */
+      .arch-card {
+        overflow-x: auto;
+      }
+      .arch-flow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 640px;
+        justify-content: space-between;
+      }
+      .arch-group {
+        display: grid;
+        gap: 8px;
+        flex: 1;
+      }
+      .arch-group-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: var(--text-muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+      .arch-node {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: center;
+        background: var(--page);
+      }
+      .arch-node small {
+        display: block;
+        font-weight: 400;
+        color: var(--text-muted);
+        font-size: 11.5px;
+        margin-top: 2px;
+      }
+      .arch-node-main {
+        border-color: var(--accent);
+        box-shadow: inset 0 0 0 1px var(--accent);
+      }
+      .arch-arrow {
+        color: var(--text-muted);
+        font-size: 20px;
+        flex: 0 0 auto;
+      }
+
+      /* ---------- features / craft ---------- */
+      .feature-grid,
+      .craft-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .craft-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .feature-card h3,
+      .craft-card h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+      .feature-card p,
+      .craft-card p {
+        font-size: 13.5px;
+        color: var(--text-secondary);
+      }
+      .feature-icon {
+        font-size: 26px;
+        margin-bottom: 10px;
+        line-height: 1;
+      }
+
+      /* ---------- tabs & slack mock ---------- */
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+      .tab {
+        border: 1px solid var(--border);
+        background: var(--surface-1);
+        color: var(--text-secondary);
+        padding: 7px 16px;
+        border-radius: 999px;
+        font-size: 13.5px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .tab.is-active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #ffffff;
+      }
+
+      .slack-window {
+        padding: 20px;
+      }
+      .slack-msg {
+        display: flex;
+        gap: 12px;
+      }
+      .slack-avatar {
+        flex: 0 0 38px;
+        height: 38px;
+        border-radius: 8px;
+        background: var(--accent-soft);
+        display: grid;
+        place-items: center;
+        font-size: 20px;
+      }
+      .slack-body {
+        font-size: 14px;
+        display: grid;
+        gap: 10px;
+        overflow-wrap: anywhere;
+      }
+      .slack-name {
+        font-weight: 700;
+      }
+      .slack-badge {
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 0 4px;
+        vertical-align: 1px;
+      }
+      .slack-time {
+        color: var(--text-muted);
+        font-size: 12px;
+        font-weight: 400;
+        margin-left: 4px;
+      }
+      .slack-divider {
+        border-top: 1px solid var(--grid);
+        padding-top: 10px;
+      }
+
+      /* ---------- Notion mock ---------- */
+      .notion-window {
+        padding: 0;
+        overflow: hidden;
+      }
+      .notion-topbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-bottom: 1px solid var(--grid);
+        font-size: 12.5px;
+        color: var(--text-secondary);
+      }
+      .notion-crumb-sep {
+        color: var(--text-muted);
+      }
+      .notion-page-title {
+        font-size: 21px;
+        font-weight: 700;
+        padding: 20px 24px 4px;
+      }
+      .notion-view-tab {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        padding: 0 24px 10px;
+        border-bottom: 1px solid var(--grid);
+        margin-bottom: 0;
+      }
+      .notion-scroll {
+        overflow-x: auto;
+      }
+      .notion-table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 720px;
+        font-size: 13px;
+      }
+      .notion-table th,
+      .notion-table td {
+        border-bottom: 1px solid var(--grid);
+        padding: 8px 12px;
+        text-align: left;
+        white-space: nowrap;
+        color: var(--text-secondary);
+      }
+      .notion-table th {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-muted);
+        border-right: 1px solid var(--grid);
+      }
+      .notion-table td {
+        border-right: 1px solid var(--grid);
+      }
+      .notion-table th:first-child,
+      .notion-table td:first-child {
+        padding-left: 24px;
+      }
+      .notion-table th:last-child,
+      .notion-table td:last-child {
+        border-right: none;
+      }
+      .notion-table tbody tr:hover {
+        background: color-mix(in srgb, var(--text-primary) 3%, transparent);
+      }
+      .n-title {
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .n-person {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .n-person i {
+        font-style: normal;
+        display: inline-grid;
+        place-items: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      .n-tag {
+        display: inline-block;
+        padding: 1px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .n-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 1px 8px 1px 6px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .n-status b {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      .n-red {
+        background: color-mix(in srgb, var(--danger) 14%, transparent);
+        color: var(--danger);
+      }
+      .n-yellow {
+        background: color-mix(in srgb, #eda100 18%, transparent);
+        color: var(--tag-amber-ink);
+      }
+      .n-green {
+        background: color-mix(in srgb, var(--delta-up) 14%, transparent);
+        color: var(--delta-up);
+      }
+      .n-blue {
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        color: var(--accent);
+      }
+      .n-gray {
+        background: color-mix(in srgb, var(--text-muted) 16%, transparent);
+        color: var(--text-secondary);
+      }
+      .n-status.n-blue b {
+        background: var(--accent);
+      }
+      .n-status.n-green b {
+        background: var(--delta-up);
+      }
+      .n-status.n-gray b {
+        background: var(--text-muted);
+      }
+
+      .notion-window .chart-note {
+        padding: 12px 24px 16px;
+        margin-top: 0;
+      }
+
+      .scroll-hint {
+        display: none;
+      }
+
+      /* ---------- KPI tiles ---------- */
+      .kpi-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .stat-tile {
+        padding: 20px 24px;
+      }
+      .stat-label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
+      .stat-value {
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      .stat-unit {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-left: 4px;
+      }
+      .stat-delta {
+        font-size: 12.5px;
+        font-weight: 600;
+        margin-top: 6px;
+      }
+      .stat-delta.up {
+        color: var(--delta-up);
+      }
+      .stat-delta.neutral {
+        color: var(--text-muted);
+      }
+
+      /* ---------- bar chart ---------- */
+      .chart-card {
+        position: relative;
+      }
+      .chart-title {
+        font-size: 15px;
+        margin-bottom: 16px;
+      }
+      .chart {
+        display: grid;
+        gap: 12px;
+      }
+      .bar-row {
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        align-items: center;
+        gap: 12px;
+      }
+      .bar-name {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-align: right;
+      }
+      .bar-track {
+        position: relative;
+        height: 22px;
+      }
+      .bar-track::before {
+        /* baseline hairline */
+        content: "";
+        position: absolute;
+        left: 0;
+        top: -4px;
+        bottom: -4px;
+        border-left: 1px solid var(--baseline);
+      }
+      .bar-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 22px;
+        background: var(--accent);
+        border-radius: 0 4px 4px 0; /* rounded data-end only */
+        min-width: 2px;
+        transition: width 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+        cursor: default;
+      }
+      .bar-value {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-variant-numeric: tabular-nums;
+      }
+      .chart-note {
+        font-size: 11.5px;
+        color: var(--text-secondary);
+        margin-top: 14px;
+      }
+      .chart-tooltip {
+        position: absolute;
+        z-index: 10;
+        pointer-events: none;
+        background: var(--text-primary);
+        color: var(--page);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        transform: translate(-50%, -130%);
+      }
+
+      /* ---------- process & outcome ---------- */
+      .process {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .process-step {
+        background: var(--surface-1);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        font-size: 12.5px;
+        color: var(--text-secondary);
+      }
+      .process-step strong {
+        color: var(--text-primary);
+        font-size: 13.5px;
+      }
+      .process-num {
+        display: inline-grid;
+        place-items: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .outcome-card .check-list {
+        font-size: 14.5px;
+      }
+
+      /* ---------- CTA ---------- */
+      .cta-block {
+        padding: 8px 20px 80px;
+        text-align: center;
+      }
+      .cta-btn {
+        display: inline-block;
+        padding: 14px 32px;
+        border-radius: 8px;
+        background: #1c5aa8;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        margin-bottom: 16px;
+      }
+      .cta-btn:hover {
+        background: #164a8a;
+      }
+      .cta-secondary {
+        display: block;
+        font-size: 13.5px;
+        color: var(--text-primary);
+        opacity: 0.7;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      /* ---------- footer ---------- */
+      .site-footer {
+        border-top: 1px solid var(--border);
+        padding: 24px 0;
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      /* ---------- reveal animation ---------- */
+      .js .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .js .reveal.is-visible {
+        opacity: 1;
+        transform: none;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .bar-fill {
+          transition: none;
+        }
+      }
+
+      /* ---------- responsive ---------- */
+      .sp-only {
+        display: none;
+      }
+      @media (max-width: 760px) {
+        .sp-only {
+          display: inline;
+        }
+        .ba-grid,
+        .kpi-row,
+        .craft-grid {
+          grid-template-columns: 1fr;
+        }
+        .feature-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .process {
+          grid-template-columns: 1fr 1fr;
+        }
+        .nav-links a {
+          display: none;
+        }
+        .tab {
+          padding: 11px 18px;
+        }
+        .arch-flow {
+          flex-direction: column;
+          align-items: stretch;
+          min-width: 0;
+        }
+        .arch-arrow {
+          align-self: center;
+          transform: rotate(90deg);
+        }
+        .scroll-hint {
+          display: block;
+          font-size: 11.5px;
+          color: var(--text-secondary);
+          margin-top: 8px;
+        }
+      }
+      @media (max-width: 480px) {
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+        .stat-value {
+          font-size: 34px;
+        }
+        .bar-row {
+          grid-template-columns: 44px 1fr;
+        }
+      }
+
+      /* ---------- print ---------- */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        body {
+          background: #fff;
+        }
+        .site-header {
+          position: static;
+        }
+        .js .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+        .card,
+        .cta-block,
+        .process-step {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+        section.section {
+          break-inside: avoid-page;
+        }
+        .cta-btn {
+          background: #1c5aa8 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container">
+        <a class="nav-logo" href="../index.html#works">← 制作事例一覧に戻る</a>
+        <div class="nav-links">
+          <a href="#challenge">課題</a>
+          <a href="#architecture">構成</a>
+          <a href="#notion">DB</a>
+          <a href="#features">機能</a>
+          <a href="#report">レポート</a>
+          <a href="#craft">工夫</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ============ Hero ============ -->
+      <section class="hero container">
+        <p class="hero-eyebrow">実運用中 — 勤務先チーム8名で稼働</p>
+        <h1>チームタスク管理・<br class="sp-only" />自動通知システム</h1>
+        <p class="hero-lead">
+          Slackチャンネルへの手動投稿とスレッド返信で回っていたリモートチーム（8名規模）のタスク管理を、
+          Notionデータベースと自動通知Botに一本化。毎朝の報告作業をゼロにし、
+          優先度・進捗・負荷を誰からも見える状態にしました。
+        </p>
+        <p class="hero-meta">担当範囲：企画・設計・実装・運用（個人開発）</p>
+        <ul class="tech-tags" aria-label="使用技術">
+          <li>Python</li>
+          <li>Notion API</li>
+          <li>Slack API</li>
+          <li>Google Calendar API</li>
+          <li>GitHub Actions</li>
+          <li>matplotlib</li>
+        </ul>
+      </section>
+
+      <!-- ============ Challenge (Before / After) ============ -->
+      <section id="challenge" class="section container reveal">
+        <h2><span class="section-num">01</span>課題と解決アプローチ</h2>
+        <div class="ba-grid">
+          <div class="card ba-card">
+            <h3 class="ba-label ba-before">Before — 手動運用の限界</h3>
+            <ul class="check-list cross">
+              <li>
+                毎朝リーダーが日付をチャンネルに手動投稿し、各自がスレッドでその日のタスクを返信
+              </li>
+              <li>タスクの優先度・期日・進捗がどこにも構造化されて残らない</li>
+              <li>誰にどれだけ仕事が偏っているか（負荷）が見えない</li>
+              <li>
+                メンバー増加とともに、スレッドを遡って状況を把握するコストが増大
+              </li>
+            </ul>
+          </div>
+          <div class="card ba-card">
+            <h3 class="ba-label ba-after">After — 一元管理と自動化</h3>
+            <ul class="check-list check">
+              <li>
+                タスクはNotionデータベースで一元管理（優先度・期日・ステータス・完了見込み日）
+              </li>
+              <li>
+                Botが毎朝、各自のSlack DMへ「今日の予定＋タスク」を自動配信
+              </li>
+              <li>
+                チャンネルには全員分のサマリーと電話当番を自動投稿し、手動投稿を廃止
+              </li>
+              <li>
+                週次レポート（グラフ付き）を自動生成し、チームの実績を定点観測
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Architecture ============ -->
+      <section id="architecture" class="section container reveal">
+        <h2><span class="section-num">02</span>システム構成</h2>
+        <p class="section-lead">
+          サーバーレス構成。GitHub
+          Actionsのスケジュール実行だけで動くため、インフラ費用はゼロです。
+        </p>
+        <div class="card arch-card">
+          <div class="arch-flow">
+            <div class="arch-group">
+              <p class="arch-group-label">データソース</p>
+              <div class="arch-node">
+                📄 Notion<br /><small>タスクDB</small>
+              </div>
+              <div class="arch-node">
+                📞 Notion<br /><small>電話当番シフトDB</small>
+              </div>
+              <div class="arch-node">
+                📅 Google Calendar<br /><small>各メンバーの予定</small>
+              </div>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <div class="arch-group">
+              <p class="arch-group-label">処理（GitHub Actions）</p>
+              <div class="arch-node arch-node-main">
+                🐍 Python Bot<br /><small
+                  >毎朝cron / 5分ポーリング / 週次</small
+                >
+              </div>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <div class="arch-group">
+              <p class="arch-group-label">配信先</p>
+              <div class="arch-node">
+                💬 Slack DM<br /><small>個人通知・サマリー</small>
+              </div>
+              <div class="arch-node">
+                📢 Slackチャンネル<br /><small>チーム全体向け</small>
+              </div>
+              <div class="arch-node">
+                📊 Notionページ<br /><small>週次レポート</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Notion DB mock ============ -->
+      <section id="notion" class="section container reveal">
+        <h2>
+          <span class="section-num">03</span>タスク管理データベース（Notion）
+        </h2>
+        <p class="section-lead">
+          通知の元データとなるNotionデータベースの再現です。<strong>名前・タスク内容はすべてダミー</strong>です。
+        </p>
+
+        <div class="tabs" role="tablist" aria-label="データベースの種類">
+          <button
+            class="tab is-active"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-taskdb"
+            id="tab-taskdb"
+          >
+            タスク管理DB
+          </button>
+          <button
+            class="tab"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-phonedb"
+            id="tab-phonedb"
+          >
+            電話当番シフトDB
+          </button>
+        </div>
+
+        <div class="card notion-window">
+          <div class="notion-topbar">
+            <span class="notion-crumb">🏠 チームスペース</span>
+            <span class="notion-crumb-sep">/</span>
+            <span class="notion-crumb" id="notion-crumb-page"
+              >📋 タスク管理</span
+            >
+          </div>
+
+          <div id="panel-taskdb" role="tabpanel" aria-labelledby="tab-taskdb">
+            <p class="notion-page-title">📋 タスク管理</p>
+            <p class="notion-view-tab">🗂 テーブルビュー</p>
+            <div class="notion-scroll">
+              <table class="notion-table">
+                <thead>
+                  <tr>
+                    <th>Aa タスク</th>
+                    <th>👤 担当者</th>
+                    <th>⇅ 優先度</th>
+                    <th>◐ ステータス</th>
+                    <th>📅 期日</th>
+                    <th>📅 完了見込み日</th>
+                    <th>🏷 カテゴリ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="n-title">📄 月次データ入力</td>
+                    <td>
+                      <span class="n-person"><i>佐</i>佐藤</span>
+                    </td>
+                    <td><span class="n-tag n-red">高</span></td>
+                    <td>
+                      <span class="n-status n-blue"><b></b>進行中（50%）</span>
+                    </td>
+                    <td>7月11日</td>
+                    <td>7月11日</td>
+                    <td><span class="n-tag n-gray">定常業務</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">📄 問い合わせ一次対応</td>
+                    <td>
+                      <span class="n-person"><i>佐</i>佐藤</span>
+                    </td>
+                    <td><span class="n-tag n-red">高</span></td>
+                    <td>
+                      <span class="n-status n-gray"><b></b>未着手</span>
+                    </td>
+                    <td>7月11日</td>
+                    <td></td>
+                    <td><span class="n-tag n-yellow">顧客対応</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">📄 請求データ確認</td>
+                    <td>
+                      <span class="n-person"><i>鈴</i>鈴木</span>
+                    </td>
+                    <td><span class="n-tag n-red">高</span></td>
+                    <td>
+                      <span class="n-status n-blue"><b></b>進行中（75%）</span>
+                    </td>
+                    <td>7月11日</td>
+                    <td>7月11日</td>
+                    <td><span class="n-tag n-gray">定常業務</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">📄 操作マニュアル更新</td>
+                    <td>
+                      <span class="n-person"><i>佐</i>佐藤</span>
+                    </td>
+                    <td><span class="n-tag n-yellow">中</span></td>
+                    <td>
+                      <span class="n-status n-blue"><b></b>進行中（25%）</span>
+                    </td>
+                    <td>7月15日</td>
+                    <td>7月16日</td>
+                    <td><span class="n-tag n-blue">業務改善</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">📄 入力ルール見直し</td>
+                    <td>
+                      <span class="n-person"><i>田</i>田中</span>
+                    </td>
+                    <td><span class="n-tag n-yellow">中</span></td>
+                    <td>
+                      <span class="n-status n-gray"><b></b>未着手</span>
+                    </td>
+                    <td>7月14日</td>
+                    <td></td>
+                    <td><span class="n-tag n-blue">業務改善</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">📄 新メンバー研修資料の準備</td>
+                    <td>
+                      <span class="n-person"><i>高</i>高橋</span>
+                    </td>
+                    <td><span class="n-tag n-yellow">中</span></td>
+                    <td>
+                      <span class="n-status n-green"><b></b>完了</span>
+                    </td>
+                    <td>7月10日</td>
+                    <td></td>
+                    <td><span class="n-tag n-green">研修</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">📄 定型フォーマット整理</td>
+                    <td>
+                      <span class="n-person"><i>伊</i>伊藤</span>
+                    </td>
+                    <td><span class="n-tag n-green">低</span></td>
+                    <td>
+                      <span class="n-status n-gray"><b></b>未着手</span>
+                    </td>
+                    <td>7月18日</td>
+                    <td></td>
+                    <td><span class="n-tag n-blue">業務改善</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="scroll-hint">→ 横にスクロールできます</p>
+            <p class="chart-note">
+              「進行中」には25%／50%／75%のサブステータスを用意し、Botはステータスグループ単位で判定。このほか依頼者・通知済みフラグ等の内部プロパティを保持（表示は省略）。
+            </p>
+          </div>
+
+          <div
+            id="panel-phonedb"
+            role="tabpanel"
+            aria-labelledby="tab-phonedb"
+            hidden
+          >
+            <p class="notion-page-title">📞 電話当番シフト</p>
+            <p class="notion-view-tab">🗂 テーブルビュー</p>
+            <div class="notion-scroll">
+              <table class="notion-table">
+                <thead>
+                  <tr>
+                    <th>📅 日付</th>
+                    <th>🌤 午前担当</th>
+                    <th>🌙 午後担当</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="n-title">7月11日（金）</td>
+                    <td><span class="n-tag n-blue">伊藤</span></td>
+                    <td><span class="n-tag n-blue">渡辺</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">7月12日（土）</td>
+                    <td></td>
+                    <td><span class="n-tag n-blue">渡辺</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">7月14日（月）</td>
+                    <td><span class="n-tag n-blue">田中</span></td>
+                    <td><span class="n-tag n-blue">佐藤</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">7月15日（火）</td>
+                    <td><span class="n-tag n-blue">渡辺</span></td>
+                    <td><span class="n-tag n-blue">伊藤</span></td>
+                  </tr>
+                  <tr>
+                    <td class="n-title">7月16日（水）</td>
+                    <td><span class="n-tag n-blue">佐藤</span></td>
+                    <td><span class="n-tag n-blue">田中</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="scroll-hint">→ 横にスクロールできます</p>
+            <p class="chart-note">
+              月次でシフト作成時に入力。Botは毎朝その日の行を読み取り、チャンネル投稿の末尾に電話当番を追記する（土曜は1枠運用）。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Features ============ -->
+      <section id="features" class="section container reveal">
+        <h2><span class="section-num">04</span>主な機能</h2>
+        <div class="feature-grid">
+          <div class="card feature-card">
+            <p class="feature-icon">☀️</p>
+            <h3>朝の個人DM通知</h3>
+            <p>
+              毎朝、各メンバーのSlack
+              DMへその日のカレンダー予定と未完了タスク（期日・優先度順）を配信。カレンダーの「休み」予定を検知した日は自動でスキップ。
+            </p>
+          </div>
+          <div class="card feature-card">
+            <p class="feature-icon">📢</p>
+            <h3>チャンネル自動投稿</h3>
+            <p>
+              全メンバーの予定・タスク・休みと「本日の電話当番（午前／午後）」を1本にまとめてチャンネルへ投稿。従来の手動投稿運用を置き換え。祝日は全通知を自動停止。
+            </p>
+          </div>
+          <div class="card feature-card">
+            <p class="feature-icon">📈</p>
+            <h3>リーダー向けサマリー</h3>
+            <p>
+              期日超過タスクだけを抽出したチームサマリーをリーダーへ毎朝DM。フォローが必要なメンバーが一目で分かる。
+            </p>
+          </div>
+          <div class="card feature-card">
+            <p class="feature-icon">🔔</p>
+            <h3>担当割り当て通知</h3>
+            <p>
+              Notionでタスクの担当者が設定されると、5分以内に本人へDM。夜間（22時〜8時）の割り当ては翌朝8時以降にまとめて送る配慮つき。
+            </p>
+          </div>
+          <div class="card feature-card">
+            <p class="feature-icon">✅</p>
+            <h3>完了通知</h3>
+            <p>
+              タスクが完了になると依頼者とリーダーへ自動DM。依頼者＝担当者（自己完結）なら送らない等、関係性に応じた宛先ロジックを実装。
+            </p>
+          </div>
+          <div class="card feature-card">
+            <p class="feature-icon">📊</p>
+            <h3>週次レポート自動生成</h3>
+            <p>
+              毎週土曜、完了実績のグラフ（matplotlib）付きNotionページを自動作成し、リンクをSlackへ配信。期限切れ率の前週比較も表示。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Slack mock ============ -->
+      <section id="demo" class="section container reveal">
+        <h2><span class="section-num">05</span>通知イメージ</h2>
+        <p class="section-lead">
+          実際の通知フォーマットの再現です。<strong>名前・タスク内容はすべてダミー</strong>です。
+        </p>
+
+        <div class="tabs" role="tablist" aria-label="通知の種類">
+          <button
+            class="tab is-active"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-dm"
+            id="tab-dm"
+          >
+            個人DM
+          </button>
+          <button
+            class="tab"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-channel"
+            id="tab-channel"
+          >
+            チャンネル投稿
+          </button>
+          <button
+            class="tab"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-summary"
+            id="tab-summary"
+          >
+            リーダーサマリー
+          </button>
+        </div>
+
+        <div class="slack-window card">
+          <div
+            class="slack-panel"
+            id="panel-dm"
+            role="tabpanel"
+            aria-labelledby="tab-dm"
+          >
+            <div class="slack-msg">
+              <div class="slack-avatar" aria-hidden="true">🤖</div>
+              <div class="slack-body">
+                <p class="slack-name">
+                  task-bot <span class="slack-badge">アプリ</span>
+                  <span class="slack-time">8:45</span>
+                </p>
+                <p>
+                  ☀️ <strong>7月11日のタスク通知</strong
+                  ><br />おはようございます、佐藤さん！
+                </p>
+                <p>
+                  <strong>📅 今日の予定</strong><br />
+                  　10:00　チーム定例MTG<br />
+                  　15:00　新メンバー オンボーディング
+                </p>
+                <p>
+                  <strong>✅ 今日のタスク</strong>（期日・優先度順）<br />
+                  　🔴 月次データ入力　期限：7/11　🔵進行中（50%）<br />
+                  　🔴 問い合わせ一次対応　期限：7/11　⚪未着手<br />
+                  　🟡 操作マニュアル更新　期限：7/15　🔵進行中（25%）<br />
+                  　🟢 定型フォーマット整理　期限：7/18　⚪未着手
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="slack-panel"
+            id="panel-channel"
+            role="tabpanel"
+            aria-labelledby="tab-channel"
+            hidden
+          >
+            <div class="slack-msg">
+              <div class="slack-avatar" aria-hidden="true">🤖</div>
+              <div class="slack-body">
+                <p class="slack-name">
+                  task-bot <span class="slack-badge">アプリ</span>
+                  <span class="slack-time">8:45</span>
+                </p>
+                <p>🌅 <strong>7月11日（金）チームの予定</strong></p>
+                <p>
+                  <strong>👤 佐藤</strong><br />
+                  　📅 10:00 チーム定例MTG ／ 15:00 オンボーディング<br />
+                  　✅ 🔴 月次データ入力（期限：7/11）ほか3件
+                </p>
+                <p>
+                  <strong>👤 鈴木</strong><br />
+                  　📅 予定なし<br />
+                  　✅ 🔴 請求データ確認（期限：7/11）ほか2件
+                </p>
+                <p><strong>👤 高橋</strong>　💤 本日休み</p>
+                <p>
+                  <strong>👤 田中</strong><br />
+                  　📅 13:00 業務レクチャー<br />
+                  　✅ 🟡 入力ルール見直し（期限：7/14）ほか1件
+                </p>
+                <p class="slack-divider">
+                  📞
+                  <strong>本日の電話当番</strong
+                  >　午前：伊藤さん　午後：渡辺さん
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="slack-panel"
+            id="panel-summary"
+            role="tabpanel"
+            aria-labelledby="tab-summary"
+            hidden
+          >
+            <div class="slack-msg">
+              <div class="slack-avatar" aria-hidden="true">🤖</div>
+              <div class="slack-body">
+                <p class="slack-name">
+                  task-bot <span class="slack-badge">アプリ</span>
+                  <span class="slack-time">8:45</span>
+                </p>
+                <p>📊 <strong>7月11日　チームサマリー</strong></p>
+                <p>
+                  <strong>佐藤</strong><br />　📅 2件　⚠️ 期日タスク2件<br />　　🔴
+                  月次データ入力<br />　　🔴 問い合わせ一次対応
+                </p>
+                <p>
+                  <strong>鈴木</strong><br />　📅 0件　⚠️ 期日タスク1件<br />　　🔴
+                  請求データ確認
+                </p>
+                <p><strong>高橋</strong>　💤 本日休み</p>
+                <p>
+                  <strong>田中</strong><br />　📅 1件　⚠️ 期日タスク0件<br />　　期日超過タスクなし
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Weekly report ============ -->
+      <section id="report" class="section container reveal">
+        <h2>
+          <span class="section-num">06</span>週次レポート（サンプルデータ）
+        </h2>
+        <p class="section-lead">
+          毎週自動生成されるレポートのイメージ。数値はすべてダミーです。
+        </p>
+
+        <div class="kpi-row">
+          <div class="card stat-tile">
+            <p class="stat-label">今週の完了タスク</p>
+            <p class="stat-value">39<span class="stat-unit">件</span></p>
+            <p class="stat-delta up">▲ 6件（前週比）</p>
+          </div>
+          <div class="card stat-tile">
+            <p class="stat-label">期限内完了率</p>
+            <p class="stat-value">95.8<span class="stat-unit">%</span></p>
+            <p class="stat-delta up">▲ 2.1pt（前週比）</p>
+          </div>
+          <div class="card stat-tile">
+            <p class="stat-label">自動配信した通知</p>
+            <p class="stat-value">42<span class="stat-unit">通/週</span></p>
+            <p class="stat-delta neutral">手動報告 0 回</p>
+          </div>
+        </div>
+
+        <div class="card chart-card viz-root">
+          <h3 class="chart-title">メンバー別 完了タスク数（今週）</h3>
+          <div
+            class="chart"
+            id="bar-chart"
+            role="img"
+            aria-label="メンバー別の完了タスク数の横棒グラフ。佐藤12件、鈴木9件、高橋8件、田中6件、伊藤4件。"
+          >
+            <!-- bars injected by script -->
+          </div>
+          <p class="chart-note">
+            サンプルデータ／実運用ではmatplotlibで画像生成しNotionへアップロード
+          </p>
+          <div class="chart-tooltip" id="chart-tooltip" hidden></div>
+        </div>
+      </section>
+
+      <!-- ============ Craft ============ -->
+      <section id="craft" class="section container reveal">
+        <h2><span class="section-num">07</span>技術的な工夫</h2>
+        <div class="craft-grid">
+          <div class="card craft-card">
+            <h3>⏰ 通知時刻の安定化</h3>
+            <p>
+              GitHub
+              Actionsのcronは混雑時に1時間以上遅延する。実測した遅延幅から逆算して設定時刻を前倒しし、狙いの時刻に届くよう調整した。
+            </p>
+          </div>
+          <div class="card craft-card">
+            <h3>🌙 夜間の通知抑制</h3>
+            <p>
+              担当割り当て通知は5分間隔のポーリングだが、22時〜8時に検知した分は翌朝8時以降にまとめて送信。リモートワークの生活リズムを壊さない設計にした。
+            </p>
+          </div>
+          <div class="card craft-card">
+            <h3>🔁 冪等な通知（二重送信防止）</h3>
+            <p>
+              「通知済み」チェックボックスをNotion側に持たせ、ポーリングが何度走っても同じ通知が二度飛ばない構造にした。
+            </p>
+          </div>
+          <div class="card craft-card">
+            <h3>🧩 スキーマ変更に強い判定</h3>
+            <p>
+              「進行中（25%/50%/75%）」等のサブステータス追加に備え、オプション名の文字列一致ではなくNotionのステータスグループAPIで判定。運用側が選択肢を増やしてもコード修正不要。
+            </p>
+          </div>
+          <div class="card craft-card">
+            <h3>🎯 関係性に応じた宛先ロジック</h3>
+            <p>
+              完了通知は「依頼者＝担当者なら送らない」「依頼者未設定ならリーダーのみ」など4分岐で設計し、通知疲れを防いだ。
+            </p>
+          </div>
+          <div class="card craft-card">
+            <h3>🔐 シークレット管理</h3>
+            <p>
+              APIトークン類はすべてGitHub
+              Secretsで管理し、コード・チャット上に一切残さない運用を徹底。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Process & Outcome ============ -->
+      <section id="outcome" class="section container reveal">
+        <h2><span class="section-num">08</span>進め方と成果</h2>
+        <div class="process">
+          <div class="process-step">
+            <span class="process-num">1</span>
+            <p>
+              <strong>要件定義</strong
+              ><br />現行運用の課題を分解し、通知の粒度・タイミングを設計
+            </p>
+          </div>
+          <div class="process-step">
+            <span class="process-num">2</span>
+            <p>
+              <strong>実装・検証</strong
+              ><br />まず自分1人で運用し、通知内容と時刻を調整
+            </p>
+          </div>
+          <div class="process-step">
+            <span class="process-num">3</span>
+            <p>
+              <strong>段階導入</strong
+              ><br />メンバーを1人ずつ追加し、到達確認をしてから次へ
+            </p>
+          </div>
+          <div class="process-step">
+            <span class="process-num">4</span>
+            <p>
+              <strong>チーム展開</strong
+              ><br />会議で実物をデモして合意形成し、旧運用を廃止
+            </p>
+          </div>
+        </div>
+        <div class="card outcome-card">
+          <ul class="check-list check">
+            <li>
+              <strong>毎朝の手動投稿・スレッド返信によるタスク報告を廃止</strong
+              >し、報告作業の時間をゼロに
+            </li>
+            <li>
+              優先度・期日・進捗・負荷がNotion上で常に可視化され、リーダーの状況把握が数分で完了
+            </li>
+            <li>
+              マネージャー向けには週次レポートのみ届ける等、<strong>役割に応じた通知設計</strong>で通知疲れを回避
+            </li>
+            <li>
+              GitHub
+              Actionsの無料枠内で完結し、<strong>ランニングコスト0円</strong>で運用継続中
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="container cta-block">
+        <a class="cta-btn" href="../index.html#contact"
+          >この仕組みを自社向けに相談する →</a
+        >
+        <a class="cta-secondary" href="../index.html#works"
+          >← 他の制作事例を見る</a
+        >
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p class="container">
+        © 2026 チームタスク管理・自動通知システム開発実績 —
+        掲載している名前・タスク・数値はすべてダミーです
+      </p>
+    </footer>
+
+    <script>
+      /* ============================================================
+   タブ / スクロール表示 / 棒グラフ描画
+   ============================================================ */
+
+      // ---------- タブ切り替え（グループごとに独立） ----------
+      (function initTabs() {
+        document.querySelectorAll('[role="tablist"]').forEach((tablist) => {
+          const tabs = Array.from(tablist.querySelectorAll(".tab"));
+          tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+              tabs.forEach((t) => {
+                const selected = t === tab;
+                t.classList.toggle("is-active", selected);
+                t.setAttribute("aria-selected", String(selected));
+                const panel = document.getElementById(
+                  t.getAttribute("aria-controls"),
+                );
+                if (panel) panel.hidden = !selected;
+              });
+            });
+          });
+        });
+      })();
+
+      // ---------- Notionモックのパンくずをタブに連動 ----------
+      (function initNotionCrumb() {
+        const crumb = document.getElementById("notion-crumb-page");
+        const labels = {
+          "tab-taskdb": "📋 タスク管理",
+          "tab-phonedb": "📞 電話当番シフト",
+        };
+        Object.keys(labels).forEach((id) => {
+          const tab = document.getElementById(id);
+          if (tab && crumb)
+            tab.addEventListener("click", () => {
+              crumb.textContent = labels[id];
+            });
+        });
+      })();
+
+      // ---------- スクロール表示 ----------
+      (function initReveal() {
+        const targets = document.querySelectorAll(".reveal");
+        if (!("IntersectionObserver" in window)) {
+          targets.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+        targets.forEach((el) => observer.observe(el));
+      })();
+
+      // ---------- 棒グラフ（サンプルデータ） ----------
+      (function initBarChart() {
+        const chart = document.getElementById("bar-chart");
+        if (!chart) return;
+
+        // ダミーデータ：メンバー別の今週完了タスク数
+        const data = [
+          { name: "佐藤", value: 12 },
+          { name: "鈴木", value: 9 },
+          { name: "高橋", value: 8 },
+          { name: "田中", value: 6 },
+          { name: "伊藤", value: 4 },
+        ];
+        const max = Math.max(...data.map((d) => d.value));
+        const tooltip = document.getElementById("chart-tooltip");
+        const card = chart.closest(".chart-card");
+        // 狭い画面では値ラベルの余白を広めに取る
+        const barMax = window.matchMedia("(max-width: 480px)").matches
+          ? 78
+          : 88;
+
+        data.forEach((d) => {
+          const pct = (d.value / max) * barMax;
+
+          const row = document.createElement("div");
+          row.className = "bar-row";
+
+          const name = document.createElement("span");
+          name.className = "bar-name";
+          name.textContent = d.name;
+
+          const track = document.createElement("div");
+          track.className = "bar-track";
+
+          const fill = document.createElement("div");
+          fill.className = "bar-fill";
+          fill.style.width = "0%";
+
+          const value = document.createElement("span");
+          value.className = "bar-value";
+          value.textContent = `${d.value}件`;
+          value.style.left = `calc(${pct}% + 8px)`;
+
+          // ホバーツールチップ（マークより広い当たり判定＝トラック全体）
+          track.addEventListener("mousemove", (e) => {
+            tooltip.hidden = false;
+            tooltip.textContent = `${d.name}：完了 ${d.value}件`;
+            const cardRect = card.getBoundingClientRect();
+            tooltip.style.left = `${e.clientX - cardRect.left}px`;
+            tooltip.style.top = `${e.clientY - cardRect.top}px`;
+          });
+          track.addEventListener("mouseleave", () => {
+            tooltip.hidden = true;
+          });
+
+          track.appendChild(fill);
+          track.appendChild(value);
+          row.appendChild(name);
+          row.appendChild(track);
+          chart.appendChild(row);
+
+          // 表示時にアニメーション（reduced-motion時はCSS側でtransition無効）
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              fill.style.width = `${pct}%`;
+            });
+          });
+        });
+      })();
+    </script>
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

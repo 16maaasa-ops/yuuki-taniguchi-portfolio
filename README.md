@@ -73,6 +73,7 @@ python3 -m http.server 8000
 
 ### 案件詳細ページ(`works/*.html`) — 推奨
 
+- `/works/task-bot.html` — チームタスク管理・自動通知システム(実運用中。2026-08-22に外部Netlifyから取り込み)
 - `/works/sales-dashboard.html` — LUMINA 売上分析ダッシュボード(p8)
 - `/works/knowledge-search.html` — 社内ナレッジ検索 + Slackボット(p7)
 - `/works/inquiry-hub.html` — 問い合わせ集約 + AI自動分類(p5)
@@ -80,6 +81,7 @@ python3 -m http.server 8000
 - `/works/doc-search.html` — 社内文書検索AI(p3)
 - `/works/line-bot.html` — LINE bot AI自動応答(p1)
 - `/works/blog-generator.html` — ブログ記事自動生成(p2)
+- `/works/mercari.html` — メルカリ出品アシスタント(自主制作・実際に運用中)
 
 ## 構成
 
